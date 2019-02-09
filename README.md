@@ -1,2 +1,0 @@
-# Calendar
-Mobile Iot Project
