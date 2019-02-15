@@ -6,4 +6,7 @@
     <string name="nav_header_subtitle">johnSmith@andrew.cmu.edu</string>
     <string name="nav_header_desc">Navigation header</string>
     <string name="action_settings">Settings</string>
+    <string name="sign_in">SIGN IN</string>
+    <string name="sign_up_link">DON\'T HAVE AN ACCOUNT? SIGN UP HERE!</string>
+
 </resources>

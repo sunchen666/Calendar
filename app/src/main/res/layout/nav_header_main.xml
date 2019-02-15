@@ -18,7 +18,7 @@
         android:layout_height="79dp"
         android:contentDescription="@string/nav_header_desc"
         android:paddingTop="@dimen/nav_header_vertical_spacing"
-        android:src="@mipmap/ic_default_user_round" />
+        android:src="@mipmap/ic_default_smile_round" />
 
     <TextView
         android:layout_width="match_parent"

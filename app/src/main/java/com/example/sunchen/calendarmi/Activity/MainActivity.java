@@ -102,6 +102,7 @@ public class MainActivity extends AppCompatActivity
             case R.id.nav_history:
                 break;
             case R.id.nav_setting:
+                fragment = new TestFrag2();
                 break;
             case R.id.nav_specific_area:
                 break;
