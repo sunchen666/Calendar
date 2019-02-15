@@ -5,33 +5,35 @@
 
     <group android:checkableBehavior="single">
         <item
-            android:id="@+id/nav_camera"
-            android:icon="@drawable/ic_menu_camera"
-            android:title="Import" />
-        <item
-            android:id="@+id/nav_gallery"
-            android:icon="@drawable/ic_menu_gallery"
-            android:title="Gallery" />
-        <item
-            android:id="@+id/nav_slideshow"
-            android:icon="@drawable/ic_menu_slideshow"
-            android:title="Slideshow" />
-        <item
-            android:id="@+id/nav_manage"
-            android:icon="@drawable/ic_menu_manage"
-            android:title="Tools" />
+            android:id="@+id/nav_activity"
+            android:icon="@drawable/ic_menu_activity"
+            android:title="Activities" />
     </group>
 
-    <item android:title="Communicate">
+    <item android:title="Review">
         <menu>
             <item
-                android:id="@+id/nav_share"
-                android:icon="@drawable/ic_menu_share"
-                android:title="Share" />
+                android:id="@+id/nav_history"
+                android:icon="@drawable/ic_menu_history"
+                android:title="History" />
+        </menu>
+    </item>
+
+    <item android:title="Setting">
+        <menu>
             <item
-                android:id="@+id/nav_send"
-                android:icon="@drawable/ic_menu_send"
-                android:title="Send" />
+                android:id="@+id/nav_setting"
+                android:icon="@drawable/ic_menu_setting"
+                android:title="Setting" />
+        </menu>
+    </item>
+
+    <item android:title="Custom Made">
+        <menu>
+            <item
+                android:id="@+id/nav_specific_area"
+                android:icon="@drawable/ic_menu_specific_area"
+                android:title="Specific Area" />
         </menu>
     </item>
 

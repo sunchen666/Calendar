@@ -96,18 +96,14 @@ public class MainActivity extends AppCompatActivity
         int id = item.getItemId();
 
         switch (id) {
-            case R.id.nav_camera:
+            case R.id.nav_activity:
                 fragment = new TestFrag2();
                 break;
-            case R.id.nav_gallery:
+            case R.id.nav_history:
                 break;
-            case R.id.nav_slideshow:
+            case R.id.nav_setting:
                 break;
-            case R.id.nav_manage:
-                break;
-            case R.id.nav_share:
-                break;
-            case R.id.nav_send:
+            case R.id.nav_specific_area:
                 break;
         }
 
