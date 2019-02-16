@@ -67,7 +67,7 @@
                                 <PersistentState>
                                   <option name="values">
                                     <map>
-                                      <entry key="url" value="jar:file:/C:/SC/tools/android/plugins/android/lib/android.jar!/images/material_design_icons/content/ic_add_black_24dp.xml" />
+                                      <entry key="url" value="jar:file:/C:/SC/tools/android/plugins/android/lib/android.jar!/images/material_design_icons/notification/ic_sync_black_24dp.xml" />
                                     </map>
                                   </option>
                                 </PersistentState>
@@ -77,7 +77,7 @@
                         </option>
                         <option name="values">
                           <map>
-                            <entry key="outputName" value="ic_add_black_24dp" />
+                            <entry key="outputName" value="ic_menu_sync" />
                             <entry key="sourceFile" value="C:\Users\孙晨" />
                           </map>
                         </option>

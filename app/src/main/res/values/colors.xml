@@ -7,5 +7,7 @@
     <color name="colorYellow">#F0E68C</color>
     <color name="colorDarkRed">#8B0000</color>
     <color name="colorFireBrick">#B22222</color>
-
+    <color name="colorGrey">#808080</color>
+    <color name="colorWhite">#FDFEFE</color>
+    <color name="colorpeper">#B1A2B1</color>
 </resources>

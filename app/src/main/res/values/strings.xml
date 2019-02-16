@@ -7,6 +7,10 @@
     <string name="nav_header_desc">Navigation header</string>
     <string name="action_settings">Settings</string>
     <string name="sign_in">SIGN IN</string>
+    <string name="sign_out">SIGN OUT</string>
     <string name="sign_up_link">DON\'T HAVE AN ACCOUNT? SIGN UP HERE!</string>
+    <string name="sync_calendar">Sync Your Calendar</string>
+    <string name="privacy_usage">Privacy of use</string>
+
 
 </resources>

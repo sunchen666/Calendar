@@ -15,12 +15,17 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.example.sunchen.calendarmi.Fragment.CalendarFrag;
+import com.example.sunchen.calendarmi.Fragment.LoginFrag;
+import com.example.sunchen.calendarmi.Fragment.SettingFrag;
 import com.example.sunchen.calendarmi.Fragment.TestFrag1;
 import com.example.sunchen.calendarmi.Fragment.TestFrag2;
 import com.example.sunchen.calendarmi.R;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
+    private CalendarFrag calendarFrag;
+    private SettingFrag settingFrag;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,6 +51,10 @@ public class MainActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
+        //Initialize the fragment
+        calendarFrag = new CalendarFrag();
+        settingFrag = new SettingFrag();
 
         //Set to Main fragment
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
@@ -102,9 +111,12 @@ public class MainActivity extends AppCompatActivity
             case R.id.nav_history:
                 break;
             case R.id.nav_setting:
-                fragment = new TestFrag2();
+                fragment = settingFrag;
                 break;
             case R.id.nav_specific_area:
+                break;
+            case R.id.nav_sync_cal:
+                fragment = calendarFrag;
                 break;
         }
 
@@ -116,5 +128,12 @@ public class MainActivity extends AppCompatActivity
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    public void startCalendarFrag() {
+        getSupportFragmentManager()
+                .beginTransaction()
+                .replace(R.id.fragment_container, calendarFrag)
+                .commit();
     }
 }

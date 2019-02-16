@@ -7,7 +7,12 @@
         <item
             android:id="@+id/nav_activity"
             android:icon="@drawable/ic_menu_activity"
-            android:title="Activities" />
+            android:title="Today Activities" />
+
+        <item
+            android:id="@+id/nav_specific_area"
+            android:icon="@drawable/ic_menu_specific_area"
+            android:title="Long-Term Goals" />
     </group>
 
     <item android:title="Review">
@@ -31,9 +36,9 @@
     <item android:title="Custom Made">
         <menu>
             <item
-                android:id="@+id/nav_specific_area"
-                android:icon="@drawable/ic_menu_specific_area"
-                android:title="Specific Area" />
+                android:id="@+id/nav_sync_cal"
+                android:icon="@drawable/ic_menu_sync"
+                android:title="Sync Calendar" />
         </menu>
     </item>
 
