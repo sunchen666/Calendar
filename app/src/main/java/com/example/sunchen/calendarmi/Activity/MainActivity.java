@@ -15,6 +15,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.example.sunchen.calendarmi.Fragment.AllGoalsFrag;
 import com.example.sunchen.calendarmi.Fragment.CalendarFrag;
 import com.example.sunchen.calendarmi.Fragment.LoginFrag;
 import com.example.sunchen.calendarmi.Fragment.SettingFrag;
@@ -26,6 +27,7 @@ public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
     private CalendarFrag calendarFrag;
     private SettingFrag settingFrag;
+    private AllGoalsFrag allGoalsFrag;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,6 +57,7 @@ public class MainActivity extends AppCompatActivity
         //Initialize the fragment
         calendarFrag = new CalendarFrag();
         settingFrag = new SettingFrag();
+        allGoalsFrag = new AllGoalsFrag();
 
         //Set to Main fragment
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
@@ -114,6 +117,7 @@ public class MainActivity extends AppCompatActivity
                 fragment = settingFrag;
                 break;
             case R.id.nav_specific_area:
+                fragment = allGoalsFrag;
                 break;
             case R.id.nav_sync_cal:
                 fragment = calendarFrag;
