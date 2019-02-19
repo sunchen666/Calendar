@@ -17,7 +17,9 @@ import android.view.MenuItem;
 
 import com.example.sunchen.calendarmi.Fragment.AllGoalsFrag;
 import com.example.sunchen.calendarmi.Fragment.CalendarFrag;
+import com.example.sunchen.calendarmi.Fragment.GoalsFrag;
 import com.example.sunchen.calendarmi.Fragment.LoginFrag;
+import com.example.sunchen.calendarmi.Fragment.PreferenceFrag;
 import com.example.sunchen.calendarmi.Fragment.SettingFrag;
 import com.example.sunchen.calendarmi.Fragment.TestFrag1;
 import com.example.sunchen.calendarmi.Fragment.TestFrag2;
@@ -28,6 +30,7 @@ public class MainActivity extends AppCompatActivity
     private CalendarFrag calendarFrag;
     private SettingFrag settingFrag;
     private AllGoalsFrag allGoalsFrag;
+    private  GoalsFrag goalsFrag;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,8 +43,18 @@ public class MainActivity extends AppCompatActivity
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+//                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
+//                        .setAction("Action", null).show();
+                //Commit to change the fragment
+                PreferenceFrag frag = new PreferenceFrag();
+                Bundle bundle = new Bundle();
+                bundle.putString("goal", "");
+                frag.setArguments(bundle);
+                FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+                ft.replace(R.id.content_frames, frag);
+                ft.commit();
+                DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+                drawer.closeDrawer(GravityCompat.START);
             }
         });
 
@@ -58,10 +71,11 @@ public class MainActivity extends AppCompatActivity
         calendarFrag = new CalendarFrag();
         settingFrag = new SettingFrag();
         allGoalsFrag = new AllGoalsFrag();
+        goalsFrag = new GoalsFrag();
 
         //Set to Main fragment
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-        ft.replace(R.id.content_frames, new TestFrag1());
+        ft.replace(R.id.content_frames, goalsFrag);
         ft.commit();
     }
 
@@ -103,13 +117,13 @@ public class MainActivity extends AppCompatActivity
         // Handle navigation view item clicks here.
 
         //Using fragments
-        Fragment fragment = new TestFrag1();
+        Fragment fragment = goalsFrag;
 
         int id = item.getItemId();
 
         switch (id) {
             case R.id.nav_activity:
-                fragment = new TestFrag2();
+                fragment = goalsFrag;
                 break;
             case R.id.nav_history:
                 break;
@@ -140,4 +154,34 @@ public class MainActivity extends AppCompatActivity
                 .replace(R.id.fragment_container, calendarFrag)
                 .commit();
     }
+    public void goToPreference(String goal) {
+        PreferenceFrag frag = new PreferenceFrag();
+        Bundle bundle = new Bundle();
+        bundle.putString("goal", goal);
+        frag.setArguments(bundle);
+        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+        ft.replace(R.id.goal_grid, frag);
+        ft.commit();
+    }
+    public void saveNewGoal(String newGoal) {
+        goalsFrag.goalsText.add(newGoal);
+        goalsFrag.render();
+        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+        ft.replace(R.id.content_frames, goalsFrag);
+        ft.commit();
+    }
+    public void changeOldGoal(String oldGoal, String newGoal) {
+        for (int i = 0; i < goalsFrag.goalsText.size(); i ++) {
+            if (goalsFrag.goalsText.get(i).equals(oldGoal)) {
+                goalsFrag.goalsText.remove(i);
+                goalsFrag.goalsText.add(i, newGoal);
+                break;
+            }
+        }
+        goalsFrag.render();
+        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+        ft.replace(R.id.content_frames, goalsFrag);
+        ft.commit();
+    }
+
 }
