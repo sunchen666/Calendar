@@ -25,24 +25,7 @@ public class PreferenceFrag extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-
-        preGoal =  (String)this.getArguments().get("goal");
         View view = inflater.inflate(R.layout.preference, container, false);
-
-        View save = view.findViewById(R.id.save_button);
-        EditText edit = (EditText) view.findViewById(R.id.edit_goal);
-//        save.setOnClickListener(new View.OnClickListener(){
-//
-//            @Override
-//            public void onClick(View v) {
-//                if (preGoal.length() == 0) {
-//                    ((MainActivity)getActivity()).saveNewGoal(edit.getText().toString());
-//                } else {
-//                    ((MainActivity)getActivity()).changeOldGoal(preGoal, edit.getText().toString());
-//                }
-//
-//            }
-//        });
 
         return view;
     }

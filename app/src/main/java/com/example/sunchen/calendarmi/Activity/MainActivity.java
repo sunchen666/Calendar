@@ -154,34 +154,34 @@ public class MainActivity extends AppCompatActivity
                 .replace(R.id.fragment_container, calendarFrag)
                 .commit();
     }
-    public void goToPreference(String goal) {
-        PreferenceFrag frag = new PreferenceFrag();
-        Bundle bundle = new Bundle();
-        bundle.putString("goal", goal);
-        frag.setArguments(bundle);
-        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-        ft.replace(R.id.goal_grid, frag);
-        ft.commit();
-    }
-    public void saveNewGoal(String newGoal) {
-        goalsFrag.goalsText.add(newGoal);
-        goalsFrag.render();
-        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-        ft.replace(R.id.content_frames, goalsFrag);
-        ft.commit();
-    }
-    public void changeOldGoal(String oldGoal, String newGoal) {
-        for (int i = 0; i < goalsFrag.goalsText.size(); i ++) {
-            if (goalsFrag.goalsText.get(i).equals(oldGoal)) {
-                goalsFrag.goalsText.remove(i);
-                goalsFrag.goalsText.add(i, newGoal);
-                break;
-            }
-        }
-        goalsFrag.render();
-        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-        ft.replace(R.id.content_frames, goalsFrag);
-        ft.commit();
-    }
+//    public void goToPreference(String goal) {
+//        PreferenceFrag frag = new PreferenceFrag();
+//        Bundle bundle = new Bundle();
+//        bundle.putString("goal", goal);
+//        frag.setArguments(bundle);
+//        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+//        ft.replace(R.id.goal_grid, frag);
+//        ft.commit();
+//    }
+//    public void saveNewGoal(String newGoal) {
+//        goalsFrag.goalsText.add(newGoal);
+//        goalsFrag.render();
+//        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+//        ft.replace(R.id.content_frames, goalsFrag);
+//        ft.commit();
+//    }
+//    public void changeOldGoal(String oldGoal, String newGoal) {
+//        for (int i = 0; i < goalsFrag.goalsText.size(); i ++) {
+//            if (goalsFrag.goalsText.get(i).equals(oldGoal)) {
+//                goalsFrag.goalsText.remove(i);
+//                goalsFrag.goalsText.add(i, newGoal);
+//                break;
+//            }
+//        }
+//        goalsFrag.render();
+//        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+//        ft.replace(R.id.content_frames, goalsFrag);
+//        ft.commit();
+//    }
 
 }

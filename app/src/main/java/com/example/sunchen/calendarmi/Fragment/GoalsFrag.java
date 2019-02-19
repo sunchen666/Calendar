@@ -6,6 +6,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,6 +16,10 @@ import android.widget.SimpleAdapter;
 import android.widget.Toast;
 
 import com.example.sunchen.calendarmi.Activity.MainActivity;
+import com.example.sunchen.calendarmi.Adapter.CardPagerAdapter;
+import com.example.sunchen.calendarmi.Object.CurrentGoal;
+import com.example.sunchen.calendarmi.Object.TodayGoal;
+import com.example.sunchen.calendarmi.Others.ShadowTransformer;
 import com.example.sunchen.calendarmi.R;
 
 import java.util.ArrayList;
@@ -26,49 +31,35 @@ import java.util.Map;
 import java.util.Set;
 
 public class GoalsFrag extends Fragment {
-    public List<String> goalsText = Arrays.asList(new String[]{"Go to the Gym", "Read Books", "Go to Bed Early"});
-    private int[] items = new int[] {R.layout.goal_item1, R.layout.goal_item2, R.layout.goal_item3};
-    private GridView gridView;
-    private List<Map<String, Object>> dataList;
-    private SimpleAdapter simpAdapter;
+    private ViewPager viewPager;
+    private CardPagerAdapter cardAdapter;
+    private ShadowTransformer cardShadowTransformer;
+
+    private void initInfo() {
+        cardAdapter.addCardItem(new TodayGoal("Water Plant"));
+        cardAdapter.addCardItem(new TodayGoal("Go to grocery store"));
+        cardAdapter.addCardItem(new TodayGoal("Read Fiction Book"));
+        cardAdapter.addCardItem(new TodayGoal("Exercise"));
+
+    }
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.content_main, container, false);
+        View view = inflater.inflate(R.layout.fragment_goals, container, false);
 
-        gridView = (GridView) view.findViewById(R.id.goal_grid); // step1
-//        for (int item : items) {
-//            gridView.addView(view.findViewById(item));
-//        }
-        dataList = new ArrayList<Map<String, Object>>(); // step2
-        gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                String goal = (String)dataList.get(i).get("text");
-                ((MainActivity)getActivity()).goToPreference(goal);
+        viewPager = (ViewPager)view.findViewById(R.id.viewPager_home_screen);
 
-            }
-        });
+        cardAdapter = new CardPagerAdapter();
+        initInfo();
 
-        render();
+        cardShadowTransformer = new ShadowTransformer(viewPager, cardAdapter);
+        cardShadowTransformer.enableScaling(true);
 
+        viewPager.setAdapter(cardAdapter);
+        viewPager.setPageTransformer(false, cardShadowTransformer);
+        viewPager.setOffscreenPageLimit(3);
         return view;
     }
-    public void render() {
-        simpAdapter = new SimpleAdapter(this.getActivity(), getData(), R.layout.goal_item1,
-                new String[]{"pic", "text"}, new int[]{R.id.imageview, R.id.textview_pic});
 
-        gridView.setAdapter(simpAdapter); // step3
-    }
-
-    private List<Map<String, Object>> getData() {
-        for (int i = 0; i < goalsText.size(); i ++) {
-            Map<String, Object> map = new HashMap<String, Object>();
-            map.put("pic", R.drawable.picture1);
-            map.put("text", goalsText.get(i));
-            dataList.add(map);
-        }
-        return dataList;
-    }
 }
