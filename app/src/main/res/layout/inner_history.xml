@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:paddingTop="@dimen/margin_medium">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:id="@+id/period_layout_history">
+        <TextView
+            android:id="@+id/period_title_history"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Period:"
+            android:layout_marginLeft="@dimen/margin_medium"
+            android:textStyle="bold"/>
+
+        <TextView
+            android:id="@+id/period_history"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="2018.12.6 - 2019.2.1"
+            android:layout_marginLeft="@dimen/margin_medium"
+            android:layout_marginBottom="@dimen/margin_small"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:id="@+id/satisfaction_layout_history"
+        android:layout_below="@id/period_layout_history">
+
+        <TextView
+            android:id="@+id/satisfaction_title_history"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/margin_medium"
+            android:text="Satisfaction:"
+            android:textStyle="bold" />
+
+        <me.zhanghai.android.materialratingbar.MaterialRatingBar
+            android:id="@+id/rating_bar_history"
+            style="@style/Widget.MaterialRatingBar.RatingBar.Indicator"
+            android:layout_width="wrap_content"
+            android:layout_height="26dp"
+            android:layout_marginLeft="@dimen/margin_medium"
+            android:layout_marginBottom="@dimen/margin_small"
+            android:stepSize="0.01"
+            android:rating="4.5"
+            app:mrb_progressTint="@color/colorFireBrick" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:id="@+id/avg_time_layout_history"
+        android:layout_below="@id/satisfaction_layout_history">
+        <TextView
+            android:id="@+id/avg_time_title_history"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Average Time:"
+            android:layout_marginLeft="@dimen/margin_medium"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/avg_time_history"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="63 min"
+            android:layout_marginLeft="@dimen/margin_medium" />
+    </LinearLayout>
+
+    <!--<View-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="1dp"-->
+    <!--android:layout_marginTop="@dimen/margin_small"-->
+    <!--android:backgroundTint="@color/colorGrey"-->
+    <!--android:background="@color/colorGrey"-->
+    <!--android:layout_above="@+id/buttons_layout_long_goal"/>-->
+
+    <LinearLayout
+        android:id="@+id/buttons_layout_history"
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
+        android:orientation="horizontal"
+        android:layout_below="@id/avg_time_layout_history"
+        android:gravity="bottom">
+
+        <Button
+            android:background="@color/colorpeper"
+            android:id="@+id/button_description_history"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.5"
+            android:text="More"
+            android:textColor="@color/colorWhite"
+            />
+
+        <Button
+            android:background="@color/colorPrimary"
+            android:id="@+id/button_share_network_history"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.5"
+            android:text="Share Network"
+            android:textColor="@color/colorWhite"
+            />
+    </LinearLayout>
+
+</RelativeLayout>

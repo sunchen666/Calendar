@@ -23,7 +23,7 @@
                                           <PersistentState>
                                             <option name="values">
                                               <map>
-                                                <entry key="scalingPercent" value="69" />
+                                                <entry key="scalingPercent" value="27" />
                                               </map>
                                             </option>
                                           </PersistentState>
@@ -34,9 +34,9 @@
                                   <option name="values">
                                     <map>
                                       <entry key="backgroundLayerName" value="ic_launcher_background" />
-                                      <entry key="foregroundImage" value="C:\SC\smile.png" />
-                                      <entry key="foregroundLayerName" value="ic_default_smily_logo" />
-                                      <entry key="outputName" value="ic_default_smile_logo" />
+                                      <entry key="foregroundImage" value="C:\SC\graveyard_icon.png" />
+                                      <entry key="foregroundLayerName" value="ic_history_logos" />
+                                      <entry key="outputName" value="ic_history_logo" />
                                     </map>
                                   </option>
                                 </PersistentState>

@@ -18,6 +18,7 @@ import android.view.MenuItem;
 import com.example.sunchen.calendarmi.Fragment.AllGoalsFrag;
 import com.example.sunchen.calendarmi.Fragment.CalendarFrag;
 import com.example.sunchen.calendarmi.Fragment.GoalsFrag;
+import com.example.sunchen.calendarmi.Fragment.HistoryFrag;
 import com.example.sunchen.calendarmi.Fragment.LoginFrag;
 import com.example.sunchen.calendarmi.Fragment.PreferenceFrag;
 import com.example.sunchen.calendarmi.Fragment.SettingFrag;
@@ -30,7 +31,9 @@ public class MainActivity extends AppCompatActivity
     private CalendarFrag calendarFrag;
     private SettingFrag settingFrag;
     private AllGoalsFrag allGoalsFrag;
-    private  GoalsFrag goalsFrag;
+    private GoalsFrag goalsFrag;
+    private HistoryFrag historyFrag;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,6 +75,7 @@ public class MainActivity extends AppCompatActivity
         settingFrag = new SettingFrag();
         allGoalsFrag = new AllGoalsFrag();
         goalsFrag = new GoalsFrag();
+        historyFrag = new HistoryFrag();
 
         //Set to Main fragment
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
@@ -126,6 +130,7 @@ public class MainActivity extends AppCompatActivity
                 fragment = goalsFrag;
                 break;
             case R.id.nav_history:
+                fragment = historyFrag;
                 break;
             case R.id.nav_setting:
                 fragment = settingFrag;

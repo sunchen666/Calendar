@@ -69,17 +69,27 @@
             android:id="@+id/button_more_long_goal"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="0.5"
+            android:layout_weight="0.3"
             android:text="More"
             android:textColor="@color/colorWhite"
             />
 
         <Button
             android:background="@color/colorpeper"
+            android:id="@+id/button_complete_long_goal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.3"
+            android:text="Complete"
+            android:textColor="@color/colorWhite"
+            />
+
+        <Button
+            android:background="@color/colorGrey"
             android:id="@+id/button_delete_long_goal"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="0.5"
+            android:layout_weight="0.3"
             android:text="Delete"
             android:textColor="@color/colorWhite"
             />
