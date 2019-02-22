@@ -25,6 +25,19 @@
             android:launchMode="singleTop"
             android:theme="@style/AppTheme.NoActionBar"/>
 
+        <activity
+            android:name=".Activity.PreferenceActivity"
+            android:label="Add Goal"
+            android:parentActivityName=".Activity.MainActivity">
+        <meta-data
+            android:name="android.support.PARENT_ACTIVITY"
+            android:value=".Activity.MainActivity" />
+        <intent-filter>
+            <action android:name=".Activity.PreferenceActivity" />
+            <category android:name="android.intent.category.DEFAULT" />
+        </intent-filter>
+        </activity>
+
     </application>
 
 </manifest>

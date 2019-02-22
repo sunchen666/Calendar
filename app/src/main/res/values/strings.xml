@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">CalendarMI</string>
+    <string name="app_name">Improov</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
     <string name="nav_header_title">John Smith</string>
@@ -12,5 +12,36 @@
     <string name="sync_calendar">Sync Your Calendar</string>
     <string name="privacy_usage">Privacy of use</string>
 
-
+    <string-array name="week_days">
+        <item>M</item>
+        <item>T</item>
+        <item>W</item>
+        <item>T</item>
+        <item>F</item>
+        <item>S</item>
+        <item>S</item>
+    </string-array>
+    <string-array name="week_days_extended">
+        <item>Monday</item>
+        <item>Tuesday</item>
+        <item>Wednesday</item>
+        <item>Thursday</item>
+        <item>Friday</item>
+        <item>Saturday</item>
+        <item>Sunday</item>
+    </string-array>
+    <string-array name="steps_titles">
+        <item>Name</item>
+        <item>Description</item>
+        <item>Week Schedule</item>
+        <item>Frequency</item>
+        <item>Location</item>
+    </string-array>
+    <string-array name="steps_subtitles">
+        <item>Name of the goal</item>
+        <item>Description of the goal</item>
+        <item>Week schedule of the goal</item>
+        <item>Frequency of reminders</item>
+        <item>Location where you work</item>
+    </string-array>
 </resources>

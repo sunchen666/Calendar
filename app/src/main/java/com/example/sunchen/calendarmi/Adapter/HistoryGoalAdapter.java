@@ -1,7 +1,5 @@
 package com.example.sunchen.calendarmi.Adapter;
 
-import android.support.annotation.NonNull;
-import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,6 +12,9 @@ import com.example.sunchen.calendarmi.Object.HistoryGoal;
 import com.example.sunchen.calendarmi.R;
 
 import java.util.List;
+
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.RecyclerView;
 
 public class HistoryGoalAdapter extends RecyclerView.Adapter<HistoryGoalAdapter.HistoryGoalViewHolder>  {
     private List<HistoryGoal> historyGoalList;

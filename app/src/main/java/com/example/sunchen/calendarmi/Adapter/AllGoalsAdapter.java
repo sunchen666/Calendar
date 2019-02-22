@@ -1,7 +1,5 @@
 package com.example.sunchen.calendarmi.Adapter;
 
-import android.support.annotation.NonNull;
-import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,6 +10,9 @@ import com.example.sunchen.calendarmi.Object.CurrentGoal;
 import com.example.sunchen.calendarmi.R;
 
 import java.util.List;
+
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.RecyclerView;
 
 public class AllGoalsAdapter extends RecyclerView.Adapter<AllGoalsAdapter.CurrentGoalViewHolder> {
     private List<CurrentGoal> currentGoalList;

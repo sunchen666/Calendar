@@ -1,17 +1,13 @@
 package com.example.sunchen.calendarmi.Activity;
 
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
+import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentTransaction;
+
 import android.view.View;
-import android.support.design.widget.NavigationView;
-import android.support.v4.view.GravityCompat;
-import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBarDrawerToggle;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
+
 import android.view.Menu;
 import android.view.MenuItem;
 
@@ -19,15 +15,32 @@ import com.example.sunchen.calendarmi.Fragment.AllGoalsFrag;
 import com.example.sunchen.calendarmi.Fragment.CalendarFrag;
 import com.example.sunchen.calendarmi.Fragment.GoalsFrag;
 import com.example.sunchen.calendarmi.Fragment.HistoryFrag;
-import com.example.sunchen.calendarmi.Fragment.LoginFrag;
-import com.example.sunchen.calendarmi.Fragment.PreferenceFrag;
 import com.example.sunchen.calendarmi.Fragment.SettingFrag;
-import com.example.sunchen.calendarmi.Fragment.TestFrag1;
-import com.example.sunchen.calendarmi.Fragment.TestFrag2;
 import com.example.sunchen.calendarmi.R;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.navigation.NavigationView;
+import com.google.android.material.snackbar.Snackbar;
+
+import java.util.concurrent.TimeUnit;
+
+import androidx.appcompat.app.ActionBarDrawerToggle;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.core.app.NotificationCompat;
+import androidx.core.app.NotificationManagerCompat;
+import androidx.core.view.GravityCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
+    //Notification
+    private NotificationManagerCompat mNotificationManagerCompat;
+    private DrawerLayout mMainRelativeLayout;
+
+    public static final int NEW_GOAL_REQUEST_CODE = 1;
+
     private CalendarFrag calendarFrag;
     private SettingFrag settingFrag;
     private AllGoalsFrag allGoalsFrag;
@@ -42,26 +55,42 @@ public class MainActivity extends AppCompatActivity
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+        mNotificationManagerCompat = NotificationManagerCompat.from(getApplicationContext());
+        mMainRelativeLayout = findViewById(R.id.drawer_layout);
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-//                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-//                        .setAction("Action", null).show();
-                //Commit to change the fragment
-                PreferenceFrag frag = new PreferenceFrag();
-                Bundle bundle = new Bundle();
-                bundle.putString("goal", "");
-                frag.setArguments(bundle);
-                FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-                ft.replace(R.id.content_frames, frag);
-                ft.commit();
-                DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-                drawer.closeDrawer(GravityCompat.START);
+                boolean areNotificationsEnabled = mNotificationManagerCompat.areNotificationsEnabled();
+
+                if (!areNotificationsEnabled) {
+                    // Because the user took an action to create a notification, we create a prompt to let
+                    // the user re-enable notifications for this application again.
+                    Snackbar snackbar = Snackbar
+                            .make(
+                                    mMainRelativeLayout,
+                                    "You need to enable notifications for this app",
+                                    Snackbar.LENGTH_LONG)
+                            .setAction("ENABLE", new View.OnClickListener() {
+                                @Override
+                                public void onClick(View view) {
+                                    // Links to this app's notification settings
+                                    openNotificationSettingsForApp();
+                                }
+                            });
+                    snackbar.show();
+                    return;
+                }
+
+                generateNotification();
+
+                Intent intent = new Intent(MainActivity.this, PreferenceActivity.class);
+                startActivity(intent);
             }
         });
 
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.addDrawerListener(toggle);
@@ -81,6 +110,48 @@ public class MainActivity extends AppCompatActivity
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
         ft.replace(R.id.content_frames, goalsFrag);
         ft.commit();
+    }
+
+    private void generateNotification() {
+        NotificationCompat.Builder builder2 = new NotificationCompat.Builder(this, "s")
+                .setSmallIcon(R.drawable.ic_mood_black_24dp)
+                .setContentTitle("Reminder from your schedule!")
+                .setContentText("Your next meeting for IoT class will start in 10 minutes.")
+                .setStyle(new NotificationCompat.BigTextStyle()
+                        .bigText("Your next meeting for IoT class will start in 10 minutes."))
+                .setPriority(NotificationCompat.PRIORITY_DEFAULT);
+        createNotificationChannel();
+
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(this, "s")
+                .setSmallIcon(R.drawable.ic_map_black_24dp)
+                .setContentTitle("Implement your daily goal!")
+                .setContentText("There are five grocery stores nearby. Check here when you are free.")
+                .setStyle(new NotificationCompat.BigTextStyle()
+                        .bigText("There are five grocery stores nearby. Check here when you are free."))
+                .setPriority(NotificationCompat.PRIORITY_DEFAULT);
+        createNotificationChannel();
+
+        NotificationManagerCompat notificationManager = NotificationManagerCompat.from(this);
+
+        notificationManager.notify(1001, builder2.build());
+        notificationManager.notify(1002, builder.build());
+
+    }
+
+    private void createNotificationChannel() {
+        // Create the NotificationChannel, but only on API 26+ because
+        // the NotificationChannel class is new and not in the support library
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            CharSequence name = "s";
+            String description = "Easy";
+            int importance = NotificationManager.IMPORTANCE_DEFAULT;
+            NotificationChannel channel = new NotificationChannel("s", name, importance);
+            channel.setDescription(description);
+            // Register the channel with the system; you can't change the importance
+            // or other notification behaviors after this
+            NotificationManager notificationManager = getSystemService(NotificationManager.class);
+            notificationManager.createNotificationChannel(channel);
+        }
     }
 
     @Override
@@ -159,34 +230,23 @@ public class MainActivity extends AppCompatActivity
                 .replace(R.id.fragment_container, calendarFrag)
                 .commit();
     }
-//    public void goToPreference(String goal) {
-//        PreferenceFrag frag = new PreferenceFrag();
-//        Bundle bundle = new Bundle();
-//        bundle.putString("goal", goal);
-//        frag.setArguments(bundle);
-//        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-//        ft.replace(R.id.goal_grid, frag);
-//        ft.commit();
-//    }
-//    public void saveNewGoal(String newGoal) {
-//        goalsFrag.goalsText.add(newGoal);
-//        goalsFrag.render();
-//        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-//        ft.replace(R.id.content_frames, goalsFrag);
-//        ft.commit();
-//    }
-//    public void changeOldGoal(String oldGoal, String newGoal) {
-//        for (int i = 0; i < goalsFrag.goalsText.size(); i ++) {
-//            if (goalsFrag.goalsText.get(i).equals(oldGoal)) {
-//                goalsFrag.goalsText.remove(i);
-//                goalsFrag.goalsText.add(i, newGoal);
-//                break;
-//            }
-//        }
-//        goalsFrag.render();
-//        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-//        ft.replace(R.id.content_frames, goalsFrag);
-//        ft.commit();
-//    }
+
+    /**
+     * Helper method for the SnackBar action, i.e., if the user has this application's notifications
+     * disabled, this opens up the dialog to turn them back on after the user requests a
+     * Notification launch.
+     *
+     * IMPORTANT NOTE: You should not do this action unless the user takes an action to see your
+     * Notifications like this sample demonstrates. Spamming users to re-enable your notifications
+     * is a bad idea.
+     */
+    private void openNotificationSettingsForApp() {
+        // Links to this app's notification settings.
+        Intent intent = new Intent();
+        intent.setAction("android.settings.APP_NOTIFICATION_SETTINGS");
+        intent.putExtra("app_package", getPackageName());
+        intent.putExtra("app_uid", getApplicationInfo().uid);
+        startActivity(intent);
+    }
 
 }

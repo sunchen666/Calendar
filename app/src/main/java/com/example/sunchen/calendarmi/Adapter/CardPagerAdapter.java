@@ -1,7 +1,5 @@
 package com.example.sunchen.calendarmi.Adapter;
 
-import android.support.v4.view.PagerAdapter;
-import android.support.v7.widget.CardView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,6 +10,9 @@ import com.example.sunchen.calendarmi.R;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import androidx.cardview.widget.CardView;
+import androidx.viewpager.widget.PagerAdapter;
 
 /*
 * Refer to "https://rubensousa.github.io/2016/08/viewpagercards"

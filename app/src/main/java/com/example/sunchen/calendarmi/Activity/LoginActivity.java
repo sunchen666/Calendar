@@ -5,8 +5,6 @@ import android.graphics.Bitmap;
 import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.support.v7.app.AppCompatActivity;
 
 import com.example.sunchen.calendarmi.Fragment.ForgotPwFrag;
 import com.example.sunchen.calendarmi.Fragment.LoginFrag;
@@ -16,6 +14,9 @@ import com.sirvar.robin.ForgotPasswordFragment;
 import com.sirvar.robin.RobinActivity;
 import com.sirvar.robin.SignupFragment;
 import com.sirvar.robin.Theme;
+
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
 
 import static android.provider.AlarmClock.EXTRA_MESSAGE;
 
