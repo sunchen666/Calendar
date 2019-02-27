@@ -98,7 +98,7 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     public void loginToApp(String email, String password) {
-        Intent intent = new Intent(this, MainActivity.class);
+        Intent intent = new Intent(this, OnBoardingActivity.class);
         startActivity(intent);
     }
 

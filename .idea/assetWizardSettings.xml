@@ -34,8 +34,8 @@
                                   <option name="values">
                                     <map>
                                       <entry key="backgroundLayerName" value="ic_launcher_background" />
-                                      <entry key="foregroundImage" value="C:\SC\ic_map.png" />
-                                      <entry key="outputName" value="ic_map" />
+                                      <entry key="foregroundImage" value="C:\SC\study\ms\181902\mobile iot\sample\CalendarMI\app\src\main\res\drawable-v24\exercise.png" />
+                                      <entry key="outputName" value="ic_exercise" />
                                     </map>
                                   </option>
                                 </PersistentState>

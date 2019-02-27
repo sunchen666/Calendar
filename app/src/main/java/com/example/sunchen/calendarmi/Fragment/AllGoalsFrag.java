@@ -52,17 +52,15 @@ public class AllGoalsFrag extends Fragment {
     private void initInfo() {
         CurrentGoal cg1 = new CurrentGoal();
         cg1.setTitle("Water Plant");
-        cg1.setFreq("Daily");
-        cg1.setDecrip("Your picking up toys on the living room floor for the fifteenth time today\n" +
-                "Matching up socks\n" +
-                "Sweeping up lost cheerios that got away");
+        cg1.setFreq("Weekly");
+        cg1.setDecrip("Water plant outside our house");
 
         CurrentGoal cg2 = new CurrentGoal();
         cg2.setTitle("Go to grocery store");
         cg2.setFreq("Every Monday and Friday");
-        cg2.setDecrip("While I may not know you\n" +
-                "I bet I know you\n" +
-                "Wonder sometimes, does it matter at all?\n");
+        cg2.setDecrip("What do you do at the grocery store? \n" +
+                "You go grocery shopping!\n" +
+                "Some of my student say, “I'm going shopping today.\n");
 
         CurrentGoal cg3 = new CurrentGoal();
         cg3.setTitle("Read Fiction Book");

@@ -44,4 +44,19 @@
         <item>Frequency of reminders</item>
         <item>Location where you work</item>
     </string-array>
+
+    <color name="fourth_slide_background">#B22222</color>
+    <color name="fourth_slide_buttons">#D98880</color>
+
+    <color name="third_slide_background">#9C27B0</color>
+    <color name="third_slide_buttons">#4A148C</color>
+
+    <color name="second_slide_background">#009688</color>
+    <color name="second_slide_buttons">#004D40</color>
+
+    <color name="first_slide_background">#795548</color>
+    <color name="first_slide_buttons">#3E2723</color>
+
+    <color name="custom_slide_background">#3F51B5</color>
+    <color name="custom_slide_buttons">#1A237E</color>
 </resources>

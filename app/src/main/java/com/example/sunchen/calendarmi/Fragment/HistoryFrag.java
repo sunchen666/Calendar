@@ -56,7 +56,7 @@ public class HistoryFrag extends Fragment {
         hg1.setAvg_time("44 min");
 
         HistoryGoal hg2 = new HistoryGoal();
-        hg2.setHistory_title("Apply for internship");
+        hg2.setHistory_title("Prepare for interviews of full-time jobs");
         hg2.setPeriod("2017.3.5 - 2018.3.2");
         hg2.setAvg_time("30 min");
 

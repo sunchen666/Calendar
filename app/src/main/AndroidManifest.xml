@@ -21,6 +21,10 @@
         </activity>
 
         <activity
+            android:name=".Activity.OnBoardingActivity"
+            android:theme="@style/Theme.Intro"/>
+
+        <activity
             android:name=".Activity.MainActivity"
             android:launchMode="singleTop"
             android:theme="@style/AppTheme.NoActionBar"/>

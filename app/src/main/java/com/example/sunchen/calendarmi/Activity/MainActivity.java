@@ -125,9 +125,9 @@ public class MainActivity extends AppCompatActivity
         NotificationCompat.Builder builder = new NotificationCompat.Builder(this, "s")
                 .setSmallIcon(R.drawable.ic_map_black_24dp)
                 .setContentTitle("Implement your daily goal!")
-                .setContentText("There are five grocery stores nearby. Check here when you are free.")
+                .setContentText("There are five grocery stores nearby. Click here to check when you are free.")
                 .setStyle(new NotificationCompat.BigTextStyle()
-                        .bigText("There are five grocery stores nearby. Check here when you are free."))
+                        .bigText("There are five grocery stores nearby. Click here to check when you are free."))
                 .setPriority(NotificationCompat.PRIORITY_DEFAULT);
         createNotificationChannel();
 
