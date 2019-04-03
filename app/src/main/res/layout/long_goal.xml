@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingTop="@dimen/margin_medium">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:id="@+id/description_layout_long_goal">
+        <TextView
+            android:id="@+id/description_title_long_goal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Description:"
+            android:layout_marginLeft="@dimen/margin_medium"
+            android:textStyle="bold"/>
+
+        <TextView
+            android:id="@+id/description_long_goal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Around 4 - 5 pm, I need to water plant at home. With many places for me to consider, we can make sure it is right"
+            android:layout_marginLeft="@dimen/margin_medium"
+            android:layout_marginBottom="@dimen/margin_small"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:id="@+id/frequency_layout_long_goal"
+        android:layout_below="@id/description_layout_long_goal">
+        <TextView
+            android:id="@+id/frequency_title_long_goal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Frequency:"
+            android:layout_marginLeft="@dimen/margin_medium"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/frequency_long_goal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Daily"
+            android:layout_marginLeft="@dimen/margin_medium" />
+    </LinearLayout>
+
+    <!--<View-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="1dp"-->
+        <!--android:layout_marginTop="@dimen/margin_small"-->
+        <!--android:backgroundTint="@color/colorGrey"-->
+        <!--android:background="@color/colorGrey"-->
+        <!--android:layout_above="@+id/buttons_layout_long_goal"/>-->
+
+    <LinearLayout
+        android:id="@+id/buttons_layout_long_goal"
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
+        android:orientation="horizontal"
+        android:layout_below="@id/frequency_layout_long_goal"
+        android:gravity="bottom">
+
+        <Button
+            android:background="@color/colorFireBrick"
+            android:id="@+id/button_more_long_goal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.3"
+            android:text="More"
+            android:textColor="@color/colorWhite"
+            />
+
+        <Button
+            android:background="@color/colorpeper"
+            android:id="@+id/button_complete_long_goal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.3"
+            android:text="Complete"
+            android:textColor="@color/colorWhite"
+            />
+
+        <Button
+            android:background="@color/colorGrey"
+            android:id="@+id/button_delete_long_goal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.3"
+            android:text="Delete"
+            android:textColor="@color/colorWhite"
+            />
+    </LinearLayout>
+
+</RelativeLayout>

@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:showIn="navigation_view">
+
+    <group>
+        <item
+            android:id="@+id/nav_activity"
+            android:icon="@drawable/ic_menu_activity"
+            android:title="Today Activities" />
+
+        <item
+            android:id="@+id/nav_specific_area"
+            android:icon="@drawable/ic_menu_specific_area"
+            android:title="Long-Term Goals" />
+    </group>
+
+    <item android:title="Review">
+        <menu>
+            <item
+                android:id="@+id/nav_history"
+                android:icon="@drawable/ic_menu_history"
+                android:title="History" />
+        </menu>
+    </item>
+
+    <item android:title="Setting">
+        <menu>
+            <item
+                android:id="@+id/nav_setting"
+                android:icon="@drawable/ic_menu_setting"
+                android:title="Setting" />
+        </menu>
+    </item>
+
+    <item android:title="Custom Made">
+        <menu>
+            <item
+                android:id="@+id/nav_sync_cal"
+                android:icon="@drawable/ic_menu_sync"
+                android:title="Sync Calendar" />
+        </menu>
+    </item>
+
+</menu>

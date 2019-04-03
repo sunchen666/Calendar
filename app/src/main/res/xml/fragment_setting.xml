@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <PreferenceCategory
+        android:title="Push Notifications"
+        android:layout="@layout/setting_text">
+
+        <SwitchPreference
+            android:defaultValue="true"
+            android:key="switch1"
+            android:summary="Remind before your schedule!"
+            android:title="Reminders"/>
+
+        <SwitchPreference
+            android:defaultValue="true"
+            android:key="switch2"
+            android:summary="Question you to realize goals!"
+            android:title="Questions"/>
+
+        <SwitchPreference
+            android:defaultValue="true"
+            android:key="switch3"
+            android:summary="Customize your goals based on locations!"
+            android:title="Location"/>
+
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        android:title="Log out"
+        android:layout="@layout/setting_text">
+        <PreferenceCategory
+            android:key="switch_log_out"
+            android:title="Sign Out"
+            android:layout="@layout/log_out_button"/>
+
+        <PreferenceCategory
+            android:key="switch_privacy"
+            android:title="Privacy of use"
+            android:layout="@layout/terms_layout"/>
+    </PreferenceCategory>
+
+
+</PreferenceScreen>

@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:id="@+id/social_buttons_login"
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:orientation="vertical"
+        android:layout_marginLeft="@dimen/activity_horizontal_margin"
+        android:layout_marginRight="@dimen/activity_horizontal_margin"
+        android:layout_marginTop="@dimen/activity_horizontal_margin">
+
+        <TextView
+            android:id="@+id/test_choose_calendar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/activity_horizontal_margin"
+            android:layout_marginTop="@dimen/activity_vertical_margin"
+            android:text="Choose Your Calendar:"
+            android:textSize="12sp"
+            android:textColor="@color/colorBlack"
+            android:textStyle="bold"/>
+
+        <Button
+            android:id="@+id/google_calendar_sync"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_marginLeft="@dimen/activity_horizontal_margin"
+            android:layout_marginRight="@dimen/activity_horizontal_margin"
+            android:layout_marginTop="@dimen/activity_horizontal_margin"
+            android:background="@color/colorFireBrick"
+            android:text="Google Calendar"
+            android:textColor="@android:color/white"
+            android:textSize="15sp" />
+
+        <Button
+            android:id="@+id/apple_calendar_sync"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_below="@+id/google_calendar_sync"
+            android:layout_marginLeft="@dimen/activity_horizontal_margin"
+            android:layout_marginRight="@dimen/activity_horizontal_margin"
+            android:layout_marginTop="30dp"
+            android:background="@color/colorpeper"
+            android:text="Apple Calendar"
+            android:textColor="@android:color/white"
+            android:textSize="15sp" />
+
+        <Button
+            android:id="@+id/outlook_calendar_sync"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_below="@+id/apple_calendar_sync"
+            android:layout_marginLeft="@dimen/activity_horizontal_margin"
+            android:layout_marginRight="@dimen/activity_horizontal_margin"
+            android:layout_marginTop="30dp"
+            android:background="@color/colorPrimary"
+            android:text="Microsoft Outlook Calendar"
+            android:textColor="@android:color/white"
+            android:textSize="15sp" />
+    </LinearLayout>
+</ScrollView>

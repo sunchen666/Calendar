@@ -1,0 +1,65 @@
+<resources>
+    <string name="app_name">Improov</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="nav_header_title">John Smith</string>
+    <string name="nav_header_subtitle">johnSmith@andrew.cmu.edu</string>
+    <string name="nav_header_desc">Navigation header</string>
+    <string name="action_settings">Settings</string>
+    <string name="sign_in">SIGN IN</string>
+    <string name="sign_out">SIGN OUT</string>
+    <string name="sign_up_link">DON\'T HAVE AN ACCOUNT? SIGN UP HERE!</string>
+    <string name="sync_calendar">Sync Your Calendar</string>
+    <string name="privacy_usage">Privacy of use</string>
+    <string name="signup_server_link">http://192.168.191.1:8080/Improov-backend/SignupServlet</string>
+    <string name="sync_calendar_server_link">http://192.168.191.1:8080/Improov-backend/SyncCalendarServlet</string>
+    <string name="oauth_request_id_google">611917318714-7irg7lu2hvubdi1te8avgijd133lic91.apps.googleusercontent.com</string>
+
+    <string-array name="week_days">
+        <item>M</item>
+        <item>T</item>
+        <item>W</item>
+        <item>T</item>
+        <item>F</item>
+        <item>S</item>
+        <item>S</item>
+    </string-array>
+    <string-array name="week_days_extended">
+        <item>Monday</item>
+        <item>Tuesday</item>
+        <item>Wednesday</item>
+        <item>Thursday</item>
+        <item>Friday</item>
+        <item>Saturday</item>
+        <item>Sunday</item>
+    </string-array>
+    <string-array name="steps_titles">
+        <item>Name</item>
+        <item>Description</item>
+        <item>Week Schedule</item>
+        <item>Frequency</item>
+        <item>Location</item>
+    </string-array>
+    <string-array name="steps_subtitles">
+        <item>Name of the goal</item>
+        <item>Description of the goal</item>
+        <item>Week schedule of the goal</item>
+        <item>Frequency of reminders</item>
+        <item>Location where you work</item>
+    </string-array>
+
+    <color name="fourth_slide_background">#B22222</color>
+    <color name="fourth_slide_buttons">#D98880</color>
+
+    <color name="third_slide_background">#9C27B0</color>
+    <color name="third_slide_buttons">#4A148C</color>
+
+    <color name="second_slide_background">#009688</color>
+    <color name="second_slide_buttons">#004D40</color>
+
+    <color name="first_slide_background">#795548</color>
+    <color name="first_slide_buttons">#3E2723</color>
+
+    <color name="custom_slide_background">#3F51B5</color>
+    <color name="custom_slide_buttons">#1A237E</color>
+</resources>

@@ -1,0 +1,44 @@
+{
+  "project_info": {
+    "project_number": "611917318714",
+    "firebase_url": "https://improov1.firebaseio.com",
+    "project_id": "improov1",
+    "storage_bucket": "improov1.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:611917318714:android:2231504c23fe5d59",
+        "android_client_info": {
+          "package_name": "com.example.sunchen.calendarmi"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "611917318714-mitqovcrvliiam9irtst99rhedq9suon.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.sunchen.calendarmi",
+            "certificate_hash": "1a886378764bc6f9237284e7fb1a3b429b786ce4"
+          }
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC1vQ9pY0IQkCtAY5ZETNbSSQ8KwPwOH2Q"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "611917318714-7irg7lu2hvubdi1te8avgijd133lic91.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
