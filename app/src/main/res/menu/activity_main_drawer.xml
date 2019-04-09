@@ -7,12 +7,12 @@
         <item
             android:id="@+id/nav_activity"
             android:icon="@drawable/ic_menu_activity"
-            android:title="Today Activities" />
+            android:title="Today's Goals" />
 
         <item
             android:id="@+id/nav_specific_area"
             android:icon="@drawable/ic_menu_specific_area"
-            android:title="Long-Term Goals" />
+            android:title="All Goals" />
     </group>
 
     <item android:title="Review">
@@ -29,7 +29,7 @@
             <item
                 android:id="@+id/nav_setting"
                 android:icon="@drawable/ic_menu_setting"
-                android:title="Setting" />
+                android:title="Settings" />
         </menu>
     </item>
 

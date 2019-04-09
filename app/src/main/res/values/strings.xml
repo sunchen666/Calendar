@@ -14,6 +14,7 @@
     <string name="signup_server_link">http://192.168.191.1:8080/Improov-backend/SignupServlet</string>
     <string name="sync_calendar_server_link">http://192.168.191.1:8080/Improov-backend/SyncCalendarServlet</string>
     <string name="oauth_request_id_google">611917318714-7irg7lu2hvubdi1te8avgijd133lic91.apps.googleusercontent.com</string>
+    <string name="oauth_request_secret_google">-sor1zeAQQcW-_YzfDhpprYN</string>
 
     <string-array name="week_days">
         <item>M</item>
@@ -39,6 +40,7 @@
         <item>Week Schedule</item>
         <item>Frequency</item>
         <item>Location</item>
+        <item>Importance</item>
     </string-array>
     <string-array name="steps_subtitles">
         <item>Name of the goal</item>
@@ -46,6 +48,7 @@
         <item>Week schedule of the goal</item>
         <item>Frequency of reminders</item>
         <item>Location where you work</item>
+        <item>Importance of your events</item>
     </string-array>
 
     <color name="fourth_slide_background">#B22222</color>

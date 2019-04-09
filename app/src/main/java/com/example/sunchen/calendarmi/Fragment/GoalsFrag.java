@@ -36,10 +36,10 @@ public class GoalsFrag extends Fragment {
     private ShadowTransformer cardShadowTransformer;
 
     private void initInfo() {
-        cardAdapter.addCardItem(new TodayGoal("Water Plant"));
-        cardAdapter.addCardItem(new TodayGoal("Go to grocery store"));
-        cardAdapter.addCardItem(new TodayGoal("Read Fiction Book"));
-        cardAdapter.addCardItem(new TodayGoal("Exercise"));
+        cardAdapter.addCardItem(new TodayGoal("Water Plant", "Weekly", "Home"));
+        cardAdapter.addCardItem(new TodayGoal("Go to grocery store", "Daily", "Every places"));
+        cardAdapter.addCardItem(new TodayGoal("Read Fiction Book", "Daily", "Home"));
+        cardAdapter.addCardItem(new TodayGoal("Exercise", "Weekly", "Working place"));
 
     }
 
@@ -51,6 +51,7 @@ public class GoalsFrag extends Fragment {
         viewPager = (ViewPager)view.findViewById(R.id.viewPager_home_screen);
 
         cardAdapter = new CardPagerAdapter();
+        cardAdapter.setContext(getActivity());
         initInfo();
 
         cardShadowTransformer = new ShadowTransformer(viewPager, cardAdapter);

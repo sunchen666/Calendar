@@ -17,7 +17,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
             android:layout_centerHorizontal="true"
-            android:textColor="@color/colorFireBrick"
+            android:textColor="@color/colorOrange"
             android:textStyle="bold|italic"
             android:text="Welcome to Improov"
             android:textSize="22sp" />

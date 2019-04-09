@@ -48,7 +48,7 @@ public class LoginActivity extends AppCompatActivity {
         signupFragment = new SignupFrag();
         forgotPasswordFragment = new ForgotPwFrag();
 
-        setImage(getResources().getDrawable(R.mipmap.ic_default_smile_logo_round, null));
+        setImage(getResources().getDrawable(R.drawable.birdlogo, null));
         setAll();
     }
 

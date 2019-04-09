@@ -23,15 +23,25 @@ import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.common.api.ApiException;
+import com.google.android.gms.common.api.Scope;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.FirebaseApp;
+import com.google.firebase.auth.AuthCredential;
+import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.GetTokenResult;
+import com.google.firebase.auth.GoogleAuthProvider;
 
+import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
@@ -125,6 +135,9 @@ public class MainActivity extends AppCompatActivity
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestIdToken(getString(R.string.oauth_request_id_google))
                 .requestEmail()
+                .requestServerAuthCode(getString(R.string.oauth_request_id_google))
+                .requestId()
+                .requestScopes(new Scope("https://www.googleapis.com/auth/calendar"))
                 .build();
 
         mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
@@ -274,8 +287,30 @@ public class MainActivity extends AppCompatActivity
     }
 
     public void syncGoogleCalendarSignin() {
-        Intent signInIntent = mGoogleSignInClient.getSignInIntent();
-        startActivityForResult(signInIntent, 9001);
+        if (mAuth.getCurrentUser() != null) {
+            final FirebaseUser user = mAuth.getCurrentUser();
+
+            if (calendarFrag.getIsSyncCalendar()) {
+                try {
+                    Task<GoogleSignInAccount> task = mGoogleSignInClient.silentSignIn();
+
+                    while(!task.isComplete()) {
+                    }
+
+                    signInAccount = task.getResult(ApiException.class);
+                    calendarFrag.sendAuthInfo(signInAccount.getServerAuthCode());
+                } catch (ExecutionException e) {
+                    e.printStackTrace();
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                } catch (ApiException e) {
+                    e.printStackTrace();
+                }
+            }
+        } else {
+            Intent signInIntent = mGoogleSignInClient.getSignInIntent();
+            startActivityForResult(signInIntent, 9001);
+        }
     }
 
     @Override
@@ -287,7 +322,7 @@ public class MainActivity extends AppCompatActivity
             try {
                 // Google Sign In was successful, authenticate with Firebase
                 signInAccount = task.getResult(ApiException.class);
-//                firebaseAuthWithGoogle(account);
+                firebaseAuthWithGoogle(signInAccount);
             } catch (ApiException e) {
                 // Google Sign In failed, update UI appropriately
                 Log.e("Checked", "Google sign in failed", e);
@@ -295,5 +330,35 @@ public class MainActivity extends AppCompatActivity
                 // [END_EXCLUDE]
             }
         }
+    }
+
+    public FirebaseAuth getmAuth() {
+        return mAuth;
+    }
+
+    private void firebaseAuthWithGoogle(GoogleSignInAccount acct) {
+        AuthCredential credential = GoogleAuthProvider.getCredential(acct.getIdToken(), null);
+        mAuth.signInWithCredential(credential)
+                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                        if (task.isSuccessful()) {
+                            // Sign in success, update UI with the signed-in user's information
+                            FirebaseUser user = mAuth.getCurrentUser();
+                            try {
+                                if (calendarFrag.getIsSyncCalendar()) {
+                                    calendarFrag.sendAuthInfo(signInAccount.getServerAuthCode());
+                                }
+                            } catch (ExecutionException e) {
+                                e.printStackTrace();
+                            } catch (InterruptedException e) {
+                                e.printStackTrace();
+                            }
+                        } else {
+                            // If sign in fails, display a message to the user.
+                            Log.e("CheckedAuthentication", "Google authentication failed");
+                        }
+                    }
+                });
     }
 }
