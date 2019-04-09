@@ -8,6 +8,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import com.example.sunchen.calendarmi.R;
 import android.widget.Button;
 import android.widget.Toast;
 
@@ -33,6 +35,7 @@ import okhttp3.Request;
 import okhttp3.Response;
 
 public class CalendarFrag extends Fragment {
+
     private Button googleButton;
     private RotateLoading rloading;
     private boolean isSyncCalendar = false;
@@ -44,6 +47,7 @@ public class CalendarFrag extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_calendar, container, false);
+
         googleButton = view.findViewById(R.id.google_calendar_sync);
         rloading = view.findViewById(R.id.rotateloading_calendar);
 

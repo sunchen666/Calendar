@@ -1,6 +1,7 @@
 package com.example.sunchen.calendarmi.Fragment;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
@@ -18,6 +19,8 @@ import android.view.View;
 import android.widget.Toast;
 
 import com.example.sunchen.calendarmi.Activity.LoginActivity;
+import com.example.sunchen.calendarmi.Activity.LoginActivity.Operation;
+import com.example.sunchen.calendarmi.Activity.OnBoardingActivity;
 import com.example.sunchen.calendarmi.R;
 import com.victor.loading.rotate.RotateLoading;
 
@@ -88,7 +91,7 @@ public class SignupFrag extends Fragment {
             @Override
             public void onClick(View v) {
                 try {
-                    signup(name.getText().toString(), email.getText().toString(), password.getText().toString());
+                    ((LoginActivity)getActivity()).loginOrSignup(name.getText().toString(), email.getText().toString(), password.getText().toString(), Operation.SIGNUP);
                 } catch (ExecutionException e) {
                     e.printStackTrace();
                 } catch (InterruptedException e) {
@@ -124,53 +127,4 @@ public class SignupFrag extends Fragment {
         setImage();
     }
 
-    public void signup(String name, String email, String password) throws ExecutionException, InterruptedException {
-        rloading.start();
-        final String tempName = name;
-        final String tempEmail = email;
-        final String tempPassword = password;
-
-        @SuppressLint("StaticFieldLeak") AsyncTask<String, Integer, String> atask = new AsyncTask<String, Integer, String>(){
-            @Override
-            protected String doInBackground(String... strings) {
-                FormBody.Builder builder = new FormBody.Builder();
-                builder.add("name", tempName);
-                builder.add("email", tempEmail);
-                builder.add("password", tempPassword);
-
-                String responseResult = "";
-                try {
-                    responseResult = post(getString(R.string.signup_server_link), builder.build());
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-                return responseResult;
-            }
-
-            @Override
-            protected void onPostExecute(String s) {
-                super.onPostExecute(s);
-                rloading.stop();
-            }
-        };
-
-        atask.execute();
-        Log.e("Checked", atask.get());
-        //Sign up successfully
-        if (atask.get().contains("Successfully")) {
-            Toast.makeText(getActivity(), "Sign up successfully", Toast.LENGTH_LONG).show();
-        } else {
-            Toast.makeText(getActivity(), "Failed to sign up", Toast.LENGTH_LONG).show();
-        }
-
-    }
-
-    String post(String url, FormBody fb) throws IOException {
-        Request request = new Request.Builder()
-                .url(url).post(fb)
-                .build();
-        try (Response response = client.newCall(request).execute()) {
-            return response.body().string();
-        }
-    }
 }

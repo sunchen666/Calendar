@@ -18,6 +18,12 @@ import com.example.sunchen.calendarmi.Fragment.GoalsFrag;
 import com.example.sunchen.calendarmi.Fragment.HistoryFrag;
 import com.example.sunchen.calendarmi.Fragment.SettingFrag;
 import com.example.sunchen.calendarmi.R;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.navigation.NavigationView;
+import com.google.android.material.snackbar.Snackbar;
+
+import java.util.concurrent.TimeUnit;
+
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
@@ -76,6 +82,7 @@ public class MainActivity extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
         FirebaseApp.initializeApp(this);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
