@@ -11,6 +11,10 @@
     <string name="sign_up_link">DON\'T HAVE AN ACCOUNT? SIGN UP HERE!</string>
     <string name="sync_calendar">Sync Your Calendar</string>
     <string name="privacy_usage">Privacy of use</string>
+    <string name="signup_server_link">http://172.20.10.2:8080/Improov-backend/SignupServlet</string>
+    <string name="signin_server_link">http://172.20.10.2:8080/Improov-backend/SigninServlet</string>
+    <string name="sync_calendar_server_link">http://192.168.191.1:8080/Improov-backend/SyncCalendarServlet</string>
+    <string name="oauth_request_id_google">611917318714-7irg7lu2hvubdi1te8avgijd133lic91.apps.googleusercontent.com</string>
 
     <string-array name="week_days">
         <item>M</item>

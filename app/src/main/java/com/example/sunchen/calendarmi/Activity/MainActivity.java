@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 
+import android.util.Log;
 import android.view.View;
 
 import android.view.Menu;
@@ -23,6 +24,21 @@ import com.google.android.material.snackbar.Snackbar;
 
 import java.util.concurrent.TimeUnit;
 
+import com.google.android.gms.auth.api.signin.GoogleSignIn;
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
+import com.google.android.gms.auth.api.signin.GoogleSignInClient;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
+import com.google.android.gms.common.api.ApiException;
+import com.google.android.gms.tasks.Task;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.navigation.NavigationView;
+import com.google.android.material.snackbar.Snackbar;
+import com.google.firebase.FirebaseApp;
+import com.google.firebase.auth.FirebaseAuth;
+
+import java.util.concurrent.TimeUnit;
+
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -47,11 +63,18 @@ public class MainActivity extends AppCompatActivity
     private GoalsFrag goalsFrag;
     private HistoryFrag historyFrag;
 
+    private GoogleSignInClient mGoogleSignInClient;
+    private FirebaseAuth mAuth;
+    GoogleSignInAccount signInAccount;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        FirebaseApp.initializeApp(this);
+
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -105,6 +128,14 @@ public class MainActivity extends AppCompatActivity
         allGoalsFrag = new AllGoalsFrag();
         goalsFrag = new GoalsFrag();
         historyFrag = new HistoryFrag();
+
+        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestIdToken(getString(R.string.oauth_request_id_google))
+                .requestEmail()
+                .build();
+
+        mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
+        mAuth = FirebaseAuth.getInstance();
 
         //Set to Main fragment
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
@@ -249,4 +280,27 @@ public class MainActivity extends AppCompatActivity
         startActivity(intent);
     }
 
+    public void syncGoogleCalendarSignin() {
+        Intent signInIntent = mGoogleSignInClient.getSignInIntent();
+        startActivityForResult(signInIntent, 9001);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        // Result returned from launching the Intent from GoogleSignInApi.getSignInIntent(...);
+        if (requestCode == 9001) {
+            Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
+            try {
+                // Google Sign In was successful, authenticate with Firebase
+                signInAccount = task.getResult(ApiException.class);
+//                firebaseAuthWithGoogle(account);
+            } catch (ApiException e) {
+                // Google Sign In failed, update UI appropriately
+                Log.e("Checked", "Google sign in failed", e);
+                // [START_EXCLUDE]
+                // [END_EXCLUDE]
+            }
+        }
+    }
 }

@@ -15,16 +15,12 @@
       },
       "oauth_client": [
         {
-          "client_id": "611917318714-ga5b54sg7vktmjmsj4c55qeje7tb3q2l.apps.googleusercontent.com",
+          "client_id": "611917318714-mitqovcrvliiam9irtst99rhedq9suon.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "com.example.sunchen.calendarmi",
-            "certificate_hash": "697f20870941bbabf06ce65118fb62cb16ae834a"
+            "certificate_hash": "1a886378764bc6f9237284e7fb1a3b429b786ce4"
           }
-        },
-        {
-          "client_id": "611917318714-su9d1nrigqf4i140em0gv5ljoiabu542.apps.googleusercontent.com",
-          "client_type": 3
         }
       ],
       "api_key": [
@@ -33,20 +29,13 @@
         }
       ],
       "services": {
-        "analytics_service": {
-          "status": 1
-        },
         "appinvite_service": {
-          "status": 2,
           "other_platform_oauth_client": [
             {
-              "client_id": "611917318714-su9d1nrigqf4i140em0gv5ljoiabu542.apps.googleusercontent.com",
+              "client_id": "611917318714-7irg7lu2hvubdi1te8avgijd133lic91.apps.googleusercontent.com",
               "client_type": 3
             }
           ]
-        },
-        "ads_service": {
-          "status": 2
         }
       }
     }
