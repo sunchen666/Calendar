@@ -15,11 +15,14 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.sunchen.calendarmi.Activity.LoginActivity;
+import com.example.sunchen.calendarmi.Activity.LoginActivity.Operation;
 import com.example.sunchen.calendarmi.Activity.MainActivity;
 import com.example.sunchen.calendarmi.R;
 import com.sirvar.robin.ForgotPasswordFragment;
 import com.sirvar.robin.RobinActivity;
 import com.sirvar.robin.SignupFragment;
+
+import java.util.concurrent.ExecutionException;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -74,7 +77,11 @@ public class LoginFrag extends Fragment {
 
             @Override
             public void onClick(View v) {
-                ((LoginActivity)getActivity()).loginToApp(email.getText().toString(), password.getText().toString());
+                try {
+                    ((LoginActivity)getActivity()).loginOrSignup("", email.getText().toString(), password.getText().toString(), Operation.LOGIN);
+                } catch (ExecutionException | InterruptedException e) {
+                    e.printStackTrace();
+                }
             }
         });
 
