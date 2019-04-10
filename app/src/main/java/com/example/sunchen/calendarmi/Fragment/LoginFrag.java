@@ -89,7 +89,7 @@ public class LoginFrag extends Fragment {
 
             @Override
             public void onClick(View v) {
-                ((LoginActivity)getActivity()).googleLoginToApp();
+//                ((LoginActivity)getActivity()).googleLoginToApp();
             }
         });
 

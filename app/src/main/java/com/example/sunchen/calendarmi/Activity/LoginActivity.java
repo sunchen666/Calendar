@@ -175,6 +175,7 @@ public class LoginActivity extends AppCompatActivity {
                 Intent intent = new Intent(this, MainActivity.class);
                 startActivity(intent);
             }
+
         } else if (operation == Operation.SIGNUP) {
             if (response.contains("Successfully")) {
                 Toast.makeText(this, "Sign up successfully", Toast.LENGTH_LONG).show();
@@ -201,14 +202,6 @@ public class LoginActivity extends AppCompatActivity {
     public void sendVerification (String email) {
 
     }
-
-    public void googleLoginToApp() {
-        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-                .requestIdToken(getString(R.string.default_web_client_id))
-                .requestEmail()
-                .build();
-    }
-
 }
 
 
