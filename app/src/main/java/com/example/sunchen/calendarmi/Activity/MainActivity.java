@@ -305,7 +305,7 @@ public class MainActivity extends AppCompatActivity
                     }
 
                     signInAccount = task.getResult(ApiException.class);
-                    calendarFrag.sendAuthInfo(signInAccount.getServerAuthCode());
+                    calendarFrag.sendAuthInfo(signInAccount.getServerAuthCode(), signInAccount.getEmail());
                 } catch (ExecutionException e) {
                     e.printStackTrace();
                 } catch (InterruptedException e) {
@@ -354,7 +354,7 @@ public class MainActivity extends AppCompatActivity
                             FirebaseUser user = mAuth.getCurrentUser();
                             try {
                                 if (calendarFrag.getIsSyncCalendar()) {
-                                    calendarFrag.sendAuthInfo(signInAccount.getServerAuthCode());
+                                    calendarFrag.sendAuthInfo(signInAccount.getServerAuthCode(), signInAccount.getEmail());
                                 }
                             } catch (ExecutionException e) {
                                 e.printStackTrace();

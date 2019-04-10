@@ -63,7 +63,7 @@ public class CalendarFrag extends Fragment {
         return view;
     }
 
-    public void sendAuthInfo(final String authCode) throws ExecutionException, InterruptedException {
+    public void sendAuthInfo(final String authCode, final String email) throws ExecutionException, InterruptedException {
         rloading.start();
 
         @SuppressLint("StaticFieldLeak") AsyncTask<String, Integer, String> atask = new AsyncTask<String, Integer, String>(){
@@ -73,6 +73,7 @@ public class CalendarFrag extends Fragment {
                 builder.add("auth", authCode);
                 builder.add("id", getString(R.string.oauth_request_id_google));
                 builder.add("secret", getString(R.string.oauth_request_secret_google));
+                builder.add("email", email);
 
                 Log.e("Send auth", authCode);
                 Log.e("Send id", getString(R.string.oauth_request_id_google));
