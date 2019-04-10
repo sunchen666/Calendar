@@ -2,6 +2,7 @@ package com.example.sunchen.calendarmi.PreferenceSteps;
 
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 
@@ -11,10 +12,14 @@ import ernestoyaquello.com.verticalstepperform.Step;
 
 public class FrequencyStep extends Step<String> {
     private View fresStepContent;
+    private RadioButton rb_daily;
+    private RadioButton rb_biweekly;
+    private RadioButton rb_yearly;
     private RadioButton rb_monthly;
     private RadioButton rb_weekly;
     private RadioGroup rg;
     private String data_fre;
+    private EditText untilET;
 
     public FrequencyStep(String title) {
         this(title, "");
@@ -27,11 +32,11 @@ public class FrequencyStep extends Step<String> {
 
     @Override
     public String getStepData() {
-        if (data_fre.equals("")) {
+        if (data_fre.equals("") || untilET.getText().equals("")) {
             return "";
         }
 
-        return data_fre;
+        return data_fre + " ; " + untilET.getText().toString();
     }
 
     @Override
@@ -48,6 +53,12 @@ public class FrequencyStep extends Step<String> {
             rb_weekly.setChecked(true);
         } else if(data_fre.equals("Monthly")) {
             rb_monthly.setChecked(true);
+        } else if(data_fre.equals("Daily")) {
+            rb_daily.setChecked(true);
+        } else if (data_fre.equals("Bi-Weekly")) {
+            rb_biweekly.setChecked(true);
+        } else if (data_fre.equals("Yearly")) {
+            rb_yearly.setChecked(true);
         }
     }
 
@@ -62,8 +73,12 @@ public class FrequencyStep extends Step<String> {
         LayoutInflater inflater = LayoutInflater.from(getContext());
         fresStepContent = inflater.inflate(R.layout.frequency_layout, null, false);
         rg = fresStepContent.findViewById(R.id.frequency_step_rg);
+        rb_daily = fresStepContent.findViewById(R.id.frequency_step_daily);
         rb_monthly = fresStepContent.findViewById(R.id.frequency_step_monthly);
+        rb_biweekly = fresStepContent.findViewById(R.id.frequency_step_biweekly);
+        rb_yearly = fresStepContent.findViewById(R.id.frequency_step_yearly);
         rb_weekly = fresStepContent.findViewById(R.id.frequency_step_weekly);
+        untilET = fresStepContent.findViewById(R.id.frequency_step_until);
 
         rg.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener()
         {

@@ -81,7 +81,7 @@ public class LoginActivity extends AppCompatActivity {
         signupFragment = new SignupFrag();
         forgotPasswordFragment = new ForgotPwFrag();
 
-        setImage(getResources().getDrawable(R.mipmap.ic_default_smile_logo_round, null));
+        setImage(getResources().getDrawable(R.drawable.birdlogo, null));
         setAll();
     }
 
@@ -186,6 +186,7 @@ public class LoginActivity extends AppCompatActivity {
                 Intent intent = new Intent(this, MainActivity.class);
                 startActivity(intent);
             }
+
         } else if (operation == Operation.SIGNUP) {
             if (response.contains("Successfully")) {
                 Toast.makeText(this, "Sign up successfully", Toast.LENGTH_LONG).show();

@@ -1,12 +1,16 @@
 package com.example.sunchen.calendarmi.Adapter;
 
+import android.app.Activity;
+import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.example.sunchen.calendarmi.Activity.MainActivity;
 import com.example.sunchen.calendarmi.Object.TodayGoal;
 import com.example.sunchen.calendarmi.R;
+import com.sackcentury.shinebuttonlib.ShineButton;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,6 +26,7 @@ public class CardPagerAdapter extends PagerAdapter implements CardAdapter {
     private List<CardView> mViews;
     private List<TodayGoal> mData;
     private float mBaseElevation;
+    private Context context;
 
     public CardPagerAdapter() {
         mData = new ArrayList<>();
@@ -78,6 +83,21 @@ public class CardPagerAdapter extends PagerAdapter implements CardAdapter {
     private void bind(TodayGoal item, View view) {
         TextView titleTextView = (TextView) view.findViewById(R.id.title_TextView_goal_home_screen);
         titleTextView.setText(item.getTitle());
+
+        TextView frequencyTextView = (TextView) view.findViewById(R.id.frequency_TextView_goal_home_screen);
+        frequencyTextView.setText(item.getFrequency());
+
+        TextView locationTextView = (TextView) view.findViewById(R.id.location_TextView_goal_home_screen);
+        locationTextView.setText(item.getLocation());
+
+        ShineButton sb = view.findViewById(R.id.like_button_goal_home_screen);
+        if (context != null) {
+            sb.init((Activity) context);
+        }
+    }
+
+    public void setContext(Context context) {
+        this.context = context;
     }
 
 }

@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <LinearLayout
         android:id="@+id/social_buttons_login"
@@ -61,5 +61,15 @@
             android:text="Microsoft Outlook Calendar"
             android:textColor="@android:color/white"
             android:textSize="15sp" />
+
+        <com.victor.loading.rotate.RotateLoading
+            android:id="@+id/rotateloading_calendar"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_centerInParent="true"
+            android:layout_gravity="center"
+            android:gravity="center"
+            app:loading_color="#2E0404"
+            app:loading_width="5dp" />
     </LinearLayout>
 </ScrollView>

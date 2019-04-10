@@ -13,6 +13,7 @@ import com.example.sunchen.calendarmi.PreferenceSteps.FrequencyStep;
 import com.example.sunchen.calendarmi.PreferenceSteps.GoalDescriptionStep;
 import com.example.sunchen.calendarmi.PreferenceSteps.GoalLocationStep;
 import com.example.sunchen.calendarmi.PreferenceSteps.GoalTitleStep;
+import com.example.sunchen.calendarmi.PreferenceSteps.ImportanceStep;
 import com.example.sunchen.calendarmi.PreferenceSteps.ScheduleStep;
 import com.example.sunchen.calendarmi.R;
 
@@ -31,6 +32,7 @@ public class PreferenceActivity extends AppCompatActivity implements StepperForm
     public static final String STATE_WEEK_DAYS = "week_days";
     public static final String STATE_FREQUENCY = "frequency";
     public static final String STATE_LOCATION = "location";
+    public static final String STATE_IMPORTANCE = "importance";
 
     private ProgressDialog progressDialog;
     private VerticalStepperFormView verticalStepperForm;
@@ -40,6 +42,7 @@ public class PreferenceActivity extends AppCompatActivity implements StepperForm
     private ScheduleStep scheduleStep;
     private FrequencyStep frequencyStep;
     private GoalLocationStep locationStep;
+    private ImportanceStep importanceStep;
 
 
     @Override
@@ -54,9 +57,10 @@ public class PreferenceActivity extends AppCompatActivity implements StepperForm
         scheduleStep = new ScheduleStep(stepTitles[2]);//, stepSubtitles[2]);
         frequencyStep = new FrequencyStep(stepTitles[3]);
         locationStep = new GoalLocationStep(stepTitles[4]);
+        importanceStep = new ImportanceStep(stepTitles[5]);
 
         verticalStepperForm = findViewById(R.id.stepper_form_preferences);
-        verticalStepperForm.setup(this, goalStep, descriptionStep, scheduleStep, frequencyStep, locationStep).init();
+        verticalStepperForm.setup(this, goalStep, descriptionStep, scheduleStep, frequencyStep, locationStep, importanceStep).init();
     }
 
     @Override
@@ -118,6 +122,7 @@ public class PreferenceActivity extends AppCompatActivity implements StepperForm
                     intent.putExtra(STATE_WEEK_DAYS, scheduleStep.getStepData());
                     intent.putExtra(STATE_FREQUENCY, frequencyStep.getStepData());
                     intent.putExtra(STATE_LOCATION, locationStep.getStepData());
+                    intent.putExtra(STATE_IMPORTANCE, importanceStep.getStepData());
 
                     finish();
                 } catch (InterruptedException e) {
@@ -186,7 +191,7 @@ public class PreferenceActivity extends AppCompatActivity implements StepperForm
         outState.putBooleanArray(STATE_WEEK_DAYS, scheduleStep.getStepData());
         outState.putString(STATE_FREQUENCY, frequencyStep.getStepData());
         outState.putString(STATE_LOCATION, locationStep.getStepData());
-
+        outState.putString(STATE_IMPORTANCE, importanceStep.getStepData());
 
         // IMPORTANT: The call to super method must be here at the end
         super.onSaveInstanceState(outState);
@@ -218,6 +223,11 @@ public class PreferenceActivity extends AppCompatActivity implements StepperForm
         if(savedInstanceState.containsKey(STATE_LOCATION)) {
             String freq = savedInstanceState.getString(STATE_LOCATION);
             locationStep.restoreStepData(freq);
+        }
+
+        if(savedInstanceState.containsKey(STATE_IMPORTANCE)) {
+            String freq = savedInstanceState.getString(STATE_IMPORTANCE);
+            importanceStep.restoreStepData(freq);
         }
 
         // IMPORTANT: The call to super method must be here at the end
