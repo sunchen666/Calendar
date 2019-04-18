@@ -16,6 +16,7 @@ import android.widget.Toast;
 import com.example.sunchen.calendarmi.Activity.EditActivity;
 import com.example.sunchen.calendarmi.Activity.MainActivity;
 import com.example.sunchen.calendarmi.Object.TodayGoal;
+import com.example.sunchen.calendarmi.Object.User;
 import com.example.sunchen.calendarmi.R;
 import com.google.firebase.auth.FirebaseAuth;
 import com.sackcentury.shinebuttonlib.ShineButton;
@@ -41,6 +42,7 @@ public class CardPagerAdapter extends PagerAdapter implements CardAdapter {
     private float mBaseElevation;
     private Context context;
     private FirebaseAuth mAuth;
+    private User currentUser;
 
     OkHttpClient client = new OkHttpClient();
 
@@ -78,6 +80,7 @@ public class CardPagerAdapter extends PagerAdapter implements CardAdapter {
         View view = LayoutInflater.from(container.getContext())
                 .inflate(R.layout.item_goal_homescreen, container, false);
         mAuth = FirebaseAuth.getInstance();
+        currentUser = new User();
 
         Button editButton = view.findViewById(R.id.editButton_homescreen);
         final TextView titleView = view.findViewById(R.id.title_TextView_goal_home_screen);
@@ -91,11 +94,11 @@ public class CardPagerAdapter extends PagerAdapter implements CardAdapter {
                         builder.add("name", titleView.getText().toString());
 
                         if (mAuth.getCurrentUser().getEmail() != null) {
-                            builder.add("email", mAuth.getCurrentUser().getEmail());
+                            builder.add("email", currentUser.getCurrentUser().getEmail());
                         } else {
                             builder.add("email", "");
                         }
-                        Log.e("CheckedC:", mAuth.getCurrentUser().getEmail());
+                        Log.e("CheckedC:", currentUser.getCurrentUser().getEmail());
 
                         String responseResult = "";
                         try {

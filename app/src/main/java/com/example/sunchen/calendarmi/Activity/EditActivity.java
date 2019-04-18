@@ -8,9 +8,11 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.widget.Toast;
 
+import com.example.sunchen.calendarmi.Object.User;
 import com.example.sunchen.calendarmi.PreferenceSteps.FrequencyStep;
 import com.example.sunchen.calendarmi.PreferenceSteps.GoalDescriptionStep;
 import com.example.sunchen.calendarmi.PreferenceSteps.GoalLocationStep;
@@ -56,6 +58,7 @@ public class EditActivity extends AppCompatActivity implements StepperFormListen
 
     static final int EDIT_GOAL_REQUEST_CODE = 111;  // The request code for entering to edit activity
     OkHttpClient client = new OkHttpClient();
+    private User currentUser;
 
 
     @Override
@@ -65,6 +68,7 @@ public class EditActivity extends AppCompatActivity implements StepperFormListen
 
         String[] stepTitles = getResources().getStringArray(R.array.steps_titles);
         mAuth = FirebaseAuth.getInstance();
+        currentUser = new User();
 
         goalStep = new GoalTitleStep(stepTitles[0]);//, stepSubtitles[0]);
         descriptionStep = new GoalDescriptionStep(stepTitles[1]);//, stepSubtitles[1]);
@@ -75,6 +79,33 @@ public class EditActivity extends AppCompatActivity implements StepperFormListen
 
         verticalStepperForm = findViewById(R.id.stepper_form_edits);
         verticalStepperForm.setup(this, goalStep, descriptionStep, scheduleStep, frequencyStep, locationStep, importanceStep).init();
+
+        goalStep.restoreStepData(getIntent().getStringExtra("name"));
+        descriptionStep.restoreStepData(getIntent().getStringExtra("description"));
+        boolean[] isTodays = new boolean[7];
+        String[] days = getIntent().getStringExtra("schedule").split(",");
+        for (int i = 0; i < days.length; i++) {
+            if (days[i].contains("Monday")) {
+                isTodays[0] = true;
+            } else if (days[i].contains("Tuesday")) {
+                isTodays[1] = true;
+            } else if (days[i].contains("Wednesday")) {
+                isTodays[2] = true;
+            } else if (days[i].contains("Thursday")) {
+                isTodays[3] = true;
+            } else if (days[i].contains("Friday")) {
+                isTodays[4] = true;
+            } else if (days[i].contains("Saturday")) {
+                isTodays[5] = true;
+            } else if (days[i].contains("Sunday")) {
+                isTodays[6] = true;
+            }
+        }
+
+        scheduleStep.restoreStepData(isTodays);
+        frequencyStep.restoreStepData(getIntent().getStringExtra("frequency") + ";" + getIntent().getStringExtra("until"));
+        locationStep.restoreStepData(getIntent().getStringExtra("location"));
+        importanceStep.restoreStepData(getIntent().getStringExtra("importance"));
     }
 
     @Override
@@ -113,11 +144,13 @@ public class EditActivity extends AppCompatActivity implements StepperFormListen
                 builder.add("location", locationStep.getStepDataAsHumanReadableString());
                 builder.add("importance", importanceStep.getStepDataAsHumanReadableString());
 
-                if (mAuth.getCurrentUser().getEmail() != null) {
-                    builder.add("email", mAuth.getCurrentUser().getEmail());
-                } else {
-                    builder.add("email", "");
-                }
+                builder.add("email", currentUser.getCurrentUser().getEmail());
+
+//                if (mAuth.getCurrentUser().getEmail() != null) {
+//                    builder.add("email", mAuth.getCurrentUser().getEmail());
+//                } else {
+//                    builder.add("email", "");
+//                }
 
                 String responseResult = "";
                 try {
@@ -329,33 +362,8 @@ public class EditActivity extends AppCompatActivity implements StepperFormListen
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        if (requestCode == EDIT_GOAL_REQUEST_CODE) {
-            goalStep.restoreStepData(data.getStringExtra("name"));
-            descriptionStep.restoreStepData(data.getStringExtra("description"));
-            boolean[] isTodays = new boolean[7];
-            String[] days = data.getStringExtra("schedule").split(",");
-            for (int i = 0; i < days.length; i++) {
-                if (days[i].equals("Monday")) {
-                    isTodays[0] = true;
-                } else if (days[i].equals("Tuesday")) {
-                    isTodays[1] = true;
-                } else if (days[i].equals("Wednesday")) {
-                    isTodays[2] = true;
-                } else if (days[i].equals("Thursday")) {
-                    isTodays[3] = true;
-                } else if (days[i].equals("Friday")) {
-                    isTodays[4] = true;
-                } else if (days[i].equals("Saturday")) {
-                    isTodays[5] = true;
-                } else if (days[i].equals("Sunday")) {
-                    isTodays[6] = true;
-                }
-            }
-
-            scheduleStep.restoreStepData(isTodays);
-            frequencyStep.restoreStepData(data.getStringExtra("frequency") + ";" + data.getStringExtra("until"));
-            locationStep.restoreStepData(data.getStringExtra("location"));
-            importanceStep.restoreStepData(data.getStringExtra("importance"));
-        }
+//        if (requestCode == EDIT_GOAL_REQUEST_CODE) {
+//
+//        }
     }
 }

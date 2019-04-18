@@ -26,12 +26,12 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.Query;
-import com.google.firebase.database.ValueEventListener;
+//import com.google.firebase.database.DataSnapshot;
+//import com.google.firebase.database.DatabaseError;
+//import com.google.firebase.database.DatabaseReference;
+//import com.google.firebase.database.FirebaseDatabase;
+//import com.google.firebase.database.Query;
+//import com.google.firebase.database.ValueEventListener;
 import com.sirvar.robin.ForgotPasswordFragment;
 import com.sirvar.robin.RobinActivity;
 import com.sirvar.robin.SignupFragment;
@@ -300,30 +300,30 @@ public class LoginActivity extends AppCompatActivity {
     }
     // [END auth_with_google]
     private void getGoogleUidFromFirebase(final String uid) {
-        FirebaseDatabase db = FirebaseDatabase.getInstance();
-
-        final DatabaseReference usersRef = db.getReference("users");
-        Query query = usersRef.orderByKey().equalTo(uid);
-        query.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                if (!dataSnapshot.exists()) {
-                    usersRef.child(uid);
-                    User u = new User();
-                    usersRef.setValue(u);
-                    Intent intent = new Intent(currentActivity, OnBoardingActivity.class);
-                    startActivity(intent);
-                } else {
-                    Intent intent = new Intent(currentActivity, MainActivity.class);
-                    startActivity(intent);
-                }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-            }
-        });
+//        FirebaseDatabase db = FirebaseDatabase.getInstance();
+//
+//        final DatabaseReference usersRef = db.getReference("users");
+//        Query query = usersRef.orderByKey().equalTo(uid);
+//        query.addValueEventListener(new ValueEventListener() {
+//            @Override
+//            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+//                if (!dataSnapshot.exists()) {
+//                    usersRef.child(uid);
+//                    User u = new User();
+//                    usersRef.setValue(u);
+//                    Intent intent = new Intent(currentActivity, OnBoardingActivity.class);
+//                    startActivity(intent);
+//                } else {
+//                    Intent intent = new Intent(currentActivity, MainActivity.class);
+//                    startActivity(intent);
+//                }
+//            }
+//
+//            @Override
+//            public void onCancelled(@NonNull DatabaseError databaseError) {
+//
+//            }
+//        });
     }
 }
 

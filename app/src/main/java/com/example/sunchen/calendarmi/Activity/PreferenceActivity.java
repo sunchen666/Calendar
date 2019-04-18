@@ -117,37 +117,6 @@ public class PreferenceActivity extends AppCompatActivity implements StepperForm
                 builder.add("location", locationStep.getStepDataAsHumanReadableString());
                 builder.add("importance", importanceStep.getStepDataAsHumanReadableString());
 
-                if (mAuth.getCurrentUser().getEmail() != null) {
-                    builder.add("email", mAuth.getCurrentUser().getEmail());
-                } else {
-                    builder.add("email", "");
-                }
-
-                String responseResult = "";
-                try {
-                    int url = R.string.addgoal_server_link;
-                    responseResult = post(getString(url), builder.build());
-                    System.out.println("responseResult: "+responseResult);
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-
-                return responseResult;
-            }
-
-        });
-
-        @SuppressLint("StaticFieldLeak") AsyncTask<String, Integer, String> atask = new AsyncTask<String, Integer, String>() {
-            @Override
-            protected String doInBackground(String... strings) {
-                FormBody.Builder builder = new FormBody.Builder();
-                builder.add("name", goalStep.getStepDataAsHumanReadableString());
-                builder.add("description", descriptionStep.getStepDataAsHumanReadableString());
-                builder.add("weekschedule", scheduleStep.getStepDataAsHumanReadableString());
-                builder.add("frequency", frequencyStep.getStepDataAsHumanReadableString());
-                builder.add("location", locationStep.getStepDataAsHumanReadableString());
-                builder.add("importance", importanceStep.getStepDataAsHumanReadableString());
-
                 System.out.println(currentUser.getCurrentUser().getEmail());
                 builder.add("email", currentUser.getCurrentUser().getEmail());
 
