@@ -49,16 +49,21 @@ public class FrequencyStep extends Step<String> {
 
     @Override
     public void restoreStepData(String data) {
-        if (data_fre.equals("Weekly")) {
+        String[] datas = data.split(";");
+        if (datas[0].equals("Weekly")) {
             rb_weekly.setChecked(true);
-        } else if(data_fre.equals("Monthly")) {
+        } else if(datas[0].equals("Monthly")) {
             rb_monthly.setChecked(true);
-        } else if(data_fre.equals("Daily")) {
+        } else if(datas[0].equals("Daily")) {
             rb_daily.setChecked(true);
-        } else if (data_fre.equals("Bi-Weekly")) {
+        } else if (datas[0].equals("Bi-Weekly")) {
             rb_biweekly.setChecked(true);
-        } else if (data_fre.equals("Yearly")) {
+        } else if (datas[0].equals("Yearly")) {
             rb_yearly.setChecked(true);
+        }
+
+        if (untilET != null) {
+            untilET.setText(datas[1]);
         }
     }
 

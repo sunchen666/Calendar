@@ -8,7 +8,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
-
 import android.view.MenuItem;
 import android.widget.Toast;
 
@@ -35,7 +34,7 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 
-public class PreferenceActivity extends AppCompatActivity implements StepperFormListener, DialogInterface.OnClickListener  {
+public class EditActivity extends AppCompatActivity implements StepperFormListener, DialogInterface.OnClickListener   {
     public static final String STATE_NEW_GOAL_ADDED = "new_goal_added";
     public static final String STATE_GOAL = "goal";
     public static final String STATE_DESCRIPTION = "description";
@@ -55,14 +54,14 @@ public class PreferenceActivity extends AppCompatActivity implements StepperForm
     private ImportanceStep importanceStep;
     private FirebaseAuth mAuth;
 
-
+    static final int EDIT_GOAL_REQUEST_CODE = 111;  // The request code for entering to edit activity
     OkHttpClient client = new OkHttpClient();
 
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_preference);
+        setContentView(R.layout.activity_edit);
 
         String[] stepTitles = getResources().getStringArray(R.array.steps_titles);
         mAuth = FirebaseAuth.getInstance();
@@ -74,7 +73,7 @@ public class PreferenceActivity extends AppCompatActivity implements StepperForm
         locationStep = new GoalLocationStep(stepTitles[4]);
         importanceStep = new ImportanceStep(stepTitles[5]);
 
-        verticalStepperForm = findViewById(R.id.stepper_form_preferences);
+        verticalStepperForm = findViewById(R.id.stepper_form_edits);
         verticalStepperForm.setup(this, goalStep, descriptionStep, scheduleStep, frequencyStep, locationStep, importanceStep).init();
     }
 
@@ -101,7 +100,7 @@ public class PreferenceActivity extends AppCompatActivity implements StepperForm
         progressDialog = new ProgressDialog(this);
         progressDialog.setCancelable(true);
         progressDialog.show();
-        progressDialog.setMessage("Adding new goal...");
+        progressDialog.setMessage("Modifying new goal...");
 
         @SuppressLint("StaticFieldLeak") AsyncTask<String, Integer, String> atask = new AsyncTask<String, Integer, String>() {
             @Override
@@ -122,7 +121,7 @@ public class PreferenceActivity extends AppCompatActivity implements StepperForm
 
                 String responseResult = "";
                 try {
-                    int url = R.string.addgoal_server_link;
+                    int url = R.string.editgoal_server_link;
                     responseResult = post(getString(url), builder.build());
                     System.out.println("responseResult: "+responseResult);
                 } catch (IOException e) {
@@ -135,22 +134,19 @@ public class PreferenceActivity extends AppCompatActivity implements StepperForm
             @Override
             protected void onPostExecute(String s) {
                 super.onPostExecute(s);
-                Toast.makeText(PreferenceActivity.this, s, Toast.LENGTH_LONG).show();
-                if (progressDialog != null){
-                    progressDialog.setOnCancelListener(new DialogInterface.OnCancelListener() {
-                        @Override
-                        public void onCancel(DialogInterface dialogInterface) {
-                            try {
-                                dataSavingThread.interrupt();
-                            } catch (RuntimeException e) {
-                                // No need to do anything here
-                            } finally {
-                                verticalStepperForm.cancelFormCompletionOrCancellationAttempt();
-                            }
+                Toast.makeText(EditActivity.this, s, Toast.LENGTH_LONG).show();
+                progressDialog.setOnCancelListener(new DialogInterface.OnCancelListener() {
+                    @Override
+                    public void onCancel(DialogInterface dialogInterface) {
+                        try {
+                            dataSavingThread.interrupt();
+                        } catch (RuntimeException e) {
+                            // No need to do anything here
+                        } finally {
+                            verticalStepperForm.cancelFormCompletionOrCancellationAttempt();
                         }
-                    });
-                }
-
+                    }
+                });
             }
         };
 
@@ -212,7 +208,7 @@ public class PreferenceActivity extends AppCompatActivity implements StepperForm
     }
 
     private void showCloseConfirmationDialog() {
-        new DiscardAlarmConfirmationFragment().show(getSupportFragmentManager(), null);
+        new PreferenceActivity.DiscardAlarmConfirmationFragment().show(getSupportFragmentManager(), null);
     }
 
     private void finishIfPossible() {
@@ -305,7 +301,7 @@ public class PreferenceActivity extends AppCompatActivity implements StepperForm
         @NonNull
         public Dialog onCreateDialog(Bundle savedInstanceState) {
             AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-            builder.setTitle("Discard the goal?")
+            builder.setTitle("Discard editing the goal?")
                     .setMessage("All the information will be lost")
                     .setPositiveButton("Discard", listener)
                     .setNegativeButton("Cancel", listener)
@@ -326,6 +322,40 @@ public class PreferenceActivity extends AppCompatActivity implements StepperForm
             String res = response.body().string();
             System.out.println("post response: "+res);
             return res;
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == EDIT_GOAL_REQUEST_CODE) {
+            goalStep.restoreStepData(data.getStringExtra("name"));
+            descriptionStep.restoreStepData(data.getStringExtra("description"));
+            boolean[] isTodays = new boolean[7];
+            String[] days = data.getStringExtra("schedule").split(",");
+            for (int i = 0; i < days.length; i++) {
+                if (days[i].equals("Monday")) {
+                    isTodays[0] = true;
+                } else if (days[i].equals("Tuesday")) {
+                    isTodays[1] = true;
+                } else if (days[i].equals("Wednesday")) {
+                    isTodays[2] = true;
+                } else if (days[i].equals("Thursday")) {
+                    isTodays[3] = true;
+                } else if (days[i].equals("Friday")) {
+                    isTodays[4] = true;
+                } else if (days[i].equals("Saturday")) {
+                    isTodays[5] = true;
+                } else if (days[i].equals("Sunday")) {
+                    isTodays[6] = true;
+                }
+            }
+
+            scheduleStep.restoreStepData(isTodays);
+            frequencyStep.restoreStepData(data.getStringExtra("frequency") + ";" + data.getStringExtra("until"));
+            locationStep.restoreStepData(data.getStringExtra("location"));
+            importanceStep.restoreStepData(data.getStringExtra("importance"));
         }
     }
 }

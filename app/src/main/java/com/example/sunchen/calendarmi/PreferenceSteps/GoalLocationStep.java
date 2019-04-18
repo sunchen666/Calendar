@@ -47,13 +47,13 @@ public class GoalLocationStep extends Step<String>{
 
     @Override
     public void restoreStepData(String data) {
-        if (data_loc.equals("Home")) {
+        if (data.equals("Home")) {
             rb_home.setChecked(true);
-        } else if(data_loc.equals("Working Place")) {
+        } else if(data.equals("Working Place")) {
             rb_work.setChecked(true);
-        } else if (data_loc.equals("School")) {
+        } else if (data.equals("School")) {
             rb_school.setChecked(true);
-        } else if (data_loc.equals("Every places")) {
+        } else if (data.equals("Every places")) {
             rb_every.setChecked(true);
         }
     }

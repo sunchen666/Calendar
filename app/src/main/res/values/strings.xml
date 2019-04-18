@@ -14,6 +14,8 @@
     <string name="signup_server_link">http://192.168.191.1:8080/Improov-backend/SignupServlet</string>
     <string name="signin_server_link">http://192.168.191.1:8080/Improov-backend/SigninServlet</string>
     <string name="addgoal_server_link">http://192.168.191.1:8080/Improov-backend/AddGoalServlet</string>
+    <string name="editgoal_server_link">http://192.168.191.1:8080/Improov-backend/AddGoalServlet</string>
+    <string name="searchgoal_server_link">http://192.168.191.1:8080/Improov-backend/SearchGoalServlet</string>
     <string name="sync_calendar_server_link">http://192.168.191.1:8080/Improov-backend/SyncCalendarServlet</string>
     <string name="oauth_request_id_google">611917318714-7irg7lu2hvubdi1te8avgijd133lic91.apps.googleusercontent.com</string>
     <string name="oauth_request_secret_google">-sor1zeAQQcW-_YzfDhpprYN</string>

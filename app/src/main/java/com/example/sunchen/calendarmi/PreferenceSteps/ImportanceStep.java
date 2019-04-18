@@ -46,11 +46,11 @@ public class ImportanceStep extends Step<String> {
 
     @Override
     public void restoreStepData(String data) {
-        if (data_importance.equals("Low")) {
+        if (data.equals("Low")) {
             rb_low.setChecked(true);
-        } else if(data_importance.equals("Avg.")) {
+        } else if(data.equals("Avg.")) {
             rb_avg.setChecked(true);
-        } else if (data_importance.equals("High")) {
+        } else if (data.equals("High")) {
             rb_high.setChecked(true);
         }
     }
