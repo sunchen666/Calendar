@@ -2,6 +2,7 @@ package com.example.sunchen.calendarmi.Activity;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.app.Application;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Typeface;
@@ -14,6 +15,7 @@ import android.widget.Toast;
 import com.example.sunchen.calendarmi.Fragment.ForgotPwFrag;
 import com.example.sunchen.calendarmi.Fragment.LoginFrag;
 import com.example.sunchen.calendarmi.Fragment.SignupFrag;
+import com.example.sunchen.calendarmi.Object.User;
 import com.example.sunchen.calendarmi.R;
 import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -21,8 +23,15 @@ import com.google.android.gms.tasks.Task;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
 import com.sirvar.robin.ForgotPasswordFragment;
 import com.sirvar.robin.RobinActivity;
 import com.sirvar.robin.SignupFragment;
@@ -66,8 +75,11 @@ public class LoginActivity extends AppCompatActivity {
     OkHttpClient client = new OkHttpClient();
 
     private boolean login_First = true;
+    private Activity currentActivity;
 
     private GoogleSignInClient mGoogleSignInClient;
+    private FirebaseAuth mAuth;
+    GoogleSignInAccount signInAccount;
 
 
     @Override
@@ -81,7 +93,21 @@ public class LoginActivity extends AppCompatActivity {
         signupFragment = new SignupFrag();
         forgotPasswordFragment = new ForgotPwFrag();
 
+        currentActivity = this;
+
         setImage(getResources().getDrawable(R.drawable.birdlogo, null));
+
+        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+//                .requestIdToken(getString(R.string.oauth_request_id_google))
+                .requestIdToken(getString(R.string.oauth_request_id_google))
+                .requestEmail()
+                .build();
+
+        mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
+
+        // [START initialize_auth]
+        // Initialize Firebase Auth
+        mAuth = FirebaseAuth.getInstance();
         setAll();
     }
 
@@ -215,40 +241,22 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     public void googleLoginToApp() {
+
+//        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+////                .requestIdToken(getString(R.string.oauth_request_id_google))
+//                .requestIdToken("611917318714-mitqovcrvliiam9irtst99rhedq9suon.apps.googleusercontent.com")
+//                .requestEmail()
+//                .build();
+//
+//        mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
+//
+//        // [START initialize_auth]
+//        // Initialize Firebase Auth
+//        mAuth = FirebaseAuth.getInstance();
+
         Intent signInIntent = mGoogleSignInClient.getSignInIntent();
-        startActivityForResult(signInIntent, RC_SIGN_IN);
-
-        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-                .requestIdToken(getString(R.string.default_web_client_id))
-                .requestEmail()
-                .build();
+        startActivityForResult(signInIntent, 9001);
     }
-
-    // [START config_signin]
-    // Configure Google Sign In
-    GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-            .requestIdToken(getString(R.string.default_web_client_id))
-            .requestEmail()
-            .build();
-    // [END config_signin]
-
-    mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
-
-    // [START initialize_auth]
-    // Initialize Firebase Auth
-    mAuth = FirebaseAuth.getInstance();
-    // [END initialize_auth]
-}
-
-    // [START on_start_check_user]
-    @Override
-    public void onStart() {
-        super.onStart();
-        // Check if user is signed in (non-null) and update UI accordingly.
-        FirebaseUser currentUser = mAuth.getCurrentUser();
-        updateUI(currentUser);
-    }
-    // [END on_start_check_user]
 
     // [START onactivityresult]
     @Override
@@ -256,18 +264,16 @@ public class LoginActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
 
         // Result returned from launching the Intent from GoogleSignInApi.getSignInIntent(...);
-        if (requestCode == RC_SIGN_IN) {
+        if (requestCode == 9001) {
             Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
             try {
                 // Google Sign In was successful, authenticate with Firebase
                 GoogleSignInAccount account = task.getResult(ApiException.class);
                 firebaseAuthWithGoogle(account);
             } catch (ApiException e) {
-                // Google Sign In failed, update UI appropriately
-                Log.w(TAG, "Google sign in failed", e);
-                // [START_EXCLUDE]
-                updateUI(null);
-                // [END_EXCLUDE]
+                System.out.println("ApiException");
+                e.printStackTrace();
+                Toast.makeText(this, "Google auth failed!", Toast.LENGTH_LONG).show();
             }
         }
     }
@@ -275,9 +281,7 @@ public class LoginActivity extends AppCompatActivity {
 
     // [START auth_with_google]
     private void firebaseAuthWithGoogle(GoogleSignInAccount acct) {
-        Log.d(TAG, "firebaseAuthWithGoogle:" + acct.getId());
         // [START_EXCLUDE silent]
-        showProgressDialog();
         // [END_EXCLUDE]
 
         AuthCredential credential = GoogleAuthProvider.getCredential(acct.getIdToken(), null);
@@ -287,23 +291,44 @@ public class LoginActivity extends AppCompatActivity {
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
                             // Sign in success, update UI with the signed-in user's information
-                            Log.d(TAG, "signInWithCredential:success");
                             FirebaseUser user = mAuth.getCurrentUser();
-                            updateUI(user);
+                            String uid = mAuth.getUid();
+                            getGoogleUidFromFirebase(uid);
                         } else {
                             // If sign in fails, display a message to the user.
-                            Log.w(TAG, "signInWithCredential:failure", task.getException());
-                            Snackbar.make(findViewById(R.id.main_layout), "Authentication Failed.", Snackbar.LENGTH_SHORT).show();
-                            updateUI(null);
+                            Snackbar.make(findViewById(R.id.login), "Authentication Failed.", Snackbar.LENGTH_SHORT).show();
                         }
 
-                        // [START_EXCLUDE]
-                        hideProgressDialog();
-                        // [END_EXCLUDE]
                     }
                 });
     }
     // [END auth_with_google]
+    private void getGoogleUidFromFirebase(final String uid) {
+        FirebaseDatabase db = FirebaseDatabase.getInstance();
+
+        final DatabaseReference usersRef = db.getReference("users");
+        Query query = usersRef.orderByKey().equalTo(uid);
+        query.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                if (!dataSnapshot.exists()) {
+                    usersRef.child(uid);
+                    User u = new User();
+                    usersRef.setValue(u);
+                    Intent intent = new Intent(currentActivity, OnBoardingActivity.class);
+                    startActivity(intent);
+                } else {
+                    Intent intent = new Intent(currentActivity, MainActivity.class);
+                    startActivity(intent);
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+    }
 }
 
 
