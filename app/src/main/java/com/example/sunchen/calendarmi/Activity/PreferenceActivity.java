@@ -106,6 +106,18 @@ public class PreferenceActivity extends AppCompatActivity implements StepperForm
         progressDialog.setCancelable(true);
         progressDialog.show();
         progressDialog.setMessage("Adding new goal...");
+        progressDialog.setOnCancelListener(new DialogInterface.OnCancelListener() {
+            @Override
+            public void onCancel(DialogInterface dialogInterface) {
+                try {
+                    dataSavingThread.interrupt();
+                } catch (RuntimeException e) {
+                    // No need to do anything here
+                } finally {
+                    verticalStepperForm.cancelFormCompletionOrCancellationAttempt();
+                }
+            }
+        });
 
         @SuppressLint("StaticFieldLeak") AsyncTask<String, Integer, String> atask = new AsyncTask<String, Integer, String>() {
             @Override
@@ -143,18 +155,18 @@ public class PreferenceActivity extends AppCompatActivity implements StepperForm
             protected void onPostExecute(String s) {
                 super.onPostExecute(s);
                 Toast.makeText(PreferenceActivity.this, s, Toast.LENGTH_LONG).show();
-                progressDialog.setOnCancelListener(new DialogInterface.OnCancelListener() {
-                    @Override
-                    public void onCancel(DialogInterface dialogInterface) {
-                        try {
-                            dataSavingThread.interrupt();
-                        } catch (RuntimeException e) {
-                            // No need to do anything here
-                        } finally {
-                            verticalStepperForm.cancelFormCompletionOrCancellationAttempt();
-                        }
-                    }
-                });
+//                progressDialog.setOnCancelListener(new DialogInterface.OnCancelListener() {
+//                    @Override
+//                    public void onCancel(DialogInterface dialogInterface) {
+//                        try {
+//                            dataSavingThread.interrupt();
+//                        } catch (RuntimeException e) {
+//                            // No need to do anything here
+//                        } finally {
+//                            verticalStepperForm.cancelFormCompletionOrCancellationAttempt();
+//                        }
+//                    }
+//                });
             }
         };
 
