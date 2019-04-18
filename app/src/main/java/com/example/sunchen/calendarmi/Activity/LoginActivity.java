@@ -242,27 +242,21 @@ public class LoginActivity extends AppCompatActivity {
 
     public void googleLoginToApp() {
 
-//        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-////                .requestIdToken(getString(R.string.oauth_request_id_google))
-//                .requestIdToken("611917318714-mitqovcrvliiam9irtst99rhedq9suon.apps.googleusercontent.com")
-//                .requestEmail()
-//                .build();
-//
-//        mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
-//
-//        // [START initialize_auth]
-//        // Initialize Firebase Auth
-//        mAuth = FirebaseAuth.getInstance();
-
         Intent signInIntent = mGoogleSignInClient.getSignInIntent();
         startActivityForResult(signInIntent, 9001);
+    }
+
+    // [START on_start_check_user]
+    @Override
+    public void onStart() {
+        super.onStart();
+
     }
 
     // [START onactivityresult]
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-
         // Result returned from launching the Intent from GoogleSignInApi.getSignInIntent(...);
         if (requestCode == 9001) {
             Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
@@ -276,10 +270,7 @@ public class LoginActivity extends AppCompatActivity {
                 Toast.makeText(this, "Google auth failed!", Toast.LENGTH_LONG).show();
             }
         }
-    }
-    // [END onactivityresult]
 
-    // [START auth_with_google]
     private void firebaseAuthWithGoogle(GoogleSignInAccount acct) {
         // [START_EXCLUDE silent]
         // [END_EXCLUDE]
