@@ -12,6 +12,7 @@ import android.os.Bundle;
 import android.view.MenuItem;
 import android.widget.Toast;
 
+import com.example.sunchen.calendarmi.Object.User;
 import com.example.sunchen.calendarmi.PreferenceSteps.FrequencyStep;
 import com.example.sunchen.calendarmi.PreferenceSteps.GoalDescriptionStep;
 import com.example.sunchen.calendarmi.PreferenceSteps.GoalLocationStep;
@@ -56,6 +57,7 @@ public class PreferenceActivity extends AppCompatActivity implements StepperForm
     private FirebaseAuth mAuth;
 
 
+    private User currentUser;
     OkHttpClient client = new OkHttpClient();
 
 
@@ -66,6 +68,7 @@ public class PreferenceActivity extends AppCompatActivity implements StepperForm
 
         String[] stepTitles = getResources().getStringArray(R.array.steps_titles);
         mAuth = FirebaseAuth.getInstance();
+        currentUser = new User();
 
         goalStep = new GoalTitleStep(stepTitles[0]);//, stepSubtitles[0]);
         descriptionStep = new GoalDescriptionStep(stepTitles[1]);//, stepSubtitles[1]);
@@ -132,6 +135,40 @@ public class PreferenceActivity extends AppCompatActivity implements StepperForm
                 return responseResult;
             }
 
+        });
+
+        @SuppressLint("StaticFieldLeak") AsyncTask<String, Integer, String> atask = new AsyncTask<String, Integer, String>() {
+            @Override
+            protected String doInBackground(String... strings) {
+                FormBody.Builder builder = new FormBody.Builder();
+                builder.add("name", goalStep.getStepDataAsHumanReadableString());
+                builder.add("description", descriptionStep.getStepDataAsHumanReadableString());
+                builder.add("weekschedule", scheduleStep.getStepDataAsHumanReadableString());
+                builder.add("frequency", frequencyStep.getStepDataAsHumanReadableString());
+                builder.add("location", locationStep.getStepDataAsHumanReadableString());
+                builder.add("importance", importanceStep.getStepDataAsHumanReadableString());
+
+                System.out.println(currentUser.getCurrentUser().getEmail());
+                builder.add("email", currentUser.getCurrentUser().getEmail());
+
+//                if (mAuth.getCurrentUser().getEmail() != null) {
+//                    builder.add("email", mAuth.getCurrentUser().getEmail());
+//                } else {
+//                    builder.add("email", "");
+//                }
+
+                String responseResult = "";
+                try {
+                    int url = R.string.addgoal_server_link;
+                    responseResult = post(getString(url), builder.build());
+                    System.out.println("responseResult: "+responseResult);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+
+                return responseResult;
+            }
+
             @Override
             protected void onPostExecute(String s) {
                 super.onPostExecute(s);
@@ -151,6 +188,18 @@ public class PreferenceActivity extends AppCompatActivity implements StepperForm
                     });
                 }
 
+//                progressDialog.setOnCancelListener(new DialogInterface.OnCancelListener() {
+//                    @Override
+//                    public void onCancel(DialogInterface dialogInterface) {
+//                        try {
+//                            dataSavingThread.interrupt();
+//                        } catch (RuntimeException e) {
+//                            // No need to do anything here
+//                        } finally {
+//                            verticalStepperForm.cancelFormCompletionOrCancellationAttempt();
+//                        }
+//                    }
+//                });
             }
         };
 

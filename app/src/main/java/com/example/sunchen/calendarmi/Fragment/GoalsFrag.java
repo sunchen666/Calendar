@@ -13,6 +13,18 @@ import com.example.sunchen.calendarmi.Object.TodayGoal;
 import com.example.sunchen.calendarmi.Others.ShadowTransformer;
 import com.example.sunchen.calendarmi.R;
 
+
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
@@ -25,6 +37,8 @@ public class GoalsFrag extends Fragment {
 
     private void initInfo() {
         cardAdapter.addCardItem(new TodayGoal("play the guitar", "Daily", "Home"));
+//        fetchTodayGoals()
+
         cardAdapter.addCardItem(new TodayGoal("Water Plant", "Weekly", "Home"));
         cardAdapter.addCardItem(new TodayGoal("Go to grocery store", "Daily", "Every places"));
         cardAdapter.addCardItem(new TodayGoal("Read Fiction Book", "Daily", "Home"));
@@ -52,5 +66,13 @@ public class GoalsFrag extends Fragment {
 
         return view;
     }
+
+//    private List<TodayGoal> fetchTodayGoals() {
+//        Date date = new Date();
+//        System.out.println(date);
+//        Calendar cal = Calendar.getInstance();
+//        int dayOfWeek = cal.DAY_OF_WEEK;
+//
+//    }
 
 }
