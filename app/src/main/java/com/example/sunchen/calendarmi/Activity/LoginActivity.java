@@ -270,7 +270,7 @@ public class LoginActivity extends AppCompatActivity {
                 Toast.makeText(this, "Google auth failed!", Toast.LENGTH_LONG).show();
             }
         }
-
+    }
     private void firebaseAuthWithGoogle(GoogleSignInAccount acct) {
         // [START_EXCLUDE silent]
         // [END_EXCLUDE]
