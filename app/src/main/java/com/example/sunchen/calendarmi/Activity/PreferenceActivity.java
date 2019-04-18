@@ -12,6 +12,7 @@ import android.os.Bundle;
 import android.view.MenuItem;
 import android.widget.Toast;
 
+import com.example.sunchen.calendarmi.Object.User;
 import com.example.sunchen.calendarmi.PreferenceSteps.FrequencyStep;
 import com.example.sunchen.calendarmi.PreferenceSteps.GoalDescriptionStep;
 import com.example.sunchen.calendarmi.PreferenceSteps.GoalLocationStep;
@@ -35,6 +36,7 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 
+
 public class PreferenceActivity extends AppCompatActivity implements StepperFormListener, DialogInterface.OnClickListener  {
     public static final String STATE_NEW_GOAL_ADDED = "new_goal_added";
     public static final String STATE_GOAL = "goal";
@@ -55,6 +57,7 @@ public class PreferenceActivity extends AppCompatActivity implements StepperForm
     private ImportanceStep importanceStep;
     private FirebaseAuth mAuth;
 
+    private User currentUser;
 
     OkHttpClient client = new OkHttpClient();
 
@@ -66,6 +69,7 @@ public class PreferenceActivity extends AppCompatActivity implements StepperForm
 
         String[] stepTitles = getResources().getStringArray(R.array.steps_titles);
         mAuth = FirebaseAuth.getInstance();
+        currentUser = new User();
 
         goalStep = new GoalTitleStep(stepTitles[0]);//, stepSubtitles[0]);
         descriptionStep = new GoalDescriptionStep(stepTitles[1]);//, stepSubtitles[1]);
@@ -114,11 +118,14 @@ public class PreferenceActivity extends AppCompatActivity implements StepperForm
                 builder.add("location", locationStep.getStepDataAsHumanReadableString());
                 builder.add("importance", importanceStep.getStepDataAsHumanReadableString());
 
-                if (mAuth.getCurrentUser().getEmail() != null) {
-                    builder.add("email", mAuth.getCurrentUser().getEmail());
-                } else {
-                    builder.add("email", "");
-                }
+                System.out.println(currentUser.getCurrentUser().getEmail());
+                builder.add("email", currentUser.getCurrentUser().getEmail());
+
+//                if (mAuth.getCurrentUser().getEmail() != null) {
+//                    builder.add("email", mAuth.getCurrentUser().getEmail());
+//                } else {
+//                    builder.add("email", "");
+//                }
 
                 String responseResult = "";
                 try {

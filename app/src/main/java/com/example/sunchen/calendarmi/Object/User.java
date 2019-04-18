@@ -1,6 +1,16 @@
 package com.example.sunchen.calendarmi.Object;
 
 public class User {
+    public static User CURRENT_USER;
+
+    public User getCurrentUser() {
+        return CURRENT_USER;
+    }
+
+    public void setCurrentUser(User user) {
+        CURRENT_USER = user;
+    }
+
     private String name;
     private String email;
     private String password;

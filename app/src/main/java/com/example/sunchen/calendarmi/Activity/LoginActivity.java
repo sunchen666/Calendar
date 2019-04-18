@@ -81,6 +81,8 @@ public class LoginActivity extends AppCompatActivity {
     private FirebaseAuth mAuth;
     GoogleSignInAccount signInAccount;
 
+    private User currentUser;
+
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -190,7 +192,8 @@ public class LoginActivity extends AppCompatActivity {
 //                rloading.stop();
                 try {
                     String response = s;
-                    makeToast(this.get(), operation);
+                    User user = new User(tempName, tempEmail, tempPassword);
+                    makeToast(this.get(), operation, user);
 //                } catch (ExecutionException | InterruptedException e) {
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -201,7 +204,7 @@ public class LoginActivity extends AppCompatActivity {
         atask.execute();
     }
 
-    public void makeToast(String response, Operation operation) {
+    public void makeToast(String response, Operation operation, User user) {
         if (operation == Operation.LOGIN) {
             if (response.contains("Incorrect password!")){
                 Toast.makeText(this, "Incorrect password!", Toast.LENGTH_LONG).show();
@@ -209,6 +212,7 @@ public class LoginActivity extends AppCompatActivity {
                 Toast.makeText(this, "Email doesn't exist!", Toast.LENGTH_LONG).show();
             } else {
                 Toast.makeText(this, "Log in successfully", Toast.LENGTH_LONG).show();
+                user.setCurrentUser(user);
                 Intent intent = new Intent(this, MainActivity.class);
                 startActivity(intent);
             }
@@ -216,6 +220,7 @@ public class LoginActivity extends AppCompatActivity {
         } else if (operation == Operation.SIGNUP) {
             if (response.contains("Successfully")) {
                 Toast.makeText(this, "Sign up successfully", Toast.LENGTH_LONG).show();
+                user.setCurrentUser(user);
                 Intent intent = new Intent(this, OnBoardingActivity.class);
                 startActivity(intent);
             } else {
