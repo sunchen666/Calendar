@@ -36,7 +36,7 @@ public class GoalsFrag extends Fragment {
     private ShadowTransformer cardShadowTransformer;
 
     private void initInfo() {
-        cardAdapter.addCardItem(new TodayGoal("play the guitar", "Daily", "Home"));
+        cardAdapter.addCardItem(new TodayGoal("Play switch", "Daily", "Home"));
 //        fetchTodayGoals()
 
         cardAdapter.addCardItem(new TodayGoal("Water Plant", "Weekly", "Home"));

@@ -39,10 +39,11 @@ public class AllGoalsFrag extends Fragment {
 
         //Create a linear layout manager
         LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
-        layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
+        layoutManager.setOrientation(RecyclerView.VERTICAL);
         rv.setLayoutManager(layoutManager);
 
         adapter = new AllGoalsAdapter(clist);
+        adapter.setContext(getActivity());
 
         rv.setAdapter(adapter);
 
@@ -51,9 +52,9 @@ public class AllGoalsFrag extends Fragment {
 
     private void initInfo() {
         CurrentGoal cg1 = new CurrentGoal();
-        cg1.setTitle("Water Plant");
+        cg1.setTitle("Play switch");
         cg1.setFreq("Weekly");
-        cg1.setDecrip("Water plant outside our house");
+        cg1.setDecrip("Interesting");
 
         CurrentGoal cg2 = new CurrentGoal();
         cg2.setTitle("Go to grocery store");
@@ -70,7 +71,7 @@ public class AllGoalsFrag extends Fragment {
                 "To do");
 
         CurrentGoal cg4 = new CurrentGoal();
-        cg4.setTitle("Exercise");
+        cg4.setTitle("exercise");
         cg4.setFreq("Daily");
         cg4.setDecrip("Every little thing that you do\n" +
                 "To bring a smile to His face\n" +

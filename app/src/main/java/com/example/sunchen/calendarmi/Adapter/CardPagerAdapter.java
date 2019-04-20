@@ -92,12 +92,8 @@ public class CardPagerAdapter extends PagerAdapter implements CardAdapter {
                     protected String doInBackground(String... strings) {
                         FormBody.Builder builder = new FormBody.Builder();
                         builder.add("name", titleView.getText().toString());
+                        builder.add("email", currentUser.getCurrentUser().getEmail());
 
-                        if (mAuth.getCurrentUser().getEmail() != null) {
-                            builder.add("email", currentUser.getCurrentUser().getEmail());
-                        } else {
-                            builder.add("email", "");
-                        }
                         Log.e("CheckedC:", currentUser.getCurrentUser().getEmail());
 
                         String responseResult = "";
@@ -134,6 +130,44 @@ public class CardPagerAdapter extends PagerAdapter implements CardAdapter {
                     }
                 };
                 atask.execute();
+            }
+        });
+
+        final ShineButton sb = view.findViewById(R.id.like_button_goal_home_screen);
+        sb.setOnCheckStateChangeListener(new ShineButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(View view, boolean checked) {
+                final boolean isChecked = checked;
+
+                @SuppressLint("StaticFieldLeak") AsyncTask<String, Integer, String> completeTask = new AsyncTask<String, Integer, String>(){
+                    @Override
+                    protected String doInBackground(String... strings) {
+                        FormBody.Builder builder = new FormBody.Builder();
+                        builder.add("name", titleView.getText().toString());
+                        builder.add("email", currentUser.getCurrentUser().getEmail());
+                        builder.add("status", isChecked +"");
+
+                        String responseResult = "";
+                        try {
+                            int url = R.string.is_complete_server_link;
+                            String link = context.getString(url);
+                            Log.e("CheckedC:", link);
+                            responseResult = post(link, builder.build());
+                            System.out.println("responseResult: "+responseResult);
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+
+                        return responseResult;
+                    }
+
+                    @Override
+                    protected void onPostExecute(String s) {
+                        super.onPostExecute(s);
+                    }
+                };
+
+                completeTask.execute();
             }
         });
 
