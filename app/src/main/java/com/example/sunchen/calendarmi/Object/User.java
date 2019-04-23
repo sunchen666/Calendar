@@ -3,11 +3,11 @@ package com.example.sunchen.calendarmi.Object;
 public class User {
     public static User CURRENT_USER;
 
-    public User getCurrentUser() {
+    public static User getCurrentUser() {
         return CURRENT_USER;
     }
 
-    public void setCurrentUser(User user) {
+    public static void setCurrentUser(User user) {
         CURRENT_USER = user;
     }
 

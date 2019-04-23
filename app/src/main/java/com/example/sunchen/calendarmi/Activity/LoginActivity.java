@@ -40,6 +40,8 @@ import com.victor.loading.rotate.RotateLoading;
 
 import java.io.Console;
 import java.io.IOException;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.concurrent.ExecutionException;
 
 import androidx.annotation.NonNull;
@@ -168,6 +170,18 @@ public class LoginActivity extends AppCompatActivity {
         @SuppressLint("StaticFieldLeak") AsyncTask<String, Integer, String> atask = new AsyncTask<String, Integer, String>(){
             @Override
             protected String doInBackground(String... strings) {
+
+                Date date = new Date();
+                System.out.println("date "+date);
+                Calendar cal = Calendar.getInstance();
+                int dayOfWeek = cal.get(Calendar.DAY_OF_WEEK);
+                System.out.println("day "+dayOfWeek);
+                cal.setTime(date);
+                dayOfWeek = cal.get(Calendar.DAY_OF_WEEK);
+                System.out.println("cal "+cal);
+                System.out.println("first day: "+cal.getFirstDayOfWeek());
+                System.out.println("day "+dayOfWeek);
+
                 FormBody.Builder builder = new FormBody.Builder();
                 builder.add("name", tempName);
                 builder.add("email", tempEmail);
