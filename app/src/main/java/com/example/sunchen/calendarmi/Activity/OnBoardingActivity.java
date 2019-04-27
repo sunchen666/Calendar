@@ -1,7 +1,9 @@
 package com.example.sunchen.calendarmi.Activity;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 
 import com.example.sunchen.calendarmi.R;
@@ -38,7 +40,16 @@ public class OnBoardingActivity extends MaterialIntroActivity {
                 new MessageButtonBehaviour(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-
+                        Intent intent = new Intent(OnBoardingActivity.this, EditActivity.class);
+                        intent.putExtra("name", "Clean Table");
+                        intent.putExtra("description", "Clean dining table every day!");
+                        intent.putExtra("frequency", "Daily");
+                        intent.putExtra("importance", "Low");
+                        intent.putExtra("location", "Home");
+                        intent.putExtra("until","02/28/2020");
+                        intent.putExtra("schedule", "Monday");
+                        //Add the response result
+                        startActivity(intent);
                     }
                 }, "Yes"));
 
@@ -52,7 +63,16 @@ public class OnBoardingActivity extends MaterialIntroActivity {
                 new MessageButtonBehaviour(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-
+                        Intent intent = new Intent(OnBoardingActivity.this, EditActivity.class);
+                        intent.putExtra("name", "Read Books");
+                        intent.putExtra("description", "Read Books every day!");
+                        intent.putExtra("frequency", "Daily");
+                        intent.putExtra("importance", "Low");
+                        intent.putExtra("location", "Home");
+                        intent.putExtra("until","02/28/2020");
+                        intent.putExtra("schedule", "Tuesday");
+                        //Add the response result
+                        startActivity(intent);
                     }
                 }, "Yes"));
 
@@ -66,7 +86,16 @@ public class OnBoardingActivity extends MaterialIntroActivity {
                 new MessageButtonBehaviour(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-
+                        Intent intent = new Intent(OnBoardingActivity.this, EditActivity.class);
+                        intent.putExtra("name", "Exercise");
+                        intent.putExtra("description", "Strengthen your body every day!");
+                        intent.putExtra("frequency", "Daily");
+                        intent.putExtra("importance", "Low");
+                        intent.putExtra("location", "Home");
+                        intent.putExtra("until","02/28/2021");
+                        intent.putExtra("schedule", "Monday");
+                        //Add the response result
+                        startActivity(intent);
                     }
                 }, "Yes"));
 

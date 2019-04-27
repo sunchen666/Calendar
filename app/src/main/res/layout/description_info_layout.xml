@@ -1,0 +1,185 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+     android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:background="@android:color/white"
+    android:layout_gravity="center">
+
+    <LinearLayout
+        android:id="@+id/tt_layout_dil"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="@dimen/margin_small"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/tt_title_dil"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/margin_medium"
+            android:text="Title:"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/tt_dil"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/margin_small"
+            android:layout_marginBottom="@dimen/margin_small"
+            android:layout_marginRight="@dimen/margin_medium"
+            android:text="Await" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_below="@+id/tt_layout_dil"
+        android:layout_gravity="center"
+        android:id="@+id/des_layout_dil">
+        <TextView
+            android:id="@+id/des_title_dil"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Description:"
+            android:layout_marginLeft="@dimen/margin_medium"
+            android:textStyle="bold"/>
+
+        <TextView
+            android:id="@+id/dd_dil"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Await"
+            android:layout_marginLeft="@dimen/margin_medium"
+            android:layout_marginRight="@dimen/margin_medium"
+            android:layout_marginBottom="@dimen/margin_small"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_below="@+id/des_layout_dil"
+        android:layout_gravity="center"
+        android:id="@+id/frequency_layout_dil">
+        <TextView
+            android:id="@+id/frequency_title_dil"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Frequency:"
+            android:layout_marginLeft="@dimen/margin_medium"
+            android:textStyle="bold"/>
+
+        <TextView
+            android:id="@+id/frequency_dil"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Await"
+            android:layout_marginLeft="@dimen/margin_small"
+            android:layout_marginRight="@dimen/margin_medium"
+            android:layout_marginBottom="@dimen/margin_small"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_gravity="center"
+        android:layout_below="@+id/frequency_layout_dil"
+        android:id="@+id/importance_layout_dil">
+        <TextView
+            android:id="@+id/importance_title_dil"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Importance:"
+            android:layout_marginLeft="@dimen/margin_medium"
+            android:textStyle="bold"/>
+
+        <TextView
+            android:id="@+id/importance_dil"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Await"
+            android:layout_marginRight="@dimen/margin_medium"
+            android:layout_marginLeft="@dimen/margin_small"
+            android:layout_marginBottom="@dimen/margin_small"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:orientation="horizontal"
+        android:layout_below="@+id/importance_layout_dil"
+        android:id="@+id/location_layout_dil">
+        <TextView
+            android:id="@+id/location_title_dil"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Location:"
+            android:layout_marginLeft="@dimen/margin_medium"
+            android:textStyle="bold"/>
+
+        <TextView
+            android:id="@+id/location_dil"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Await"
+            android:layout_marginRight="@dimen/margin_medium"
+            android:layout_marginLeft="@dimen/margin_small"
+            android:layout_marginBottom="@dimen/margin_small"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:orientation="horizontal"
+        android:layout_below="@+id/location_layout_dil"
+        android:id="@+id/until_layout_dil">
+        <TextView
+            android:id="@+id/until_title_dil"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Finish Time:"
+            android:layout_marginLeft="@dimen/margin_medium"
+            android:textStyle="bold"/>
+
+        <TextView
+            android:id="@+id/until_dil"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Await"
+            android:layout_marginRight="@dimen/margin_medium"
+            android:layout_marginLeft="@dimen/margin_small"
+            android:layout_marginBottom="@dimen/margin_small"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_marginBottom="@dimen/margin_small"
+        android:layout_gravity="center"
+        android:layout_below="@+id/until_layout_dil"
+        android:id="@+id/schedule_layout_dil">
+        <TextView
+            android:id="@+id/schedule_title_dil"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Schedule:"
+            android:layout_marginLeft="@dimen/margin_medium"
+            android:textStyle="bold"/>
+
+        <TextView
+            android:id="@+id/schedule_dil"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Await"
+            android:layout_marginRight="@dimen/margin_medium"
+            android:layout_marginLeft="@dimen/margin_medium"
+            android:layout_marginBottom="@dimen/margin_small"/>
+    </LinearLayout>
+</LinearLayout>

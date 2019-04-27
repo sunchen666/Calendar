@@ -36,31 +36,31 @@
             android:textColor="@android:color/white"
             android:textSize="15sp" />
 
-        <Button
-            android:id="@+id/apple_calendar_sync"
-            android:layout_width="match_parent"
-            android:layout_height="40dp"
-            android:layout_below="@+id/google_calendar_sync"
-            android:layout_marginLeft="@dimen/activity_horizontal_margin"
-            android:layout_marginRight="@dimen/activity_horizontal_margin"
-            android:layout_marginTop="30dp"
-            android:background="@color/colorpeper"
-            android:text="Apple Calendar"
-            android:textColor="@android:color/white"
-            android:textSize="15sp" />
+        <!--<Button-->
+            <!--android:id="@+id/apple_calendar_sync"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="40dp"-->
+            <!--android:layout_below="@+id/google_calendar_sync"-->
+            <!--android:layout_marginLeft="@dimen/activity_horizontal_margin"-->
+            <!--android:layout_marginRight="@dimen/activity_horizontal_margin"-->
+            <!--android:layout_marginTop="30dp"-->
+            <!--android:background="@color/colorpeper"-->
+            <!--android:text="Apple Calendar"-->
+            <!--android:textColor="@android:color/white"-->
+            <!--android:textSize="15sp" />-->
 
-        <Button
-            android:id="@+id/outlook_calendar_sync"
-            android:layout_width="match_parent"
-            android:layout_height="40dp"
-            android:layout_below="@+id/apple_calendar_sync"
-            android:layout_marginLeft="@dimen/activity_horizontal_margin"
-            android:layout_marginRight="@dimen/activity_horizontal_margin"
-            android:layout_marginTop="30dp"
-            android:background="@color/colorPrimary"
-            android:text="Microsoft Outlook Calendar"
-            android:textColor="@android:color/white"
-            android:textSize="15sp" />
+        <!--<Button-->
+            <!--android:id="@+id/outlook_calendar_sync"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="40dp"-->
+            <!--android:layout_below="@+id/apple_calendar_sync"-->
+            <!--android:layout_marginLeft="@dimen/activity_horizontal_margin"-->
+            <!--android:layout_marginRight="@dimen/activity_horizontal_margin"-->
+            <!--android:layout_marginTop="30dp"-->
+            <!--android:background="@color/colorPrimary"-->
+            <!--android:text="Microsoft Outlook Calendar"-->
+            <!--android:textColor="@android:color/white"-->
+            <!--android:textSize="15sp" />-->
 
         <com.victor.loading.rotate.RotateLoading
             android:id="@+id/rotateloading_calendar"

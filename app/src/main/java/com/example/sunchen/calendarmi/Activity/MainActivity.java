@@ -11,12 +11,14 @@ import android.view.View;
 
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.TextView;
 
 import com.example.sunchen.calendarmi.Fragment.AllGoalsFrag;
 import com.example.sunchen.calendarmi.Fragment.CalendarFrag;
 import com.example.sunchen.calendarmi.Fragment.GoalsFrag;
 import com.example.sunchen.calendarmi.Fragment.HistoryFrag;
 import com.example.sunchen.calendarmi.Fragment.SettingFrag;
+import com.example.sunchen.calendarmi.Object.User;
 import com.example.sunchen.calendarmi.R;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
@@ -72,6 +74,9 @@ public class MainActivity extends AppCompatActivity
     private AllGoalsFrag allGoalsFrag;
     private GoalsFrag goalsFrag;
     private HistoryFrag historyFrag;
+    private TextView email_view;
+    private TextView name_view;
+    private User user;
 
     private GoogleSignInClient mGoogleSignInClient;
     private FirebaseAuth mAuth;
@@ -87,6 +92,8 @@ public class MainActivity extends AppCompatActivity
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        user = new User();
 
         mNotificationManagerCompat = NotificationManagerCompat.from(getApplicationContext());
         mMainRelativeLayout = findViewById(R.id.drawer_layout);
@@ -131,6 +138,11 @@ public class MainActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
+        name_view = navigationView.getHeaderView(0).findViewById(R.id.drawer_nav_name);
+        email_view = navigationView.getHeaderView(0).findViewById(R.id.drawer_nav_email);
+        name_view.setText(user.getCurrentUser().getName());
+        email_view.setText(user.getCurrentUser().getEmail());
 
         //Initialize the fragment
         calendarFrag = new CalendarFrag();
@@ -224,6 +236,13 @@ public class MainActivity extends AppCompatActivity
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
+            Fragment fragment = settingFrag;
+            FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+            ft.replace(R.id.content_frames, fragment);
+            ft.commit();
+
+            DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+            drawer.closeDrawer(GravityCompat.START);
             return true;
         }
 

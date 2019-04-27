@@ -16,8 +16,10 @@
     <string name="addgoal_server_link">http://192.168.191.1:8080/Improov-backend/AddGoalServlet</string>
     <string name="editgoal_server_link">http://192.168.191.1:8080/Improov-backend/AddGoalServlet</string>
     <string name="searchgoal_server_link">http://192.168.191.1:8080/Improov-backend/SearchGoalServlet</string>
+    <string name="searchgoal_history_server_link">http://192.168.191.1:8080/Improov-backend/SearchGoalInHistoryServlet</string>
     <string name="finish_delete_allGoal_server_link">http://192.168.191.1:8080/Improov-backend/Finish_Delete_AllGoalServlet</string>
     <string name="is_complete_server_link">http://192.168.191.1:8080/Improov-backend/isCompleteServlet</string>
+    <string name="set_place_server_link">http://192.168.191.1:8080/Improov-backend/SetPlaceServlet</string>
 
     <string name="sync_calendar_server_link">http://192.168.191.1:8080/Improov-backend/SyncCalendarServlet</string>
 

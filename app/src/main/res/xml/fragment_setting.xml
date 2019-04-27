@@ -14,22 +14,39 @@
 
         <SwitchPreference
             android:defaultValue="true"
-            android:key="switch2"
-            android:summary="Question you to realize goals!"
-            android:title="Questions"/>
-
-        <SwitchPreference
-            android:defaultValue="true"
             android:key="switch3"
             android:summary="Customize your goals based on locations!"
             android:title="Location"/>
+    </PreferenceCategory>
 
+    <PreferenceCategory
+        android:title="Set Places"
+        android:layout="@layout/setting_text">
+
+        <EditTextPreference
+            android:hint="Home"
+            android:title="Set Home"
+            android:summary="Set your own home here!"
+            android:key="switch_home"
+            />
+        <EditTextPreference
+            android:hint="Working Place"
+            android:title="Set Working Place"
+            android:summary="Set your working place here!"
+            android:key="switch_working_place"
+            />
+        <EditTextPreference
+            android:hint="School"
+            android:title="Set School"
+            android:summary="Set your school here!"
+            android:key="switch_school"
+            />
     </PreferenceCategory>
 
     <PreferenceCategory
         android:title="Log out"
         android:layout="@layout/setting_text">
-        <PreferenceCategory
+        <Preference
             android:key="switch_log_out"
             android:title="Sign Out"
             android:layout="@layout/log_out_button"/>

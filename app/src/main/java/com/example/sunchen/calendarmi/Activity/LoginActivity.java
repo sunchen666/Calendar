@@ -212,6 +212,7 @@ public class LoginActivity extends AppCompatActivity {
                 Toast.makeText(this, "Email doesn't exist!", Toast.LENGTH_LONG).show();
             } else {
                 Toast.makeText(this, "Log in successfully", Toast.LENGTH_LONG).show();
+                user.setName(response.split(";")[0]);
                 user.setCurrentUser(user);
                 Intent intent = new Intent(this, MainActivity.class);
                 startActivity(intent);
