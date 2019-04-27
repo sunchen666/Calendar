@@ -57,7 +57,6 @@ public class PreferenceActivity extends AppCompatActivity implements StepperForm
     private FirebaseAuth mAuth;
 
 
-    private User currentUser;
     OkHttpClient client = new OkHttpClient();
 
 
@@ -68,7 +67,6 @@ public class PreferenceActivity extends AppCompatActivity implements StepperForm
 
         String[] stepTitles = getResources().getStringArray(R.array.steps_titles);
         mAuth = FirebaseAuth.getInstance();
-        currentUser = new User();
 
         goalStep = new GoalTitleStep(stepTitles[0]);//, stepSubtitles[0]);
         descriptionStep = new GoalDescriptionStep(stepTitles[1]);//, stepSubtitles[1]);
@@ -117,8 +115,8 @@ public class PreferenceActivity extends AppCompatActivity implements StepperForm
                 builder.add("location", locationStep.getStepDataAsHumanReadableString());
                 builder.add("importance", importanceStep.getStepDataAsHumanReadableString());
 
-                System.out.println(currentUser.getCurrentUser().getEmail());
-                builder.add("email", currentUser.getCurrentUser().getEmail());
+                System.out.println(User.getCurrentUser().getEmail());
+                builder.add("email", User.getCurrentUser().getEmail());
 
 //                if (mAuth.getCurrentUser().getEmail() != null) {
 //                    builder.add("email", mAuth.getCurrentUser().getEmail());

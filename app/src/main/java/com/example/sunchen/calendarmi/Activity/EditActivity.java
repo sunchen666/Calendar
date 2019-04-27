@@ -58,7 +58,6 @@ public class EditActivity extends AppCompatActivity implements StepperFormListen
 
     static final int EDIT_GOAL_REQUEST_CODE = 111;  // The request code for entering to edit activity
     OkHttpClient client = new OkHttpClient();
-    private User currentUser;
 
 
     @Override
@@ -68,7 +67,6 @@ public class EditActivity extends AppCompatActivity implements StepperFormListen
 
         String[] stepTitles = getResources().getStringArray(R.array.steps_titles);
         mAuth = FirebaseAuth.getInstance();
-        currentUser = new User();
 
         goalStep = new GoalTitleStep(stepTitles[0]);//, stepSubtitles[0]);
         descriptionStep = new GoalDescriptionStep(stepTitles[1]);//, stepSubtitles[1]);
@@ -144,7 +142,7 @@ public class EditActivity extends AppCompatActivity implements StepperFormListen
                 builder.add("location", locationStep.getStepDataAsHumanReadableString());
                 builder.add("importance", importanceStep.getStepDataAsHumanReadableString());
 
-                builder.add("email", currentUser.getCurrentUser().getEmail());
+                builder.add("email", User.getCurrentUser().getEmail());
 
 //                if (mAuth.getCurrentUser().getEmail() != null) {
 //                    builder.add("email", mAuth.getCurrentUser().getEmail());

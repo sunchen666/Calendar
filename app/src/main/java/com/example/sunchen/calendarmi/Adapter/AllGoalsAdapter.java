@@ -71,11 +71,9 @@ public class AllGoalsAdapter extends RecyclerView.Adapter<AllGoalsAdapter.Curren
         protected Button editButton;
         protected Button completeButton;
         protected Button deleteButton;
-        protected User currentUser;
 
         public CurrentGoalViewHolder(@NonNull View itemView) {
             super(itemView);
-            currentUser = new User();
             tTitle_cv = itemView.findViewById(R.id.all_goals_profile_card);
             tTitle = itemView.findViewById(R.id.tt_long_goal);
             tDes = itemView.findViewById(R.id.description_long_goal);
@@ -92,7 +90,7 @@ public class AllGoalsAdapter extends RecyclerView.Adapter<AllGoalsAdapter.Curren
                         protected String doInBackground(String... strings) {
                             FormBody.Builder builder = new FormBody.Builder();
                             builder.add("name", tTitle.getText().toString());
-                            builder.add("email", currentUser.getCurrentUser().getEmail());
+                            builder.add("email", User.getCurrentUser().getEmail());
 
                             String responseResult = "";
                             try {
@@ -139,7 +137,7 @@ public class AllGoalsAdapter extends RecyclerView.Adapter<AllGoalsAdapter.Curren
                         protected String doInBackground(String... strings) {
                             FormBody.Builder builder = new FormBody.Builder();
                             builder.add("status", "complete");
-                            builder.add("email", currentUser.getCurrentUser().getEmail());
+                            builder.add("email", User.getCurrentUser().getEmail());
                             builder.add("name", tTitle.getText().toString());
 
                             String responseResult = "";
@@ -185,7 +183,7 @@ public class AllGoalsAdapter extends RecyclerView.Adapter<AllGoalsAdapter.Curren
                         protected String doInBackground(String... strings) {
                             FormBody.Builder builder = new FormBody.Builder();
                             builder.add("status", "delete");
-                            builder.add("email", currentUser.getCurrentUser().getEmail());
+                            builder.add("email", User.getCurrentUser().getEmail());
                             builder.add("name", tTitle.getText().toString());
 
                             String responseResult = "";

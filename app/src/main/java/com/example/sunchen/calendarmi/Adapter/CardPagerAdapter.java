@@ -42,7 +42,6 @@ public class CardPagerAdapter extends PagerAdapter implements CardAdapter {
     private float mBaseElevation;
     private Context context;
     private FirebaseAuth mAuth;
-    private User currentUser;
 
     OkHttpClient client = new OkHttpClient();
 
@@ -80,7 +79,6 @@ public class CardPagerAdapter extends PagerAdapter implements CardAdapter {
         View view = LayoutInflater.from(container.getContext())
                 .inflate(R.layout.item_goal_homescreen, container, false);
         mAuth = FirebaseAuth.getInstance();
-        currentUser = new User();
 
         Button editButton = view.findViewById(R.id.editButton_homescreen);
         final TextView titleView = view.findViewById(R.id.title_TextView_goal_home_screen);
@@ -92,9 +90,9 @@ public class CardPagerAdapter extends PagerAdapter implements CardAdapter {
                     protected String doInBackground(String... strings) {
                         FormBody.Builder builder = new FormBody.Builder();
                         builder.add("name", titleView.getText().toString());
-                        builder.add("email", currentUser.getCurrentUser().getEmail());
+                        builder.add("email", User.getCurrentUser().getEmail());
 
-                        Log.e("CheckedC:", currentUser.getCurrentUser().getEmail());
+                        Log.e("CheckedC:", User.getCurrentUser().getEmail());
 
                         String responseResult = "";
                         try {
@@ -144,7 +142,7 @@ public class CardPagerAdapter extends PagerAdapter implements CardAdapter {
                     protected String doInBackground(String... strings) {
                         FormBody.Builder builder = new FormBody.Builder();
                         builder.add("name", titleView.getText().toString());
-                        builder.add("email", currentUser.getCurrentUser().getEmail());
+                        builder.add("email", User.getCurrentUser().getEmail());
                         builder.add("status", isChecked +"");
 
                         String responseResult = "";
@@ -222,4 +220,9 @@ public class CardPagerAdapter extends PagerAdapter implements CardAdapter {
         }
     }
 
+
+    public void clear() {
+        mData.clear();
+        mViews.clear();
+    }
 }
