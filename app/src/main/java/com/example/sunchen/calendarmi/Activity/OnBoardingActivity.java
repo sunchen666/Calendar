@@ -112,4 +112,9 @@ public class OnBoardingActivity extends MaterialIntroActivity {
         Intent intent = new Intent(this, MainActivity.class);
         startActivity(intent);
     }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+    }
 }

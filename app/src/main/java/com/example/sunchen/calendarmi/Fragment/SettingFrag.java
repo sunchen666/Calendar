@@ -231,21 +231,18 @@ public class SettingFrag extends PreferenceFragmentCompat {
             @Override
             public boolean onPreferenceClick(Preference preference) {
                 User currentUser = new User();
-                FirebaseAuth mAuth = FirebaseAuth.getInstance();
+                final FirebaseAuth mAuth = FirebaseAuth.getInstance();
                 Log.e("Auth", mAuth.getCurrentUser().getEmail());
 
                 if (mAuth.getCurrentUser().getEmail().contains("@")) {
-                    GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-                            .requestIdToken(getString(R.string.oauth_request_id_google))
-                            .requestEmail()
-                            .build();
-
-                    GoogleSignInClient mGoogleSignInClient = GoogleSignIn.getClient(getActivity(), gso);
+                    GoogleSignInClient mGoogleSignInClient = User.getCurrentUser().getmGoogleSignInClient();
 
                     mGoogleSignInClient.signOut().addOnCompleteListener(getActivity(), new OnCompleteListener<Void>() {
                         @Override
                         public void onComplete(@NonNull Task<Void> task) {
                             // ...
+                            Log.e("Testing", "Try to do it");
+                            mAuth.signOut();
                         }
                     });
                 }

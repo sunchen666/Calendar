@@ -20,6 +20,8 @@
     <string name="finish_delete_allGoal_server_link">http://192.168.191.1:8080/Improov-backend/Finish_Delete_AllGoalServlet</string>
     <string name="is_complete_server_link">http://192.168.191.1:8080/Improov-backend/isCompleteServlet</string>
     <string name="set_place_server_link">http://192.168.191.1:8080/Improov-backend/SetPlaceServlet</string>
+    <string name="check_signup_server_link">http://192.168.191.1:8080/Improov-backend/CheckGoogleSignUpServlet</string>
+
     <!--<string name="signup_server_link">http://172.20.10.2:8080/Improov-backend/SignupServlet</string>-->
     <!--<string name="signin_server_link">http://172.20.10.2:8080/Improov-backend/SigninServlet</string>-->
     <!--<string name="addgoal_server_link">http://172.20.10.2:8080/Improov-backend/AddGoalServlet</string>-->
