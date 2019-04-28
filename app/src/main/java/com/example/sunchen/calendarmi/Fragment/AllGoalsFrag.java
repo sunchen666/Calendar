@@ -52,7 +52,7 @@ public class AllGoalsFrag extends Fragment {
 
     private void initInfo() {
         CurrentGoal cg1 = new CurrentGoal();
-        cg1.setTitle("Read Magazines");
+        cg1.setTitle("Water Plant");
         cg1.setFreq("Weekly");
         cg1.setDecrip("Interesting");
 

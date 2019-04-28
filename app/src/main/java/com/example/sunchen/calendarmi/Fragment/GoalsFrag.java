@@ -77,10 +77,12 @@ public class GoalsFrag extends Fragment {
 
         cardAdapter = new CardPagerAdapter();
         cardAdapter.setContext(getActivity());
-        List<TodayGoal> todayGoals = fetchTodayGoals();
-        for (TodayGoal goal : todayGoals) {
-            cardAdapter.addCardItem(goal);
-        }
+//        List<TodayGoal> todayGoals = fetchTodayGoals();
+//        for (TodayGoal goal : todayGoals) {
+//            cardAdapter.addCardItem(goal);
+//        }
+
+        initInfo();
 
         cardShadowTransformer = new ShadowTransformer(viewPager, cardAdapter);
         cardShadowTransformer.enableScaling(true);

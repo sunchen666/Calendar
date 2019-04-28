@@ -171,16 +171,16 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             protected String doInBackground(String... strings) {
 
-                Date date = new Date();
-                System.out.println("date "+date);
-                Calendar cal = Calendar.getInstance();
-                int dayOfWeek = cal.get(Calendar.DAY_OF_WEEK);
-                System.out.println("day "+dayOfWeek);
-                cal.setTime(date);
-                dayOfWeek = cal.get(Calendar.DAY_OF_WEEK);
-                System.out.println("cal "+cal);
-                System.out.println("first day: "+cal.getFirstDayOfWeek());
-                System.out.println("day "+dayOfWeek);
+//                Date date = new Date();
+//                System.out.println("date "+date);
+//                Calendar cal = Calendar.getInstance();
+//                int dayOfWeek = cal.get(Calendar.DAY_OF_WEEK);
+//                System.out.println("day "+dayOfWeek);
+//                cal.setTime(date);
+//                dayOfWeek = cal.get(Calendar.DAY_OF_WEEK);
+//                System.out.println("cal "+cal);
+//                System.out.println("first day: "+cal.getFirstDayOfWeek());
+//                System.out.println("day "+dayOfWeek);
 
                 FormBody.Builder builder = new FormBody.Builder();
                 builder.add("name", tempName);
