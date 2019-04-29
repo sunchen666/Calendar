@@ -1,0 +1,12 @@
+<component name="libraryTable">
+  <library name="Gradle: com.sirvar:robin:0.0.1@aar">
+    <CLASSES>
+      <root url="jar://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/jetified-robin-0.0.1.aar/afae48314ba9d30278ecbaff85ca0db2/jars/classes.jar!/" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/jetified-robin-0.0.1.aar/afae48314ba9d30278ecbaff85ca0db2/res" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.sirvar/robin/0.0.1/2cc9ed87ea6c9b8257d06ad5aabb657e6df6beb0/robin-0.0.1-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

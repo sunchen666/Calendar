@@ -1,0 +1,12 @@
+<component name="libraryTable">
+  <library name="Gradle: io.github.dreierf:material-intro-screen:0.0.6@aar">
+    <CLASSES>
+      <root url="jar://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/material-intro-screen-0.0.6.aar/8ee6e818a492363597f97cb4fd882be7/jars/classes.jar!/" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/material-intro-screen-0.0.6.aar/8ee6e818a492363597f97cb4fd882be7/res" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/io.github.dreierf/material-intro-screen/0.0.6/ad8ca0737bb22d5bf63efad893fb7b4f26444c53/material-intro-screen-0.0.6-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

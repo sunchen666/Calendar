@@ -5,9 +5,8 @@
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
-
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
 
     <application
         android:allowBackup="true"
@@ -16,8 +15,12 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity
-            android:name=".Activity.LoginActivity">
+        <service
+            android:name="com.example.sunchen.calendarmi.Service.TodayGoalUpdateService"
+            android:enabled="true"
+            android:exported="true"></service>
+
+        <activity android:name=".Activity.LoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <action android:name="android.intent.action.VIEW" />
@@ -25,29 +28,27 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
         <activity
             android:name=".Activity.OnBoardingActivity"
-            android:theme="@style/Theme.Intro"/>
-
+            android:theme="@style/Theme.Intro" />
         <activity
             android:name=".Activity.MainActivity"
             android:launchMode="singleTop"
-            android:theme="@style/AppTheme.NoActionBar"/>
-
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".Activity.PreferenceActivity"
             android:label="Add Goal"
             android:parentActivityName=".Activity.MainActivity">
-        <meta-data
-            android:name="android.support.PARENT_ACTIVITY"
-            android:value=".Activity.MainActivity" />
-        <intent-filter>
-            <action android:name=".Activity.PreferenceActivity" />
-            <category android:name="android.intent.category.DEFAULT" />
-        </intent-filter>
-        </activity>
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".Activity.MainActivity" />
 
+            <intent-filter>
+                <action android:name=".Activity.PreferenceActivity" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
         <activity
             android:name=".Activity.EditActivity"
             android:label="Add Goal"
@@ -55,12 +56,13 @@
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".Activity.MainActivity" />
+
             <intent-filter>
                 <action android:name=".Activity.EditActivity" />
+
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
-
     </application>
 
 </manifest>

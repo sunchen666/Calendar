@@ -1,10 +1,13 @@
 package com.example.sunchen.calendarmi.Object;
 
+import android.os.Parcelable;
+
 public class TodayGoal {
 
     private String title;
     private String frequency;
     private String location;
+    private String importance;
 
     public TodayGoal(String title, String frequency, String location) {
         this.title = title;
@@ -38,6 +41,7 @@ public class TodayGoal {
     public void setLocation(String location) {
         this.location = location;
     }
+    public void setImportance(String importance) {this.importance = importance; }
 
     public static TodayGoal getFromString(String goalString) {
         String[] fields = goalString.split(";");
@@ -45,6 +49,7 @@ public class TodayGoal {
         goal.setTitle(fields[0]);
         goal.setFrequency(fields[1]);
         goal.setLocation(fields[2]);
+        goal.setImportance(fields[3]);
         return goal;
     }
 }

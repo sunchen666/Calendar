@@ -3,6 +3,10 @@ package com.example.sunchen.calendarmi.Object;
 public class HistoryGoal {
     private String period;
     private String avg_time;
+    private String startTime;
+    private String endTime;
+    private int countComplete;
+    private int countTotal;
     private String history_title;
 
     public HistoryGoal() {

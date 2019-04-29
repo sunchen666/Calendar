@@ -2,12 +2,12 @@ package com.example.sunchen.calendarmi.Object;
 
 public class CurrentGoal {
     private String decrip = "......";
-    private String freq = "Daily";
+    private String schedule = "Daily";
     private String title = "Water Plant";
 
-    public CurrentGoal(String decrip, String freq, String title) {
+    public CurrentGoal(String title, String decrip, String schedule) {
         this.decrip = decrip;
-        this.freq = freq;
+        this.schedule = schedule;
         this.title = title;
     }
 
@@ -19,9 +19,7 @@ public class CurrentGoal {
         this.decrip = decrip;
     }
 
-    public void setFreq(String freq) {
-        this.freq = freq;
-    }
+    public void setSchedule(String schedule) { this.schedule = schedule; }
 
     public void setTitle(String title) {
         this.title = title;
@@ -31,11 +29,19 @@ public class CurrentGoal {
         return decrip;
     }
 
-    public String getFreq() {
-        return freq;
+    public String getSchedule() {
+        return schedule;
     }
 
     public String getTitle() {
         return title;
+    }
+    public static CurrentGoal getFromString(String goalString) {
+        String[] fields = goalString.split(";");
+        CurrentGoal goal = new CurrentGoal();
+        goal.setTitle(fields[0]);
+        goal.setDecrip(fields[1]);
+        goal.setSchedule(fields[2]);
+        return goal;
     }
 }

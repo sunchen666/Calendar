@@ -1,7 +1,10 @@
 package com.example.sunchen.calendarmi.Activity;
 
+import android.app.Activity;
+import android.app.ActivityManager;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
@@ -18,6 +21,7 @@ import com.example.sunchen.calendarmi.Fragment.GoalsFrag;
 import com.example.sunchen.calendarmi.Fragment.HistoryFrag;
 import com.example.sunchen.calendarmi.Fragment.SettingFrag;
 import com.example.sunchen.calendarmi.R;
+import com.example.sunchen.calendarmi.Service.TodayGoalUpdateService;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.snackbar.Snackbar;
@@ -139,6 +143,11 @@ public class MainActivity extends AppCompatActivity
         goalsFrag = new GoalsFrag();
         historyFrag = new HistoryFrag();
 
+//        TodayGoalUpdateService updateService = new TodayGoalUpdateService();
+        Intent startServiceIntent = new Intent(getApplicationContext(), TodayGoalUpdateService.class);
+        Log.i("tag1", "in activity");
+        getApplicationContext().startService(startServiceIntent);
+
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestIdToken(getString(R.string.oauth_request_id_google))
                 .requestEmail()
@@ -155,6 +164,18 @@ public class MainActivity extends AppCompatActivity
         ft.replace(R.id.content_frames, goalsFrag);
         ft.commit();
     }
+
+//    private boolean isMyServiceRunning(Class<?> serviceClass) {
+//        ActivityManager manager = (ActivityManager) getSystemService(Context.ACTIVITY_SERVICE);
+//        for (ActivityManager.RunningServiceInfo service : manager.getRunningServices(Integer.MAX_VALUE)) {
+//            if (serviceClass.getName().equals(service.service.getClassName())) {
+//                Log.i ("isMyServiceRunning?", true+"");
+//                return true;
+//            }
+//        }
+//        Log.i ("isMyServiceRunning?", false+"");
+//        return false;
+//    }
 
     private void generateNotification() {
         NotificationCompat.Builder builder2 = new NotificationCompat.Builder(this, "s")

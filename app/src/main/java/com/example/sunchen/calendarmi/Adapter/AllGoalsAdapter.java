@@ -54,7 +54,7 @@ public class AllGoalsAdapter extends RecyclerView.Adapter<AllGoalsAdapter.Curren
         currentGoalViewHolder.tTitle_cv.setTitle(cg.getTitle());
         currentGoalViewHolder.tTitle.setText(cg.getTitle());
         currentGoalViewHolder.tDes.setText(cg.getDecrip());
-        currentGoalViewHolder.tFre.setText(cg.getFreq());
+        currentGoalViewHolder.tFre.setText(cg.getSchedule());
 
     }
 

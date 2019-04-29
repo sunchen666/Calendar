@@ -36,8 +36,8 @@ public class HistoryGoalAdapter extends RecyclerView.Adapter<HistoryGoalAdapter.
         HistoryGoal cg = historyGoalList.get(i);
 
         historyGoalViewHolder.title_history.setTitle(cg.getHistory_title());
-        historyGoalViewHolder.period.setText(cg.getPeriod());
-        historyGoalViewHolder.avg_time.setText(cg.getAvg_time());
+//        historyGoalViewHolder.period.setText(cg.getPeriod());
+//        historyGoalViewHolder.avg_time.setText(cg.getAvg_time());
     }
 
     @Override

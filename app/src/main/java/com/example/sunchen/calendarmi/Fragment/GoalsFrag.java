@@ -2,8 +2,11 @@ package com.example.sunchen.calendarmi.Fragment;
 
 import android.annotation.SuppressLint;
 import android.app.FragmentManager;
+import android.content.BroadcastReceiver;
 import android.content.ComponentName;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.ServiceConnection;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -45,28 +48,18 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 
+
 public class GoalsFrag extends Fragment {
     private ViewPager viewPager;
     private CardPagerAdapter cardAdapter;
     private ShadowTransformer cardShadowTransformer;
 
     private TodayGoalUpdateService updateService;
+    private BroadcastReceiver broadcastReceiver;
 
     final private int mInterval = 60000;
     OkHttpClient client = new OkHttpClient();
 
-    private int test = 100;
-
-    private void initInfo() {
-        cardAdapter.addCardItem(new TodayGoal("Play switch", "Daily", "Home"));
-//        fetchTodayGoals()
-
-        cardAdapter.addCardItem(new TodayGoal("Water Plant", "Weekly", "Home"));
-        cardAdapter.addCardItem(new TodayGoal("Go to grocery store", "Daily", "Every places"));
-        cardAdapter.addCardItem(new TodayGoal("Read Fiction Book", "Daily", "Home"));
-        cardAdapter.addCardItem(new TodayGoal("Exercise", "Weekly", "Working place"));
-
-    }
 
     @Nullable
     @Override
@@ -74,6 +67,26 @@ public class GoalsFrag extends Fragment {
         View view = inflater.inflate(R.layout.fragment_goals, container, false);
 
         viewPager = (ViewPager)view.findViewById(R.id.viewPager_home_screen);
+
+//        Intent startServiceIntent = new Intent(getActivity(), TodayGoalUpdateService.class);
+//        getActivity().startService(startServiceIntent);
+
+        //Register broadcast receiver
+//        IntentFilter filter = new IntentFilter();
+//        filter.addAction("com.example.sunchen.calendarmi.Service.TodayGoalUpdateService");
+        broadcastReceiver = new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent) {
+                List<String> todayGoalStrings = intent.getStringArrayListExtra("UPDATED_GOALS");
+                cardAdapter.clear();
+                for (String goalString : todayGoalStrings) {
+                    cardAdapter.addCardItem(TodayGoal.getFromString(goalString));
+                }
+                cardAdapter.notifyDataSetChanged();
+                viewPager.setAdapter(cardAdapter);
+            }
+        };
+//        getActivity().getApplicationContext().registerReceiver(broadcastReceiver, filter);
 
         cardAdapter = new CardPagerAdapter();
         cardAdapter.setContext(getActivity());
@@ -90,7 +103,17 @@ public class GoalsFrag extends Fragment {
         viewPager.setOffscreenPageLimit(3);
 
 //        startUpdateTask();
+
+
         return view;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        IntentFilter filter = new IntentFilter();
+        filter.addAction("UPDATE_ACTION");
+        getActivity().getApplicationContext().registerReceiver(broadcastReceiver, filter);
     }
 
     private void startUpdateTask() {
@@ -111,12 +134,14 @@ public class GoalsFrag extends Fragment {
     }
 
     private List<TodayGoal> fetchTodayGoals() {
+
         final List<TodayGoal> todayGoals = new ArrayList<>();
         Date date = new Date();
         System.out.println(date);
         Calendar cal = Calendar.getInstance();
+        System.out.println("fd: "+cal.getFirstDayOfWeek()+" td: "+cal.get(Calendar.DAY_OF_WEEK));
         String[] weekDayStrings = getContext().getResources().getStringArray(R.array.week_days_extended);
-        final String dayOfWeek = weekDayStrings[cal.get(Calendar.DAY_OF_WEEK)];
+        final String dayOfWeek = weekDayStrings[(cal.get(Calendar.DAY_OF_WEEK) + 5) % 7];
         final Semaphore semp = new Semaphore(0);
         @SuppressLint("StaticFieldLeak") AsyncTask<String, Integer, String> atask = new AsyncTask<String, Integer, String>() {
             @Override
@@ -156,18 +181,26 @@ public class GoalsFrag extends Fragment {
     private String post(String url, FormBody fb) throws IOException {
         Request request = new Request.Builder()
                 .url(url).post(fb)
+                .header("Connection", "close")
                 .build();
         System.out.println("before newCall");
         String res = "";
-        try (Response response = client.newCall(request).execute()) {
+        while (res.equals("")) {
+            try (Response response = client.newCall(request).execute()) {
 
-            res = response.body().string();
-            System.out.println("post response: "+res);
+                res = response.body().string();
+                System.out.println("post response: "+res);
 
-        } catch (Exception e) {
-            e.printStackTrace();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
         return res;
     }
 
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        getActivity().getApplicationContext().unregisterReceiver(broadcastReceiver);
+    }
 }

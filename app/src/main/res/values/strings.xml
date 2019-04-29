@@ -20,6 +20,8 @@
     <string name="is_complete_server_link">http://172.20.10.2:8080/Improov-backend/isCompleteServlet</string>
     <string name="sync_calendar_server_link">http://172.20.10.2:8080/Improov-backend/SyncCalendarServlet</string>
     <string name="todaygoal_server_link">http://172.20.10.2:8080/Improov-backend/TodayGoalServlet</string>
+    <string name="allgoal_server_link">http://172.20.10.2:8080/Improov-backend/AllGoalServlet</string>
+    <string name="history_server_link">http://172.20.10.2:8080/Improov-backend/HistoryServlet</string>
 
     <!--<string name="signup_server_link">http://192.168.191.1:8080/Improov-backend/SignupServlet</string>-->
     <!--<string name="signin_server_link">http://192.168.191.1:8080/Improov-backend/SigninServlet</string>-->
