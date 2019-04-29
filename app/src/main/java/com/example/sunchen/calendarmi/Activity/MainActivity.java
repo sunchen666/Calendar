@@ -14,12 +14,15 @@ import android.view.View;
 
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.sunchen.calendarmi.Fragment.AllGoalsFrag;
 import com.example.sunchen.calendarmi.Fragment.CalendarFrag;
 import com.example.sunchen.calendarmi.Fragment.GoalsFrag;
 import com.example.sunchen.calendarmi.Fragment.HistoryFrag;
 import com.example.sunchen.calendarmi.Fragment.SettingFrag;
+import com.example.sunchen.calendarmi.Object.User;
 import com.example.sunchen.calendarmi.R;
 import com.example.sunchen.calendarmi.Service.TodayGoalUpdateService;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -76,6 +79,9 @@ public class MainActivity extends AppCompatActivity
     private AllGoalsFrag allGoalsFrag;
     private GoalsFrag goalsFrag;
     private HistoryFrag historyFrag;
+    private TextView email_view;
+    private TextView name_view;
+    private User user;
 
     private GoogleSignInClient mGoogleSignInClient;
     private FirebaseAuth mAuth;
@@ -91,6 +97,8 @@ public class MainActivity extends AppCompatActivity
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        user = new User();
 
         mNotificationManagerCompat = NotificationManagerCompat.from(getApplicationContext());
         mMainRelativeLayout = findViewById(R.id.drawer_layout);
@@ -136,6 +144,11 @@ public class MainActivity extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
+        name_view = navigationView.getHeaderView(0).findViewById(R.id.drawer_nav_name);
+        email_view = navigationView.getHeaderView(0).findViewById(R.id.drawer_nav_email);
+        name_view.setText(user.getCurrentUser().getName());
+        email_view.setText(user.getCurrentUser().getEmail());
+
         //Initialize the fragment
         calendarFrag = new CalendarFrag();
         settingFrag = new SettingFrag();
@@ -157,6 +170,11 @@ public class MainActivity extends AppCompatActivity
                 .build();
 
         mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
+
+        if (User.getCurrentUser().getmGoogleSignInClient() != null) {
+            mGoogleSignInClient = User.getCurrentUser().getmGoogleSignInClient();
+        }
+
         mAuth = FirebaseAuth.getInstance();
 
         //Set to Main fragment
@@ -245,6 +263,13 @@ public class MainActivity extends AppCompatActivity
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
+            Fragment fragment = settingFrag;
+            FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+            ft.replace(R.id.content_frames, fragment);
+            ft.commit();
+
+            DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+            drawer.closeDrawer(GravityCompat.START);
             return true;
         }
 
@@ -326,6 +351,7 @@ public class MainActivity extends AppCompatActivity
                     }
 
                     signInAccount = task.getResult(ApiException.class);
+                    User.getCurrentUser().setmGoogleSignInClient(mGoogleSignInClient);
                     calendarFrag.sendAuthInfo(signInAccount.getServerAuthCode(), signInAccount.getEmail());
                 } catch (ExecutionException e) {
                     e.printStackTrace();
@@ -350,7 +376,21 @@ public class MainActivity extends AppCompatActivity
             try {
                 // Google Sign In was successful, authenticate with Firebase
                 signInAccount = task.getResult(ApiException.class);
-                firebaseAuthWithGoogle(signInAccount);
+                Log.e("checked Email", signInAccount.getEmail());
+                if (signInAccount.getEmail().equals(User.getCurrentUser().getEmail())) {
+                    User.getCurrentUser().setmGoogleSignInClient(mGoogleSignInClient);
+                    firebaseAuthWithGoogle(signInAccount);
+                } else {
+                    mGoogleSignInClient.signOut().addOnCompleteListener(MainActivity.this, new OnCompleteListener<Void>() {
+                        @Override
+                        public void onComplete(@NonNull Task<Void> task) {
+                            // ...
+                            Log.e("Testing", "Try to do it");
+                            mAuth.signOut();
+                        }
+                    });
+                    Toast.makeText(MainActivity.this, "Please log the same email as account!", Toast.LENGTH_LONG).show();
+                }
             } catch (ApiException e) {
                 // Google Sign In failed, update UI appropriately
                 Log.e("Checked", "Google sign in failed", e);
@@ -388,5 +428,10 @@ public class MainActivity extends AppCompatActivity
                         }
                     }
                 });
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
     }
 }

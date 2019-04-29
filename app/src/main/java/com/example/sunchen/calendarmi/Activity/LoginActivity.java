@@ -18,6 +18,7 @@ import com.example.sunchen.calendarmi.Fragment.SignupFrag;
 import com.example.sunchen.calendarmi.Object.User;
 import com.example.sunchen.calendarmi.R;
 import com.google.android.gms.common.api.ApiException;
+import com.google.android.gms.common.api.Scope;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.snackbar.Snackbar;
@@ -102,9 +103,11 @@ public class LoginActivity extends AppCompatActivity {
         setImage(getResources().getDrawable(R.drawable.birdlogo, null));
 
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-//                .requestIdToken(getString(R.string.oauth_request_id_google))
                 .requestIdToken(getString(R.string.oauth_request_id_google))
                 .requestEmail()
+                .requestServerAuthCode(getString(R.string.oauth_request_id_google))
+                .requestId()
+                .requestScopes(new Scope("https://www.googleapis.com/auth/calendar"))
                 .build();
 
         mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
@@ -215,6 +218,7 @@ public class LoginActivity extends AppCompatActivity {
                 Toast.makeText(this, "Email doesn't exist!", Toast.LENGTH_LONG).show();
             } else {
                 Toast.makeText(this, "Log in successfully", Toast.LENGTH_LONG).show();
+                user.setName(response.split(";")[0]);
                 user.setCurrentUser(user);
                 Intent intent = new Intent(this, MainActivity.class);
                 startActivity(intent);
@@ -249,7 +253,6 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     public void googleLoginToApp() {
-
         Intent signInIntent = mGoogleSignInClient.getSignInIntent();
         startActivityForResult(signInIntent, 9001);
     }
@@ -270,8 +273,8 @@ public class LoginActivity extends AppCompatActivity {
             Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
             try {
                 // Google Sign In was successful, authenticate with Firebase
-                GoogleSignInAccount account = task.getResult(ApiException.class);
-                firebaseAuthWithGoogle(account);
+                signInAccount = task.getResult(ApiException.class);
+                firebaseAuthWithGoogle(signInAccount);
             } catch (ApiException e) {
                 System.out.println("ApiException");
                 e.printStackTrace();
@@ -282,7 +285,6 @@ public class LoginActivity extends AppCompatActivity {
     private void firebaseAuthWithGoogle(GoogleSignInAccount acct) {
         // [START_EXCLUDE silent]
         // [END_EXCLUDE]
-
         AuthCredential credential = GoogleAuthProvider.getCredential(acct.getIdToken(), null);
         mAuth.signInWithCredential(credential)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
@@ -291,16 +293,77 @@ public class LoginActivity extends AppCompatActivity {
                         if (task.isSuccessful()) {
                             // Sign in success, update UI with the signed-in user's information
                             FirebaseUser user = mAuth.getCurrentUser();
-                            String uid = mAuth.getUid();
-                            getGoogleUidFromFirebase(uid);
+                            try {
+                                sendAuthInfoToLog(signInAccount.getServerAuthCode(), signInAccount.getEmail());
+                            } catch (ExecutionException e) {
+                                e.printStackTrace();
+                            } catch (InterruptedException e) {
+                                e.printStackTrace();
+                            }
                         } else {
                             // If sign in fails, display a message to the user.
-                            Snackbar.make(findViewById(R.id.login), "Authentication Failed.", Snackbar.LENGTH_SHORT).show();
+                            Log.e("CheckedAuthentication", "Google authentication failed");
                         }
-
                     }
                 });
     }
+
+    public void sendAuthInfoToLog(final String authCode, final String email) throws ExecutionException, InterruptedException {
+        @SuppressLint("StaticFieldLeak") AsyncTask<String, Integer, String> atask = new AsyncTask<String, Integer, String>(){
+            @Override
+            protected String doInBackground(String... strings) {
+                FormBody.Builder builder = new FormBody.Builder();
+//                builder.add("auth", authCode);
+//                builder.add("id", getString(R.string.oauth_request_id_google));
+//                builder.add("secret", getString(R.string.oauth_request_secret_google));
+                builder.add("email", email);
+
+                Log.e("Get Email", email);
+//                Log.e("Send id", getString(R.string.oauth_request_id_google));
+//                Log.e("Send secret", getString(R.string.oauth_request_secret_google));
+
+                String responseResult = "";
+                try {
+                    responseResult = post(getString(R.string.check_signup_server_link), builder.build());
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                return responseResult;
+            }
+
+            @Override
+            protected void onPostExecute(String s) {
+                super.onPostExecute(s);
+            }
+        };
+
+        atask.execute();
+        Log.e("Checkedcc", atask.get());
+        //Sign up successfully
+        if (atask.get().contains("Successfully")) {
+            //Log in to the application
+            User user = new User(atask.get().split(";")[0], atask.get().split(";")[1], atask.get().split(";")[2]);
+            user.setmGoogleSignInClient(mGoogleSignInClient);
+            user.setCurrentUser(user);
+            Toast.makeText(LoginActivity.this, "Login successfully", Toast.LENGTH_LONG).show();
+
+            Intent intent = new Intent(currentActivity, MainActivity.class);
+            startActivity(intent);
+        } else {
+            if (mAuth.getCurrentUser().getEmail().contains("@")) {
+                mGoogleSignInClient.signOut().addOnCompleteListener(LoginActivity.this, new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        // ...
+                        Log.e("Testing", "Try to do it");
+                        mAuth.signOut();
+                    }
+                });
+            }
+            Toast.makeText(LoginActivity.this, "You should sign up your google email first at sign up page!", Toast.LENGTH_LONG).show();
+        }
+    }
+
     // [END auth_with_google]
     private void getGoogleUidFromFirebase(final String uid) {
 //        FirebaseDatabase db = FirebaseDatabase.getInstance();

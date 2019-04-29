@@ -66,6 +66,7 @@ public class AllGoalsFrag extends Fragment {
         return view;
     }
 
+
 //    private void initInfo() {
 //        CurrentGoal cg1 = new CurrentGoal();
 //        cg1.setTitle("Play switch");
@@ -165,5 +166,4 @@ public class AllGoalsFrag extends Fragment {
             }
         }
         return res;
-    }
 }

@@ -35,7 +35,7 @@ import androidx.fragment.app.Fragment;
 public class LoginFrag extends Fragment {
     private TextView title;
     private TextView signup_link;
-    private TextView forgot_pw;
+//    private TextView forgot_pw;
 
     private ImageView image;
     private Button signin;
@@ -61,7 +61,7 @@ public class LoginFrag extends Fragment {
 
         title = view.findViewById(R.id.title_login);
         signup_link = view.findViewById(R.id.signup_login);
-        forgot_pw = view.findViewById(R.id.forgotPassword_login);
+//        forgot_pw = view.findViewById(R.id.forgotPassword_login);
 
         image = view.findViewById(R.id.logo_login);
         signin = view.findViewById(R.id.submit_login);
@@ -93,13 +93,13 @@ public class LoginFrag extends Fragment {
             }
         });
 
-        forgot_pw.setOnClickListener(new View.OnClickListener(){
-
-            @Override
-            public void onClick(View v) {
-                ((LoginActivity)getActivity()).startForPWFrag();
-            }
-        });
+//        forgot_pw.setOnClickListener(new View.OnClickListener(){
+//
+//            @Override
+//            public void onClick(View v) {
+//                ((LoginActivity)getActivity()).startForPWFrag();
+//            }
+//        });
 
         signup_link.setOnClickListener(new View.OnClickListener(){
 

@@ -43,6 +43,7 @@ public class HistoryFrag extends Fragment {
         rv.setLayoutManager(layoutManager);
 
         adapter = new HistoryGoalAdapter(clist);
+        adapter.setContext(getActivity());
 
         rv.setAdapter(adapter);
 
@@ -51,24 +52,20 @@ public class HistoryFrag extends Fragment {
 
     private void initInfo() {
         HistoryGoal hg1 = new HistoryGoal();
-        hg1.setHistory_title("Write a book");
-        hg1.setPeriod("2016.1.5 - 2018.9.3");
-        hg1.setAvg_time("44 min");
+        hg1.setTitle("Play switch");
+        hg1.setUntil("04/20/2022");
 
         HistoryGoal hg2 = new HistoryGoal();
-        hg2.setHistory_title("Prepare for interviews of full-time jobs");
-        hg2.setPeriod("2017.3.5 - 2018.3.2");
-        hg2.setAvg_time("30 min");
+        hg2.setTitle("Prepare for interviews of full-time jobs");
+        hg2.setUntil("2017.3.5");
 
         HistoryGoal hg3 = new HistoryGoal();
-        hg3.setHistory_title("Run from home to College");
-        hg3.setPeriod("2018.5.5 - 2018.7.2");
-        hg3.setAvg_time("31 min");
+        hg3.setTitle("Run from home to College");
+        hg3.setUntil("2018.5.5");
 
         clist.add(hg1);
         clist.add(hg2);
         clist.add(hg3);
-
     }
 
 }

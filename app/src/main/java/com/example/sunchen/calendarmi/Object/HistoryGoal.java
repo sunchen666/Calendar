@@ -1,6 +1,7 @@
 package com.example.sunchen.calendarmi.Object;
 
 public class HistoryGoal {
+
     private String period;
     private String avg_time;
     private String startTime;
@@ -9,37 +10,32 @@ public class HistoryGoal {
     private int countTotal;
     private String history_title;
 
+    private String title;
+    private String until;
+
+
     public HistoryGoal() {
 
     }
 
-    public HistoryGoal (String period, String time, String history_title) {
-        this.period = period;
-        this.avg_time = time;
-        this.history_title = history_title;
+    public HistoryGoal (String until, String title) {
+        this.title = title;
+        this.until = until;
     }
 
-    public void setHistory_title(String history_title) {
-        this.history_title = history_title;
+    public void setTitle(String title) {
+        this.title = title;
     }
 
-    public void setAvg_time(String avg_time) {
-        this.avg_time = avg_time;
+    public void setUntil(String until) {
+        this.until = until;
     }
 
-    public void setPeriod(String period) {
-        this.period = period;
+    public String getTitle() {
+        return title;
     }
 
-    public String getAvg_time() {
-        return avg_time;
-    }
-
-    public String getPeriod() {
-        return period;
-    }
-
-    public String getHistory_title() {
-        return history_title;
+    public String getUntil() {
+        return until;
     }
 }
