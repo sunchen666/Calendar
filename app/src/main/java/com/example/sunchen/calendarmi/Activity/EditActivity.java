@@ -130,6 +130,18 @@ public class EditActivity extends AppCompatActivity implements StepperFormListen
         progressDialog.setCancelable(true);
         progressDialog.show();
         progressDialog.setMessage("Modifying new goal...");
+        progressDialog.setOnCancelListener(new DialogInterface.OnCancelListener() {
+            @Override
+            public void onCancel(DialogInterface dialogInterface) {
+                try {
+                    dataSavingThread.interrupt();
+                } catch (RuntimeException e) {
+                    // No need to do anything here
+                } finally {
+                    verticalStepperForm.cancelFormCompletionOrCancellationAttempt();
+                }
+            }
+        });
 
         @SuppressLint("StaticFieldLeak") AsyncTask<String, Integer, String> atask = new AsyncTask<String, Integer, String>() {
             @Override
@@ -166,18 +178,7 @@ public class EditActivity extends AppCompatActivity implements StepperFormListen
             protected void onPostExecute(String s) {
                 super.onPostExecute(s);
                 Toast.makeText(EditActivity.this, s, Toast.LENGTH_LONG).show();
-                progressDialog.setOnCancelListener(new DialogInterface.OnCancelListener() {
-                    @Override
-                    public void onCancel(DialogInterface dialogInterface) {
-                        try {
-                            dataSavingThread.interrupt();
-                        } catch (RuntimeException e) {
-                            // No need to do anything here
-                        } finally {
-                            verticalStepperForm.cancelFormCompletionOrCancellationAttempt();
-                        }
-                    }
-                });
+
             }
         };
 

@@ -21,7 +21,9 @@ import com.example.sunchen.calendarmi.Object.User;
 import com.example.sunchen.calendarmi.R;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.Semaphore;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -33,11 +35,16 @@ import okhttp3.Response;
 public class AllGoalsAdapter extends RecyclerView.Adapter<AllGoalsAdapter.CurrentGoalViewHolder> {
     static final int EDIT_GOAL_REQUEST_CODE = 111;  // The request code
     private List<CurrentGoal> currentGoalList;
+    private String previousAllGoalString = "";
     OkHttpClient client = new OkHttpClient();
     private Context context;
 
     public AllGoalsAdapter(List<CurrentGoal> list) {
         this.currentGoalList = list;
+    }
+
+    public AllGoalsAdapter() {
+        currentGoalList = new ArrayList<>();
     }
 
     @NonNull
@@ -127,6 +134,7 @@ public class AllGoalsAdapter extends RecyclerView.Adapter<AllGoalsAdapter.Curren
                         }
                     };
                     atask.execute();
+
                 }
             });
 
@@ -166,6 +174,7 @@ public class AllGoalsAdapter extends RecyclerView.Adapter<AllGoalsAdapter.Curren
                                         break;
                                     }
                                 }
+                                AllGoalsAdapter.this.notifyDataSetChanged();
                                 Toast.makeText(context, "Complete Successfully", Toast.LENGTH_LONG).show();
                             } else {
                                 Toast.makeText(context, "Complete Fails", Toast.LENGTH_LONG).show();
@@ -213,6 +222,7 @@ public class AllGoalsAdapter extends RecyclerView.Adapter<AllGoalsAdapter.Curren
                                         break;
                                     }
                                 }
+                                AllGoalsAdapter.this.notifyDataSetChanged();
                                 Toast.makeText(context, "Delete Successfully", Toast.LENGTH_LONG).show();
                             } else {
                                 Toast.makeText(context, "Delete Fails", Toast.LENGTH_LONG).show();
@@ -245,5 +255,52 @@ public class AllGoalsAdapter extends RecyclerView.Adapter<AllGoalsAdapter.Curren
             }
         }
         return res;
+    }
+
+
+    public void fetchAllGoals() {
+        final Semaphore semp = new Semaphore(0);
+        @SuppressLint("StaticFieldLeak") AsyncTask<String, Integer, String> atask = new AsyncTask<String, Integer, String>() {
+            @Override
+            protected String doInBackground(String... strings) {
+                FormBody.Builder builder = new FormBody.Builder();
+                builder.add("email", User.getCurrentUser().getEmail());
+                int url = R.string.allgoal_server_link;
+                String responseResult = "";
+                try {
+                    responseResult = post(context.getString(url), builder.build());
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                if (!responseResult.equals(previousAllGoalString)) {
+                    previousAllGoalString = responseResult;
+                    if (responseResult.endsWith("\n")) {
+                        responseResult = responseResult.substring(0, responseResult.length() - 1);
+                    }
+                    String[] goalStrings = responseResult.split(";;");
+                    currentGoalList.clear();
+                    for (String goalString : goalStrings) {
+                        if (goalString.equals("")) {
+                            continue;
+                        }
+                        System.out.println("cur goal string: "+goalString);
+                        currentGoalList.add(CurrentGoal.getFromString(goalString));
+                    }
+                }
+                semp.release();
+                return responseResult;
+            }
+            @Override
+            protected void onPostExecute(String s) {
+                super.onPostExecute(s);
+
+            }
+        };
+        atask.execute();
+        try {
+            semp.acquire();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
     }
 }

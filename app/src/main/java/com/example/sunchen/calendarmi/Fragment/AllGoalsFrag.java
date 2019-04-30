@@ -47,7 +47,6 @@ public class AllGoalsFrag extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_allgoals, container, false);
-
         RecyclerView rv = view.findViewById(R.id.all_goals_card_list);
         rv.setHasFixedSize(true);
 
@@ -56,10 +55,11 @@ public class AllGoalsFrag extends Fragment {
         layoutManager.setOrientation(RecyclerView.VERTICAL);
         rv.setLayoutManager(layoutManager);
 
-        fetchAllGoals();
+//        fetchAllGoals();
 
-        adapter = new AllGoalsAdapter(clist);
+        adapter = new AllGoalsAdapter();
         adapter.setContext(getActivity());
+        adapter.fetchAllGoals();
 
         rv.setAdapter(adapter);
 
@@ -113,69 +113,5 @@ public class AllGoalsFrag extends Fragment {
         super.onResume();
     }
 
-    public void fetchAllGoals() {
-        final Semaphore semp = new Semaphore(0);
-        @SuppressLint("StaticFieldLeak") AsyncTask<String, Integer, String> atask = new AsyncTask<String, Integer, String>() {
-            @Override
-            protected String doInBackground(String... strings) {
-                FormBody.Builder builder = new FormBody.Builder();
-                builder.add("email", User.getCurrentUser().getEmail());
-                int url = R.string.allgoal_server_link;
-                String responseResult = "";
-                try {
-                    responseResult = post(getString(url), builder.build());
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-                if (!responseResult.equals(previousAllGoalString)) {
-                    previousAllGoalString = responseResult;
-                    if (responseResult.endsWith("\n")) {
-                        responseResult = responseResult.substring(0, responseResult.length() - 1);
-                    }
-                    String[] goalStrings = responseResult.split(";;");
-                    clist.clear();
-                    for (String goalString : goalStrings) {
-                        if (goalString.equals("")) {
-                            continue;
-                        }
-                        System.out.println("cur goal string: "+goalString);
-                        clist.add(CurrentGoal.getFromString(goalString));
-                    }
-                }
-                semp.release();
-                return responseResult;
-            }
-            @Override
-            protected void onPostExecute(String s) {
-                super.onPostExecute(s);
 
-            }
-        };
-        atask.execute();
-        try {
-            semp.acquire();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-    }
-
-    private String post(String url, FormBody fb) throws IOException {
-        Request request = new Request.Builder()
-                .url(url).post(fb)
-                .header("Connection", "close")
-                .build();
-        System.out.println("before newCall");
-        String res = "";
-        while (res.equals("")) {
-            try (Response response = client.newCall(request).execute()) {
-
-                res = response.body().string();
-                System.out.println("post response: " + res);
-
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
-        return res;
-    }
 }
