@@ -31,6 +31,8 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -67,13 +69,6 @@ public class GoalsFrag extends Fragment {
         View view = inflater.inflate(R.layout.fragment_goals, container, false);
 
         viewPager = (ViewPager)view.findViewById(R.id.viewPager_home_screen);
-
-//        Intent startServiceIntent = new Intent(getActivity(), TodayGoalUpdateService.class);
-//        getActivity().startService(startServiceIntent);
-
-        //Register broadcast receiver
-//        IntentFilter filter = new IntentFilter();
-//        filter.addAction("com.example.sunchen.calendarmi.Service.TodayGoalUpdateService");
         broadcastReceiver = new BroadcastReceiver() {
             @Override
             public void onReceive(Context context, Intent intent) {
@@ -86,16 +81,14 @@ public class GoalsFrag extends Fragment {
                 viewPager.setAdapter(cardAdapter);
             }
         };
-//        getActivity().getApplicationContext().registerReceiver(broadcastReceiver, filter);
 
         cardAdapter = new CardPagerAdapter();
         cardAdapter.setContext(getActivity());
-//        List<TodayGoal> todayGoals = fetchTodayGoals();
-//        for (TodayGoal goal : todayGoals) {
-//            cardAdapter.addCardItem(goal);
-//        }
+        List<TodayGoal> todayGoals = fetchTodayGoals();
+        for (TodayGoal goal : todayGoals) {
+            cardAdapter.addCardItem(goal);
+        }
 
-        initInfo();
 
         cardShadowTransformer = new ShadowTransformer(viewPager, cardAdapter);
         cardShadowTransformer.enableScaling(true);
@@ -103,10 +96,6 @@ public class GoalsFrag extends Fragment {
         viewPager.setAdapter(cardAdapter);
         viewPager.setPageTransformer(false, cardShadowTransformer);
         viewPager.setOffscreenPageLimit(3);
-
-//        startUpdateTask();
-
-
         return view;
     }
 
@@ -116,23 +105,6 @@ public class GoalsFrag extends Fragment {
         IntentFilter filter = new IntentFilter();
         filter.addAction("UPDATE_ACTION");
         getActivity().getApplicationContext().registerReceiver(broadcastReceiver, filter);
-    }
-
-    private void startUpdateTask() {
-        final Handler mHandler = new Handler();
-        Runnable update = new Runnable() {
-            @Override
-            public void run() {
-                cardAdapter.clear();
-                for (TodayGoal goal : fetchTodayGoals()) {
-                    cardAdapter.addCardItem(goal);
-                }
-                cardAdapter.notifyDataSetChanged();
-                viewPager.setAdapter(cardAdapter);
-                mHandler.postDelayed(this, mInterval);
-            }
-        };
-        new Thread(update).start();
     }
 
     private List<TodayGoal> fetchTodayGoals() {
@@ -158,8 +130,34 @@ public class GoalsFrag extends Fragment {
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
+                if (responseResult.endsWith("\n")) {
+                    responseResult = responseResult.substring(0, responseResult.length() - 1);
+                }
                 String[] goalStrings = responseResult.split(";;");
+                if (!responseResult.contains("null")) {
+                    Arrays.sort(goalStrings, new Comparator<String>() {
+                        @Override
+                        public int compare(String o1, String o2) {
+                            String importance1 = o1.split(";")[3];
+                            String importance2 = o2.split(";")[3];
+                            if (!importance1.equals(importance2)) {
+                                if (importance1.equals("High")) {
+                                    return -1;
+                                } else if (importance1.equals("Low")) {
+                                    return 1;
+                                } else if (importance2.equals("High")) {
+                                    return 1;
+                                } else if (importance2.equals("Low")) {
+                                    return -1;
+                                }
+                            }
+                            return 0;
+                        }
+                    });
+                }
+
                 for (String goalString : goalStrings) {
+                    System.out.println(goalString);
                     todayGoals.add(TodayGoal.getFromString(goalString));
                 }
                 semp.release();

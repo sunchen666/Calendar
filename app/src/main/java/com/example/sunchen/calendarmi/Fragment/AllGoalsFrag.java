@@ -67,7 +67,7 @@ public class AllGoalsFrag extends Fragment {
     }
 
 
-//    private void initInfo() {
+    //    private void initInfo() {
 //        CurrentGoal cg1 = new CurrentGoal();
 //        cg1.setTitle("Play switch");
 //        cg1.setSchedule("Weekly");
@@ -108,7 +108,12 @@ public class AllGoalsFrag extends Fragment {
 //        clist.add(cg5);
 //    }
 
-    private void fetchAllGoals() {
+    @Override
+    public void onResume() {
+        super.onResume();
+    }
+
+    public void fetchAllGoals() {
         final Semaphore semp = new Semaphore(0);
         @SuppressLint("StaticFieldLeak") AsyncTask<String, Integer, String> atask = new AsyncTask<String, Integer, String>() {
             @Override
@@ -124,9 +129,15 @@ public class AllGoalsFrag extends Fragment {
                 }
                 if (!responseResult.equals(previousAllGoalString)) {
                     previousAllGoalString = responseResult;
+                    if (responseResult.endsWith("\n")) {
+                        responseResult = responseResult.substring(0, responseResult.length() - 1);
+                    }
                     String[] goalStrings = responseResult.split(";;");
                     clist.clear();
                     for (String goalString : goalStrings) {
+                        if (goalString.equals("")) {
+                            continue;
+                        }
                         System.out.println("cur goal string: "+goalString);
                         clist.add(CurrentGoal.getFromString(goalString));
                     }
@@ -159,11 +170,12 @@ public class AllGoalsFrag extends Fragment {
             try (Response response = client.newCall(request).execute()) {
 
                 res = response.body().string();
-                System.out.println("post response: "+res);
+                System.out.println("post response: " + res);
 
             } catch (Exception e) {
                 e.printStackTrace();
             }
         }
         return res;
+    }
 }

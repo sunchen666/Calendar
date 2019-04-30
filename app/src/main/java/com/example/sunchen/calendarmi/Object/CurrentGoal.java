@@ -37,8 +37,15 @@ public class CurrentGoal {
         return title;
     }
     public static CurrentGoal getFromString(String goalString) {
-        String[] fields = goalString.split(";");
+
         CurrentGoal goal = new CurrentGoal();
+        if (goalString.contains("null")) {
+            goal.setTitle("No goal yet");
+            goal.setDecrip("");
+            goal.setSchedule("");
+            return goal;
+        }
+        String[] fields = goalString.split(";");
         goal.setTitle(fields[0]);
         goal.setDecrip(fields[1]);
         goal.setSchedule(fields[2]);

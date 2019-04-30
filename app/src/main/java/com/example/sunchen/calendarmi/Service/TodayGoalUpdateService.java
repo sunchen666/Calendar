@@ -69,7 +69,7 @@ public class TodayGoalUpdateService extends Service {
                 mHandler.postDelayed(this, mInterval);
                 ArrayList<String> updatedGoalStrings = fetchTodayGoalStrings();
 
-                if (updatedGoalStrings.size() != 1 || !updatedGoalStrings.get(0).equals("no change")) {
+                if (updatedGoalStrings.size() != 1 || !updatedGoalStrings.get(0).equals("no change") && !updatedGoalStrings.get(0).contains("null")) {
                     Collections.sort(updatedGoalStrings, new Comparator<String>() {
                         @Override
                         public int compare(String o1, String o2) {
@@ -124,6 +124,9 @@ public class TodayGoalUpdateService extends Service {
                     todayGoalStrings.add("no change");
                 } else {
                     previousTodayGoals = responseResult;
+                    if (responseResult.endsWith("\n")) {
+                        responseResult = responseResult.substring(0, responseResult.length() - 1);
+                    }
                     for (String goalString : responseResult.split(";;")) {
                         todayGoalStrings.add(goalString);
                     }
@@ -149,6 +152,7 @@ public class TodayGoalUpdateService extends Service {
     private String post(String url, FormBody fb) throws IOException {
         Request request = new Request.Builder()
                 .url(url).post(fb)
+                .header("Connection", "close")
                 .build();
         System.out.println("before newCall");
         String res = "";

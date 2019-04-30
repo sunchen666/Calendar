@@ -109,6 +109,7 @@ public class CalendarFrag extends Fragment {
     public String post(String url, FormBody fb) throws IOException {
         Request request = new Request.Builder()
                 .url(url).post(fb)
+                .header("Connection", "close")
                 .build();
         try (Response response = client.newCall(request).execute()) {
             return response.body().string();

@@ -347,6 +347,7 @@ public class EditActivity extends AppCompatActivity implements StepperFormListen
     private String post(String url, FormBody fb) throws IOException {
         Request request = new Request.Builder()
                 .url(url).post(fb)
+                .header("Connection", "close")
                 .build();
         System.out.println("before newCall");
         try (Response response = client.newCall(request).execute()) {

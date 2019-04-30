@@ -159,7 +159,7 @@ public class MainActivity extends AppCompatActivity
 //        TodayGoalUpdateService updateService = new TodayGoalUpdateService();
         Intent startServiceIntent = new Intent(getApplicationContext(), TodayGoalUpdateService.class);
         Log.i("tag1", "in activity");
-        getApplicationContext().startService(startServiceIntent);
+//        getApplicationContext().startService(startServiceIntent);
 
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestIdToken(getString(R.string.oauth_request_id_google))

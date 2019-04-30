@@ -55,7 +55,6 @@ public class HistoryGoalAdapter extends RecyclerView.Adapter<HistoryGoalAdapter.
         HistoryGoal cg = historyGoalList.get(i);
 
 
-        historyGoalViewHolder.title_history.setTitle(cg.getHistory_title());
 //        historyGoalViewHolder.period.setText(cg.getPeriod());
 //        historyGoalViewHolder.avg_time.setText(cg.getAvg_time());
 
@@ -75,11 +74,9 @@ public class HistoryGoalAdapter extends RecyclerView.Adapter<HistoryGoalAdapter.
         protected TextView tt;
         protected TextView until;
         protected Button moreButton;
-        protected User currentUser;
 
         public HistoryGoalViewHolder(@NonNull View itemView) {
             super(itemView);
-            currentUser = new User();
             title_history = itemView.findViewById(R.id.history_profile_card);
             tt = itemView.findViewById(R.id.title_history);
             until = itemView.findViewById(R.id.until_history);
@@ -93,7 +90,7 @@ public class HistoryGoalAdapter extends RecyclerView.Adapter<HistoryGoalAdapter.
                         protected String doInBackground(String... strings) {
                             FormBody.Builder builder = new FormBody.Builder();
                             builder.add("name", tt.getText().toString());
-                            builder.add("email", currentUser.getCurrentUser().getEmail());
+                            builder.add("email", User.getCurrentUser().getEmail());
 
                             String responseResult = "";
                             try {
@@ -140,6 +137,7 @@ public class HistoryGoalAdapter extends RecyclerView.Adapter<HistoryGoalAdapter.
     private String post(String url, FormBody fb) throws IOException {
         Request request = new Request.Builder()
                 .url(url).post(fb)
+                .header("Connection", "close")
                 .build();
         System.out.println("before newCall");
         try (Response response = client.newCall(request).execute()) {

@@ -44,12 +44,21 @@ public class TodayGoal {
     public void setImportance(String importance) {this.importance = importance; }
 
     public static TodayGoal getFromString(String goalString) {
-        String[] fields = goalString.split(";");
+        System.out.println("getFromString: "+goalString);
         TodayGoal goal = new TodayGoal();
-        goal.setTitle(fields[0]);
-        goal.setFrequency(fields[1]);
-        goal.setLocation(fields[2]);
-        goal.setImportance(fields[3]);
+        if (goalString.contains("null")) {
+            goal.setTitle("No Goal for Today");
+            goal.setFrequency("");
+            goal.setLocation("");
+            goal.setImportance("Avg.");
+        } else {
+            String[] fields = goalString.split(";");
+            goal.setTitle(fields[0]);
+            goal.setFrequency(fields[1]);
+            goal.setLocation(fields[2]);
+            goal.setImportance(fields[3]);
+        }
+
         return goal;
     }
 }

@@ -2,8 +2,6 @@ package com.example.sunchen.calendarmi.Object;
 
 public class HistoryGoal {
 
-    private String period;
-    private String avg_time;
     private String startTime;
     private String endTime;
     private int countComplete;
@@ -37,5 +35,12 @@ public class HistoryGoal {
 
     public String getUntil() {
         return until;
+    }
+    public static HistoryGoal getFromString(String s) {
+        if (s.contains("null")) {
+            return new HistoryGoal("No history goals", "");
+        }
+        String[] fields = s.split(";");
+        return new HistoryGoal(fields[1], fields[0]);
     }
 }

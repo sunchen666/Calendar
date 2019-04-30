@@ -15,6 +15,7 @@ import android.widget.Toast;
 
 import com.alespero.expandablecardview.ExpandableCardView;
 import com.example.sunchen.calendarmi.Activity.EditActivity;
+import com.example.sunchen.calendarmi.Fragment.AllGoalsFrag;
 import com.example.sunchen.calendarmi.Object.CurrentGoal;
 import com.example.sunchen.calendarmi.Object.User;
 import com.example.sunchen.calendarmi.R;
@@ -157,6 +158,7 @@ public class AllGoalsAdapter extends RecyclerView.Adapter<AllGoalsAdapter.Curren
                         @Override
                         protected void onPostExecute(String s) {
                             super.onPostExecute(s);
+                            System.out.println("complete response: "+s);
                             if (s.contains("Successfully")) {
                                 for (int i = 0; i < currentGoalList.size(); i++) {
                                     if (currentGoalList.get(i).getTitle().equals(tTitle.getText().toString())) {
@@ -203,6 +205,7 @@ public class AllGoalsAdapter extends RecyclerView.Adapter<AllGoalsAdapter.Curren
                         @Override
                         protected void onPostExecute(String s) {
                             super.onPostExecute(s);
+                            System.out.println("delete response: "+ s);
                             if (s.contains("Successfully")) {
                                 for (int i = 0; i < currentGoalList.size(); i++) {
                                     if (currentGoalList.get(i).getTitle().equals(tTitle.getText().toString())) {
@@ -230,12 +233,17 @@ public class AllGoalsAdapter extends RecyclerView.Adapter<AllGoalsAdapter.Curren
     private String post(String url, FormBody fb) throws IOException {
         Request request = new Request.Builder()
                 .url(url).post(fb)
+                .header("Connection", "close")
                 .build();
         System.out.println("before newCall");
-        try (Response response = client.newCall(request).execute()) {
-            String res = response.body().string();
-            System.out.println("post response: "+res);
-            return res;
+        String res = "";
+        while (res.equals("")) {
+            try (Response response = client.newCall(request).execute()) {
+                res = response.body().string();
+                System.out.println("post response: "+res);
+
+            }
         }
+        return res;
     }
 }
