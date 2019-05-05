@@ -70,7 +70,7 @@
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"
-            android:value="AIzaSyBAnPWGqAiqris1VXMhISCYkLCv_hRcG5U"/>
+            android:value="Deleted for public repo"/>
     </application>
 
 </manifest>
