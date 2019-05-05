@@ -19,29 +19,51 @@
             android:title="Location"/>
     </PreferenceCategory>
 
+    <!--<PreferenceCategory-->
+        <!--android:title="Set Places"-->
+        <!--android:layout="@layout/setting_text">-->
+
+        <!--<EditTextPreference-->
+            <!--android:hint="Home"-->
+            <!--android:title="Set Home"-->
+            <!--android:summary="Set your own home here!"-->
+            <!--android:key="switch_home"-->
+            <!--/>-->
+        <!--<EditTextPreference-->
+            <!--android:hint="Working Place"-->
+            <!--android:title="Set Working Place"-->
+            <!--android:summary="Set your working place here!"-->
+            <!--android:key="switch_working_place"-->
+            <!--/>-->
+        <!--<EditTextPreference-->
+            <!--android:hint="School"-->
+            <!--android:title="Set School"-->
+            <!--android:summary="Set your school here!"-->
+            <!--android:key="switch_school"-->
+            <!--/>-->
+    <!--</PreferenceCategory>-->
+
     <PreferenceCategory
         android:title="Set Places"
         android:layout="@layout/setting_text">
-
-        <EditTextPreference
-            android:hint="Home"
-            android:title="Set Home"
-            android:summary="Set your own home here!"
+        <Preference
             android:key="switch_home"
+            android:title="Set Home"
+            android:layout="@layout/set_home"
             />
-        <EditTextPreference
-            android:hint="Working Place"
-            android:title="Set Working Place"
-            android:summary="Set your working place here!"
+        <Preference
             android:key="switch_working_place"
+            android:title="Set Working Place"
+            android:layout="@layout/set_work"
             />
-        <EditTextPreference
-            android:hint="School"
-            android:title="Set School"
-            android:summary="Set your school here!"
+        <Preference
             android:key="switch_school"
+            android:title="Set School"
+            android:layout="@layout/set_school"
             />
     </PreferenceCategory>
+
+
 
     <PreferenceCategory
         android:title="Log out"

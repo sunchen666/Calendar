@@ -74,6 +74,25 @@ public class CardPagerAdapter extends PagerAdapter implements CardAdapter {
         return view == object;
     }
 
+
+    public void setCardPagerAdapter(List<TodayGoal> list) {
+        mData = list;
+        for (int i = 0; i < list.size(); i++) {
+            mViews.add(null);
+        }
+    }
+    public int tarnsferStringtoColor(String color) {
+        if (color.contains("Low")) {
+            return context.getResources().getColor(R.color.colorGreen);
+        } else if (color.contains("Avg.")) {
+            return context.getResources().getColor(R.color.colorGrey);
+        } else if (color.contains("High")){
+            return context.getResources().getColor(R.color.colorDarkRed);
+        } else {
+            return 0;
+        }
+    }
+
     @Override
     public Object instantiateItem(ViewGroup container, final int position) {
         View view = LayoutInflater.from(container.getContext())
@@ -193,6 +212,8 @@ public class CardPagerAdapter extends PagerAdapter implements CardAdapter {
     private void bind(TodayGoal item, View view) {
         TextView titleTextView = (TextView) view.findViewById(R.id.title_TextView_goal_home_screen);
         titleTextView.setText(item.getTitle());
+
+        titleTextView.setTextColor(tarnsferStringtoColor(item.getImportance()));
 
         TextView frequencyTextView = (TextView) view.findViewById(R.id.frequency_TextView_goal_home_screen);
         frequencyTextView.setText(item.getFrequency());

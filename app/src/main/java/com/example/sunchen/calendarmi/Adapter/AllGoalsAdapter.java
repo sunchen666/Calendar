@@ -167,18 +167,26 @@ public class AllGoalsAdapter extends RecyclerView.Adapter<AllGoalsAdapter.Curren
                         protected void onPostExecute(String s) {
                             super.onPostExecute(s);
                             System.out.println("complete response: "+s);
-                            if (s.contains("Successfully")) {
-                                for (int i = 0; i < currentGoalList.size(); i++) {
-                                    if (currentGoalList.get(i).getTitle().equals(tTitle.getText().toString())) {
-                                        currentGoalList.remove(i);
-                                        break;
-                                    }
+//                            if (s.contains("Successfully")) {
+//                                for (int i = 0; i < currentGoalList.size(); i++) {
+//                                    if (currentGoalList.get(i).getTitle().equals(tTitle.getText().toString())) {
+//                                        currentGoalList.remove(i);
+//                                        break;
+//                                    }
+//                                }
+//                                AllGoalsAdapter.this.notifyDataSetChanged();
+//                                Toast.makeText(context, "Complete Successfully", Toast.LENGTH_LONG).show();
+//                            } else {
+//                                Toast.makeText(context, "Complete Fails", Toast.LENGTH_LONG).show();
+//                            }
+
+                            for (int i = 0; i < currentGoalList.size(); i++) {
+                                if (currentGoalList.get(i).getTitle().equals(tTitle.getText().toString())) {
+                                    currentGoalList.remove(i);
+                                    break;
                                 }
-                                AllGoalsAdapter.this.notifyDataSetChanged();
-                                Toast.makeText(context, "Complete Successfully", Toast.LENGTH_LONG).show();
-                            } else {
-                                Toast.makeText(context, "Complete Fails", Toast.LENGTH_LONG).show();
                             }
+                            AllGoalsAdapter.this.notifyDataSetChanged();
                         }
                     };
 
@@ -215,18 +223,25 @@ public class AllGoalsAdapter extends RecyclerView.Adapter<AllGoalsAdapter.Curren
                         protected void onPostExecute(String s) {
                             super.onPostExecute(s);
                             System.out.println("delete response: "+ s);
-                            if (s.contains("Successfully")) {
-                                for (int i = 0; i < currentGoalList.size(); i++) {
-                                    if (currentGoalList.get(i).getTitle().equals(tTitle.getText().toString())) {
-                                        currentGoalList.remove(i);
-                                        break;
-                                    }
+//                            if (s.contains("Successfully")) {
+//                                for (int i = 0; i < currentGoalList.size(); i++) {
+//                                    if (currentGoalList.get(i).getTitle().equals(tTitle.getText().toString())) {
+//                                        currentGoalList.remove(i);
+//                                        break;
+//                                    }
+//                                }
+//                                AllGoalsAdapter.this.notifyDataSetChanged();
+//                                Toast.makeText(context, "Delete Successfully", Toast.LENGTH_LONG).show();
+//                            } else {
+//                                Toast.makeText(context, "Delete Fails", Toast.LENGTH_LONG).show();
+//                            }
+                            for (int i = 0; i < currentGoalList.size(); i++) {
+                                if (currentGoalList.get(i).getTitle().equals(tTitle.getText().toString())) {
+                                    currentGoalList.remove(i);
+                                    break;
                                 }
-                                AllGoalsAdapter.this.notifyDataSetChanged();
-                                Toast.makeText(context, "Delete Successfully", Toast.LENGTH_LONG).show();
-                            } else {
-                                Toast.makeText(context, "Delete Fails", Toast.LENGTH_LONG).show();
                             }
+                            AllGoalsAdapter.this.notifyDataSetChanged();
                         }
                     };
 

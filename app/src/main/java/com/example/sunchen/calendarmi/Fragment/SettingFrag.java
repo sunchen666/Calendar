@@ -20,11 +20,19 @@ import com.example.sunchen.calendarmi.R;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
+import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
+import com.google.android.gms.common.GooglePlayServicesRepairableException;
+//import com.google.android.gms.location.places.ui.PlacePicker;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.libraries.places.api.model.Place;
+import com.google.android.libraries.places.widget.Autocomplete;
+import com.google.android.libraries.places.widget.model.AutocompleteActivityMode;
 import com.google.firebase.auth.FirebaseAuth;
 
 import java.io.IOException;
+import java.util.Arrays;
+import java.util.List;
 
 import androidx.annotation.NonNull;
 import androidx.core.app.ActivityCompat;
@@ -47,9 +55,9 @@ public class SettingFrag extends PreferenceFragmentCompat {
 
     SwitchPreference reminder;
     SwitchPreference location;
-    EditTextPreference set_home;
-    EditTextPreference set_school;
-    EditTextPreference set_working_place;
+    Preference set_home;
+    Preference set_school;
+    Preference set_working_place;
     Preference signout;
 
     @SuppressLint("RestrictedApi")
@@ -59,9 +67,9 @@ public class SettingFrag extends PreferenceFragmentCompat {
 
         reminder = (SwitchPreference) findPreference("switch1");
         location = (SwitchPreference) findPreference("switch3");
-        set_home = (EditTextPreference) findPreference("switch_home") ;
-        set_school = (EditTextPreference) findPreference("switch_school") ;
-        set_working_place = (EditTextPreference) findPreference("switch_working_place") ;
+        set_home = (Preference) findPreference("switch_home") ;
+        set_school = (Preference) findPreference("switch_school") ;
+        set_working_place = (Preference) findPreference("switch_working_place") ;
         signout = findPreference("switch_log_out");
 
 //
@@ -100,129 +108,208 @@ public class SettingFrag extends PreferenceFragmentCompat {
             }
         });
 
-        set_home.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
+//        set_home.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
+//            @Override
+//            public boolean onPreferenceChange(Preference preference, final Object newValue) {
+//                final User currentUser = new User();
+//                final String place_val = newValue.toString();
+//                @SuppressLint("StaticFieldLeak") AsyncTask<String, Integer, String> atask = new AsyncTask<String, Integer, String>(){
+//                    @Override
+//                    protected String doInBackground(String... strings) {
+//                        FormBody.Builder builder = new FormBody.Builder();
+//                        builder.add("place", place_val);
+//                        builder.add("type", "home");
+//                        builder.add("email", currentUser.getCurrentUser().getEmail());
+//
+//                        String responseResult = "";
+//                        try {
+//                            int url = R.string.set_place_server_link;
+//                            String link = getContext().getString(url);
+//                            responseResult = post(link, builder.build());
+//                            System.out.println("responseResult: "+responseResult);
+//                        } catch (IOException e) {
+//                            e.printStackTrace();
+//                        }
+//
+//                        return responseResult;
+//                    }
+//
+//                    @Override
+//                    protected void onPostExecute(String s) {
+//                        super.onPostExecute(s);
+//                        Log.e("CHecked for answer:", s);
+//                        if (s.contains("Successfully")) {
+//                            //Add the response result
+//                        } else {
+//                            Toast.makeText(getContext(), "Set Home Fails", Toast.LENGTH_SHORT).show();
+//                        }
+//                    }
+//                };
+//                atask.execute();
+//
+//                return true;
+//            }
+//        });
+//
+//        set_school.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
+//            @Override
+//            public boolean onPreferenceChange(Preference preference, Object newValue) {
+//                final User currentUser = new User();
+//                final String place_val = newValue.toString();
+//                @SuppressLint("StaticFieldLeak") AsyncTask<String, Integer, String> atask = new AsyncTask<String, Integer, String>(){
+//                    @Override
+//                    protected String doInBackground(String... strings) {
+//                        FormBody.Builder builder = new FormBody.Builder();
+//                        builder.add("place", place_val);
+//                        builder.add("type", "school");
+//                        builder.add("email", currentUser.getCurrentUser().getEmail());
+//
+//                        String responseResult = "";
+//                        try {
+//                            int url = R.string.set_place_server_link;
+//                            String link = getContext().getString(url);
+//                            responseResult = post(link, builder.build());
+//                            System.out.println("responseResult: "+responseResult);
+//                        } catch (IOException e) {
+//                            e.printStackTrace();
+//                        }
+//
+//                        return responseResult;
+//                    }
+//
+//                    @Override
+//                    protected void onPostExecute(String s) {
+//                        super.onPostExecute(s);
+//                        Log.e("CHecked for answer:", s);
+//                        if (s.contains("Successfully")) {
+//                            //Add the response result
+//                        } else {
+//                            Toast.makeText(getContext(), "Set Home Fails", Toast.LENGTH_SHORT).show();
+//                        }
+//                    }
+//                };
+//                atask.execute();
+//                return true;
+//            }
+//        });
+//
+//        set_working_place.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
+//            @Override
+//            public boolean onPreferenceChange(Preference preference, Object newValue) {
+//                final User currentUser = new User();
+//                final String place_val = newValue.toString();
+//                @SuppressLint("StaticFieldLeak") AsyncTask<String, Integer, String> atask = new AsyncTask<String, Integer, String>(){
+//                    @Override
+//                    protected String doInBackground(String... strings) {
+//                        FormBody.Builder builder = new FormBody.Builder();
+//                        builder.add("place", place_val);
+//                        builder.add("type", "working place");
+//                        builder.add("email", currentUser.getCurrentUser().getEmail());
+//
+//                        String responseResult = "";
+//                        try {
+//                            int url = R.string.set_place_server_link;
+//                            String link = getContext().getString(url);
+//                            responseResult = post(link, builder.build());
+//                            System.out.println("responseResult: "+responseResult);
+//                        } catch (IOException e) {
+//                            e.printStackTrace();
+//                        }
+//
+//                        return responseResult;
+//                    }
+//
+//                    @Override
+//                    protected void onPostExecute(String s) {
+//                        super.onPostExecute(s);
+//                        Log.e("CHecked for answer:", s);
+//                        if (s.contains("Successfully")) {
+//                            //Add the response result
+//                        } else {
+//                            Toast.makeText(getContext(), "Set Home Fails", Toast.LENGTH_SHORT).show();
+//                        }
+//                    }
+//                };
+//                atask.execute();
+//                return true;
+//            }
+//        });
+
+        set_home.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
             @Override
-            public boolean onPreferenceChange(Preference preference, final Object newValue) {
-                final User currentUser = new User();
-                final String place_val = newValue.toString();
-                @SuppressLint("StaticFieldLeak") AsyncTask<String, Integer, String> atask = new AsyncTask<String, Integer, String>(){
-                    @Override
-                    protected String doInBackground(String... strings) {
-                        FormBody.Builder builder = new FormBody.Builder();
-                        builder.add("place", place_val);
-                        builder.add("type", "home");
-                        builder.add("email", currentUser.getCurrentUser().getEmail());
+            public boolean onPreferenceClick(Preference preference) {
 
-                        String responseResult = "";
-                        try {
-                            int url = R.string.set_place_server_link;
-                            String link = getContext().getString(url);
-                            responseResult = post(link, builder.build());
-                            System.out.println("responseResult: "+responseResult);
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                        }
+//                PlacePicker.IntentBuilder builder = new PlacePicker.IntentBuilder();
+//                try {
+//                    startActivityForResult(builder.build(getActivity()), 222);
+//                } catch (GooglePlayServicesRepairableException e) {
+//                    e.printStackTrace();
+//                } catch (GooglePlayServicesNotAvailableException e) {
+//                    e.printStackTrace();
+//                }
 
-                        return responseResult;
-                    }
+                int AUTOCOMPLETE_REQUEST_CODE = 222;
+                List<Place.Field> fields = Arrays.asList(Place.Field.ID, Place.Field.NAME);
 
-                    @Override
-                    protected void onPostExecute(String s) {
-                        super.onPostExecute(s);
-                        Log.e("CHecked for answer:", s);
-                        if (s.contains("Successfully")) {
-                            //Add the response result
-                        } else {
-                            Toast.makeText(getContext(), "Set Home Fails", Toast.LENGTH_SHORT).show();
-                        }
-                    }
-                };
-                atask.execute();
+                System.out.println(getActivity());
+                Intent intent = new Autocomplete.IntentBuilder(
+                        AutocompleteActivityMode.FULLSCREEN, fields)
+                        .build(getActivity());
+
+                getActivity().startActivityForResult(intent, AUTOCOMPLETE_REQUEST_CODE);
 
                 return true;
             }
         });
-
-        set_school.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
+        set_school.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
             @Override
-            public boolean onPreferenceChange(Preference preference, Object newValue) {
-                final User currentUser = new User();
-                final String place_val = newValue.toString();
-                @SuppressLint("StaticFieldLeak") AsyncTask<String, Integer, String> atask = new AsyncTask<String, Integer, String>(){
-                    @Override
-                    protected String doInBackground(String... strings) {
-                        FormBody.Builder builder = new FormBody.Builder();
-                        builder.add("place", place_val);
-                        builder.add("type", "school");
-                        builder.add("email", currentUser.getCurrentUser().getEmail());
+            public boolean onPreferenceClick(Preference preference) {
 
-                        String responseResult = "";
-                        try {
-                            int url = R.string.set_place_server_link;
-                            String link = getContext().getString(url);
-                            responseResult = post(link, builder.build());
-                            System.out.println("responseResult: "+responseResult);
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                        }
+//                PlacePicker.IntentBuilder builder = new PlacePicker.IntentBuilder();
+//                try {
+//                    startActivityForResult(builder.build(getActivity()), 222);
+//                } catch (GooglePlayServicesRepairableException e) {
+//                    e.printStackTrace();
+//                } catch (GooglePlayServicesNotAvailableException e) {
+//                    e.printStackTrace();
+//                }
 
-                        return responseResult;
-                    }
+                int AUTOCOMPLETE_REQUEST_CODE = 223;
+                List<Place.Field> fields = Arrays.asList(Place.Field.ID, Place.Field.NAME);
 
-                    @Override
-                    protected void onPostExecute(String s) {
-                        super.onPostExecute(s);
-                        Log.e("CHecked for answer:", s);
-                        if (s.contains("Successfully")) {
-                            //Add the response result
-                        } else {
-                            Toast.makeText(getContext(), "Set Home Fails", Toast.LENGTH_SHORT).show();
-                        }
-                    }
-                };
-                atask.execute();
+                System.out.println(getActivity());
+                Intent intent = new Autocomplete.IntentBuilder(
+                        AutocompleteActivityMode.FULLSCREEN, fields)
+                        .build(getActivity());
+
+                getActivity().startActivityForResult(intent, AUTOCOMPLETE_REQUEST_CODE);
+
                 return true;
             }
         });
-
-        set_working_place.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
+        set_working_place.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
             @Override
-            public boolean onPreferenceChange(Preference preference, Object newValue) {
-                final User currentUser = new User();
-                final String place_val = newValue.toString();
-                @SuppressLint("StaticFieldLeak") AsyncTask<String, Integer, String> atask = new AsyncTask<String, Integer, String>(){
-                    @Override
-                    protected String doInBackground(String... strings) {
-                        FormBody.Builder builder = new FormBody.Builder();
-                        builder.add("place", place_val);
-                        builder.add("type", "working place");
-                        builder.add("email", currentUser.getCurrentUser().getEmail());
+            public boolean onPreferenceClick(Preference preference) {
 
-                        String responseResult = "";
-                        try {
-                            int url = R.string.set_place_server_link;
-                            String link = getContext().getString(url);
-                            responseResult = post(link, builder.build());
-                            System.out.println("responseResult: "+responseResult);
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                        }
+//                PlacePicker.IntentBuilder builder = new PlacePicker.IntentBuilder();
+//                try {
+//                    startActivityForResult(builder.build(getActivity()), 222);
+//                } catch (GooglePlayServicesRepairableException e) {
+//                    e.printStackTrace();
+//                } catch (GooglePlayServicesNotAvailableException e) {
+//                    e.printStackTrace();
+//                }
 
-                        return responseResult;
-                    }
+                int AUTOCOMPLETE_REQUEST_CODE = 224;
+                List<Place.Field> fields = Arrays.asList(Place.Field.ID, Place.Field.NAME);
 
-                    @Override
-                    protected void onPostExecute(String s) {
-                        super.onPostExecute(s);
-                        Log.e("CHecked for answer:", s);
-                        if (s.contains("Successfully")) {
-                            //Add the response result
-                        } else {
-                            Toast.makeText(getContext(), "Set Home Fails", Toast.LENGTH_SHORT).show();
-                        }
-                    }
-                };
-                atask.execute();
+                System.out.println(getActivity());
+                Intent intent = new Autocomplete.IntentBuilder(
+                        AutocompleteActivityMode.FULLSCREEN, fields)
+                        .build(getActivity());
+
+                getActivity().startActivityForResult(intent, AUTOCOMPLETE_REQUEST_CODE);
+
                 return true;
             }
         });
@@ -232,19 +319,25 @@ public class SettingFrag extends PreferenceFragmentCompat {
             public boolean onPreferenceClick(Preference preference) {
                 User currentUser = new User();
                 final FirebaseAuth mAuth = FirebaseAuth.getInstance();
-                Log.e("Auth", mAuth.getCurrentUser().getEmail());
+//                Log.e("Auth", mAuth.getCurrentUser().getEmail());
 
-                if (mAuth.getCurrentUser().getEmail().contains("@")) {
-                    GoogleSignInClient mGoogleSignInClient = User.getCurrentUser().getmGoogleSignInClient();
+                if (mAuth.getCurrentUser() == null) {
 
-                    mGoogleSignInClient.signOut().addOnCompleteListener(getActivity(), new OnCompleteListener<Void>() {
-                        @Override
-                        public void onComplete(@NonNull Task<Void> task) {
-                            // ...
-                            Log.e("Testing", "Try to do it");
-                            mAuth.signOut();
-                        }
-                    });
+
+                } else {
+                    if (mAuth.getCurrentUser().getEmail().contains("@")) {
+                        GoogleSignInClient mGoogleSignInClient = User.getCurrentUser().getmGoogleSignInClient();
+
+                        mGoogleSignInClient.signOut().addOnCompleteListener(getActivity(), new OnCompleteListener<Void>() {
+                            @Override
+                            public void onComplete(@NonNull Task<Void> task) {
+                                // ...
+                                Log.e("Testing", "Try to do it");
+                                mAuth.signOut();
+                            }
+                        });
+                    }
+
                 }
 
                 currentUser.setCurrentUser(new User("", "", ""));

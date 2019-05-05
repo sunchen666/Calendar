@@ -94,16 +94,16 @@
                     android:textSize="15sp" />
             </com.google.android.material.textfield.TextInputLayout>
 
-            <!--<TextView-->
-                <!--android:id="@+id/forgotPassword_login"-->
-                <!--android:layout_width="wrap_content"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:layout_gravity="bottom|right"-->
-                <!--android:clickable="true"-->
-                <!--android:layout_marginBottom="@dimen/activity_vertical_margin"-->
-                <!--android:layout_marginEnd="36dp"-->
-                <!--android:layout_marginRight="36dp"-->
-                <!--android:text="@string/forgot_password" />-->
+            <TextView
+                android:id="@+id/forgotPassword_login"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom|right"
+                android:clickable="true"
+                android:layout_marginBottom="@dimen/activity_vertical_margin"
+                android:layout_marginEnd="36dp"
+                android:layout_marginRight="36dp"
+                android:text="@string/forgot_password" />
         </FrameLayout>
 
         <Button

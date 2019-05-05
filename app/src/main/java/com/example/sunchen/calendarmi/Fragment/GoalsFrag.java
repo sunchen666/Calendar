@@ -2,6 +2,8 @@ package com.example.sunchen.calendarmi.Fragment;
 
 import android.annotation.SuppressLint;
 import android.app.FragmentManager;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
 import android.content.BroadcastReceiver;
 import android.content.ComponentName;
 import android.content.Context;
@@ -9,6 +11,7 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.ServiceConnection;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.IBinder;
@@ -43,6 +46,8 @@ import java.util.concurrent.Semaphore;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.app.NotificationCompat;
+import androidx.core.app.NotificationManagerCompat;
 import androidx.fragment.app.Fragment;
 import androidx.viewpager.widget.ViewPager;
 import okhttp3.FormBody;
@@ -85,9 +90,10 @@ public class GoalsFrag extends Fragment {
         cardAdapter = new CardPagerAdapter();
         cardAdapter.setContext(getActivity());
         List<TodayGoal> todayGoals = fetchTodayGoals();
-        for (TodayGoal goal : todayGoals) {
-            cardAdapter.addCardItem(goal);
-        }
+
+        sortTodayGoals(todayGoals);
+
+        cardAdapter.setCardPagerAdapter(todayGoals);
 
 
         cardShadowTransformer = new ShadowTransformer(viewPager, cardAdapter);
@@ -96,6 +102,10 @@ public class GoalsFrag extends Fragment {
         viewPager.setAdapter(cardAdapter);
         viewPager.setPageTransformer(false, cardShadowTransformer);
         viewPager.setOffscreenPageLimit(3);
+
+        for (int i = 0; i < todayGoals.size(); i ++) {
+            generateNotification(todayGoals.get(i).getTitle(), 1000 + i);
+        }
         return view;
     }
 
@@ -202,5 +212,68 @@ public class GoalsFrag extends Fragment {
     public void onDestroy() {
         super.onDestroy();
         getActivity().getApplicationContext().unregisterReceiver(broadcastReceiver);
+    }
+
+    public void sortTodayGoals(List<TodayGoal> list) {
+        Collections.sort(list, new Comparator<TodayGoal>() {
+            @Override
+            public int compare(TodayGoal o1, TodayGoal o2) {
+                if (o1.getImportance().contains("High")) {
+                    return -1;
+                } else if (o1.getImportance().contains("Low")) {
+                    return 1;
+                } else {
+                    if (o2.getImportance().contains("Low")) {
+                        return -1;
+                    } else if (o2.getImportance().contains("High")) {
+                        return 1;
+                    } else {
+                        return 1;
+                    }
+                }
+            }
+        });
+    }
+
+    public void generateNotification(String title, int id) {
+        NotificationCompat.Builder builder2 = new NotificationCompat.Builder(getActivity(), "s")
+                .setSmallIcon(R.drawable.ic_mood_black_24dp)
+                .setContentTitle(title)
+                .setContentText("Stick to your goals today!")
+                .setStyle(new NotificationCompat.BigTextStyle()
+                        .bigText(title))
+                .setPriority(NotificationCompat.PRIORITY_DEFAULT);
+        createNotificationChannel();
+
+//        NotificationCompat.Builder builder = new NotificationCompat.Builder(this, "s")
+//                .setSmallIcon(R.drawable.ic_map_black_24dp)
+//                .setContentTitle("Implement your daily goal!")
+//                .setContentText("There are five grocery stores nearby. Click here to check when you are free.")
+//                .setStyle(new NotificationCompat.BigTextStyle()
+//                        .bigText("There are five grocery stores nearby. Click here to check when you are free."))
+//                .setPriority(NotificationCompat.PRIORITY_DEFAULT);
+        createNotificationChannel();
+
+        NotificationManagerCompat notificationManager = NotificationManagerCompat.from(getActivity());
+
+        notificationManager.notify(id, builder2.build());
+//        notificationManager.notify(1002, builder.build());
+
+    }
+
+    private void createNotificationChannel() {
+        // Create the NotificationChannel, but only on API 26+ because
+        // the NotificationChannel class is new and not in the support library
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            CharSequence name = "s";
+            String description = "Easy";
+            int importance = NotificationManager.IMPORTANCE_DEFAULT;
+            NotificationChannel channel = new NotificationChannel("s", name, importance);
+            channel.setDescription(description);
+            // Register the channel with the system; you can't change the importance
+            // or other notification behaviors after this
+            NotificationManager notificationManager = getActivity().getSystemService(NotificationManager.class);
+            notificationManager.createNotificationChannel(channel);
+        }
     }
 }

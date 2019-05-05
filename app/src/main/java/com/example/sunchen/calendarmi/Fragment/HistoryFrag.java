@@ -133,7 +133,7 @@ public class HistoryFrag extends Fragment {
                 .build();
         System.out.println("before newCall");
         String res = "";
-        while (res.equals("")) {
+//        while (res.equals("")) {
             try (Response response = client.newCall(request).execute()) {
 
                 res = response.body().string();
@@ -142,7 +142,7 @@ public class HistoryFrag extends Fragment {
             } catch (Exception e) {
                 e.printStackTrace();
             }
-        }
+//        }
         return res;
     }
 }

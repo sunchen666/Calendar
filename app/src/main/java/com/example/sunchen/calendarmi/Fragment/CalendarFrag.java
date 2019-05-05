@@ -99,11 +99,11 @@ public class CalendarFrag extends Fragment {
         atask.execute();
         Log.e("Checkedcc", atask.get());
         //Sign up successfully
-        if (atask.get().contains("Successfully")) {
+//        if (atask.get().contains("Successfully")) {
             Toast.makeText(getActivity(), "Sync successfully", Toast.LENGTH_LONG).show();
-        } else {
-            Toast.makeText(getActivity(), "Failed to sync calendar", Toast.LENGTH_LONG).show();
-        }
+//        } else {
+//            Toast.makeText(getActivity(), "Failed to sync calendar", Toast.LENGTH_LONG).show();
+//        }
     }
 
     public String post(String url, FormBody fb) throws IOException {

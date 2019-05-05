@@ -1,11 +1,14 @@
 package com.example.sunchen.calendarmi.Activity;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.ActivityManager;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 
@@ -25,10 +28,23 @@ import com.example.sunchen.calendarmi.Fragment.SettingFrag;
 import com.example.sunchen.calendarmi.Object.User;
 import com.example.sunchen.calendarmi.R;
 import com.example.sunchen.calendarmi.Service.TodayGoalUpdateService;
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.libraries.places.api.model.Place;
+import com.google.android.libraries.places.api.net.FetchPlaceRequest;
+import com.google.android.libraries.places.api.net.FetchPlaceResponse;
+import com.google.android.libraries.places.api.net.PlacesClient;
+import com.google.android.libraries.places.widget.Autocomplete;
+import com.google.android.libraries.places.widget.AutocompleteActivity;
+import com.google.android.libraries.places.widget.model.AutocompleteActivityMode;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.snackbar.Snackbar;
 
+import java.io.IOException;
+import java.util.Arrays;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
@@ -51,6 +67,9 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GetTokenResult;
 import com.google.firebase.auth.GoogleAuthProvider;
 
+import com.google.android.libraries.places.api.Places;
+import com.google.android.gms.common.api.Status;
+
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
 
@@ -65,6 +84,11 @@ import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
+import okhttp3.FormBody;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Response;
+
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -73,6 +97,8 @@ public class MainActivity extends AppCompatActivity
     private DrawerLayout mMainRelativeLayout;
 
     public static final int NEW_GOAL_REQUEST_CODE = 1;
+
+    private GoogleApiClient mGoogleApiClient;
 
     private CalendarFrag calendarFrag;
     private SettingFrag settingFrag;
@@ -86,6 +112,10 @@ public class MainActivity extends AppCompatActivity
     private GoogleSignInClient mGoogleSignInClient;
     private FirebaseAuth mAuth;
     GoogleSignInAccount signInAccount;
+
+    OkHttpClient client = new OkHttpClient();
+
+    private PlacesClient placesClient;
 
 
     @Override
@@ -129,7 +159,7 @@ public class MainActivity extends AppCompatActivity
                     return;
                 }
 
-                generateNotification();
+//                generateNotification();
 
                 Intent intent = new Intent(MainActivity.this, PreferenceActivity.class);
                 startActivity(intent);
@@ -175,6 +205,12 @@ public class MainActivity extends AppCompatActivity
             mGoogleSignInClient = User.getCurrentUser().getmGoogleSignInClient();
         }
 
+        try {
+            placeInit();
+        } catch (PackageManager.NameNotFoundException e) {
+            e.printStackTrace();
+        }
+
         mAuth = FirebaseAuth.getInstance();
 
         //Set to Main fragment
@@ -183,59 +219,60 @@ public class MainActivity extends AppCompatActivity
         ft.commit();
     }
 
-//    private boolean isMyServiceRunning(Class<?> serviceClass) {
-//        ActivityManager manager = (ActivityManager) getSystemService(Context.ACTIVITY_SERVICE);
-//        for (ActivityManager.RunningServiceInfo service : manager.getRunningServices(Integer.MAX_VALUE)) {
-//            if (serviceClass.getName().equals(service.service.getClassName())) {
-//                Log.i ("isMyServiceRunning?", true+"");
-//                return true;
-//            }
-//        }
-//        Log.i ("isMyServiceRunning?", false+"");
-//        return false;
+    @Override
+    protected void onStart() {
+        super.onStart();
+//        mGoogleApiClient.connect();
+    }
+
+    @Override
+    protected void onStop() {
+//        mGoogleApiClient.disconnect();
+        super.onStop();
+    }
+
+
+//    public void generateNotification(String title, int id) {
+//        NotificationCompat.Builder builder2 = new NotificationCompat.Builder(this, "s")
+//                .setSmallIcon(R.drawable.ic_mood_black_24dp)
+//                .setContentTitle(title)
+//                .setContentText("Stick to your goals today!")
+//                .setStyle(new NotificationCompat.BigTextStyle()
+//                        .bigText(title))
+//                .setPriority(NotificationCompat.PRIORITY_DEFAULT);
+//        createNotificationChannel();
+//
+////        NotificationCompat.Builder builder = new NotificationCompat.Builder(this, "s")
+////                .setSmallIcon(R.drawable.ic_map_black_24dp)
+////                .setContentTitle("Implement your daily goal!")
+////                .setContentText("There are five grocery stores nearby. Click here to check when you are free.")
+////                .setStyle(new NotificationCompat.BigTextStyle()
+////                        .bigText("There are five grocery stores nearby. Click here to check when you are free."))
+////                .setPriority(NotificationCompat.PRIORITY_DEFAULT);
+//        createNotificationChannel();
+//
+//        NotificationManagerCompat notificationManager = NotificationManagerCompat.from(this);
+//
+//        notificationManager.notify(id, builder2.build());
+////        notificationManager.notify(1002, builder.build());
+//
 //    }
-
-    private void generateNotification() {
-        NotificationCompat.Builder builder2 = new NotificationCompat.Builder(this, "s")
-                .setSmallIcon(R.drawable.ic_mood_black_24dp)
-                .setContentTitle("Reminder from your schedule!")
-                .setContentText("Your next meeting for IoT class will start in 10 minutes.")
-                .setStyle(new NotificationCompat.BigTextStyle()
-                        .bigText("Your next meeting for IoT class will start in 10 minutes."))
-                .setPriority(NotificationCompat.PRIORITY_DEFAULT);
-        createNotificationChannel();
-
-        NotificationCompat.Builder builder = new NotificationCompat.Builder(this, "s")
-                .setSmallIcon(R.drawable.ic_map_black_24dp)
-                .setContentTitle("Implement your daily goal!")
-                .setContentText("There are five grocery stores nearby. Click here to check when you are free.")
-                .setStyle(new NotificationCompat.BigTextStyle()
-                        .bigText("There are five grocery stores nearby. Click here to check when you are free."))
-                .setPriority(NotificationCompat.PRIORITY_DEFAULT);
-        createNotificationChannel();
-
-        NotificationManagerCompat notificationManager = NotificationManagerCompat.from(this);
-
-        notificationManager.notify(1001, builder2.build());
-        notificationManager.notify(1002, builder.build());
-
-    }
-
-    private void createNotificationChannel() {
-        // Create the NotificationChannel, but only on API 26+ because
-        // the NotificationChannel class is new and not in the support library
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            CharSequence name = "s";
-            String description = "Easy";
-            int importance = NotificationManager.IMPORTANCE_DEFAULT;
-            NotificationChannel channel = new NotificationChannel("s", name, importance);
-            channel.setDescription(description);
-            // Register the channel with the system; you can't change the importance
-            // or other notification behaviors after this
-            NotificationManager notificationManager = getSystemService(NotificationManager.class);
-            notificationManager.createNotificationChannel(channel);
-        }
-    }
+//
+//    private void createNotificationChannel() {
+//        // Create the NotificationChannel, but only on API 26+ because
+//        // the NotificationChannel class is new and not in the support library
+//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+//            CharSequence name = "s";
+//            String description = "Easy";
+//            int importance = NotificationManager.IMPORTANCE_DEFAULT;
+//            NotificationChannel channel = new NotificationChannel("s", name, importance);
+//            channel.setDescription(description);
+//            // Register the channel with the system; you can't change the importance
+//            // or other notification behaviors after this
+//            NotificationManager notificationManager = getSystemService(NotificationManager.class);
+//            notificationManager.createNotificationChannel(channel);
+//        }
+//    }
 
     @Override
     public void onBackPressed() {
@@ -340,31 +377,31 @@ public class MainActivity extends AppCompatActivity
     }
 
     public void syncGoogleCalendarSignin() {
-        if (mAuth.getCurrentUser() != null) {
-            final FirebaseUser user = mAuth.getCurrentUser();
-
-            if (calendarFrag.getIsSyncCalendar()) {
-                try {
-                    Task<GoogleSignInAccount> task = mGoogleSignInClient.silentSignIn();
-
-                    while(!task.isComplete()) {
-                    }
-
-                    signInAccount = task.getResult(ApiException.class);
-                    User.getCurrentUser().setmGoogleSignInClient(mGoogleSignInClient);
-                    calendarFrag.sendAuthInfo(signInAccount.getServerAuthCode(), signInAccount.getEmail());
-                } catch (ExecutionException e) {
-                    e.printStackTrace();
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                } catch (ApiException e) {
-                    e.printStackTrace();
-                }
-            }
-        } else {
+//        if (mAuth.getCurrentUser() != null) {
+//            final FirebaseUser user = mAuth.getCurrentUser();
+//
+//            if (calendarFrag.getIsSyncCalendar()) {
+//                try {
+//                    Task<GoogleSignInAccount> task = mGoogleSignInClient.silentSignIn();
+//
+//                    while(!task.isComplete()) {
+//                    }
+//
+//                    signInAccount = task.getResult(ApiException.class);
+//                    User.getCurrentUser().setmGoogleSignInClient(mGoogleSignInClient);
+//                    calendarFrag.sendAuthInfo(signInAccount.getServerAuthCode(), signInAccount.getEmail());
+//                } catch (ExecutionException e) {
+//                    e.printStackTrace();
+//                } catch (InterruptedException e) {
+//                    e.printStackTrace();
+//                } catch (ApiException e) {
+//                    e.printStackTrace();
+//                }
+//            }
+//        } else {
             Intent signInIntent = mGoogleSignInClient.getSignInIntent();
             startActivityForResult(signInIntent, 9001);
-        }
+//        }
     }
 
     @Override
@@ -397,7 +434,119 @@ public class MainActivity extends AppCompatActivity
                 // [START_EXCLUDE]
                 // [END_EXCLUDE]
             }
+        } else if (requestCode == 222 || requestCode == 223 || requestCode == 224) {
+            if (resultCode == RESULT_OK) {
+                Place place = Autocomplete.getPlaceFromIntent(data);
+
+                Log.i("place", "Place: " + place.getName() + ", " + place.getId());
+
+//                getPlaceById(place.getId());
+                String placeName = place.getName();
+                setPlaceTask(placeName, requestCode);
+
+            } else if (resultCode == AutocompleteActivity.RESULT_ERROR) {
+                // TODO: Handle the error.
+                Status status = Autocomplete.getStatusFromIntent(data);
+                Log.i("place", status.getStatusMessage());
+            } else if (resultCode == RESULT_CANCELED) {
+                // The user canceled the operation.
+            }
         }
+    }
+
+    public void setPlaceTask(final String placeName, int requestCode) {
+        final String type;
+        switch (requestCode) {
+            case 222:
+                type = "home";
+                break;
+            case 223:
+                type = "school";
+                break;
+            case 224:
+                type = "working place";
+                break;
+            default:
+                type = "home";
+                break;
+        }
+        @SuppressLint("StaticFieldLeak") AsyncTask<String, Integer, String> atask = new AsyncTask<String, Integer, String>(){
+            @Override
+            protected String doInBackground(String... strings) {
+                FormBody.Builder builder = new FormBody.Builder();
+                builder.add("email", User.getCurrentUser().getEmail());
+                builder.add("place", placeName);
+                builder.add("type", type);
+
+                String responseResult = "";
+                try {
+                    int url = R.string.set_place_server_link;
+                    String link = getString(url);
+                    Log.e("CheckedC:", link);
+                    responseResult = post(link, builder.build());
+                    System.out.println("responseResult: "+responseResult);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+
+                return responseResult;
+            }
+
+            @Override
+            protected void onPostExecute(String s) {
+                super.onPostExecute(s);
+                Log.e("CHecked for answer:", s);
+                Toast.makeText(MainActivity.this, "Set place successfully", Toast.LENGTH_LONG).show();
+            }
+        };
+        atask.execute();
+    }
+    private String post(String url, FormBody fb) throws IOException {
+        Request request = new Request.Builder()
+                .url(url).post(fb)
+                .header("Connection", "close")
+                .build();
+        System.out.println("before newCall");
+        String res = "";
+        while (res.equals("")) {
+            try (Response response = client.newCall(request).execute()) {
+                res = response.body().string();
+                System.out.println("post response: "+res);
+
+            }
+        }
+        return res;
+    }
+
+    public void getPlaceById(String placeId) {
+//        Places.GeoDataApi.getPlaceById(mGoogleApiClient, placeId)
+//                .setResultCallback(new ResultCallback<PlaceBuffer>() {
+//                    @Override
+//                    public void onResult(PlaceBuffer places) {
+//                        if (places.getStatus().isSuccess()) {
+//                            final Place myPlace = places.get(0);
+//                            LatLng queriedLocation = myPlace.getLatLng();
+//                            Log.v("Latitude is", "" + queriedLocation.latitude);
+//                            Log.v("Longitude is", "" + queriedLocation.longitude);
+//                        }
+//                        places.release();
+//                    }
+//                });
+    }
+
+    public void placeInit() throws PackageManager.NameNotFoundException {
+//        mGoogleApiClient = new GoogleApiClient
+//                .Builder(this)
+//                .addApi(Places.GEO_DATA_API)
+//                .addApi(Places.PLACE_DETECTION_API)
+//                .enableAutoManage(this, null)
+//                .build();
+
+        // Initialize Places.
+        Places.initialize(getApplicationContext(), "AIzaSyBAnPWGqAiqris1VXMhISCYkLCv_hRcG5U");
+
+    // Create a new Places client instance.
+        placesClient = Places.createClient(this);
     }
 
     public FirebaseAuth getmAuth() {

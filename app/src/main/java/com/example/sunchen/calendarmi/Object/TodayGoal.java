@@ -9,15 +9,19 @@ public class TodayGoal {
     private String location;
     private String importance;
 
-    public TodayGoal(String title, String frequency, String location) {
+    public TodayGoal(String title, String frequency, String location, String importance) {
         this.title = title;
         this.frequency = frequency;
         this.location = location;
+        this.importance = importance;
     }
     public TodayGoal() {
 
     }
 
+    public String getImportance() {
+        return importance;
+    }
     public String getTitle() {
         return title;
     }
@@ -42,6 +46,7 @@ public class TodayGoal {
         this.location = location;
     }
     public void setImportance(String importance) {this.importance = importance; }
+
 
     public static TodayGoal getFromString(String goalString) {
         System.out.println("getFromString: "+goalString);

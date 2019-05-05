@@ -16,9 +16,13 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <service
-            android:name="com.example.sunchen.calendarmi.Service.TodayGoalUpdateService"
+            android:name=".Service.NotificationService"
             android:enabled="true"
             android:exported="true"></service>
+        <service
+            android:name=".Service.TodayGoalUpdateService"
+            android:enabled="true"
+            android:exported="true" />
 
         <activity android:name=".Activity.LoginActivity">
             <intent-filter>
@@ -63,6 +67,10 @@
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
+
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="AIzaSyBAnPWGqAiqris1VXMhISCYkLCv_hRcG5U"/>
     </application>
 
 </manifest>
