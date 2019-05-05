@@ -31,8 +31,8 @@
 
     
 
-    <string name="oauth_request_id_google">611917318714-7irg7lu2hvubdi1te8avgijd133lic91.apps.googleusercontent.com</string>
-    <string name="oauth_request_secret_google">-sor1zeAQQcW-_YzfDhpprYN</string>
+    <string name="oauth_request_id_google"></string>
+    <string name="oauth_request_secret_google"></string>
 
     <string-array name="week_days">
         <item>M</item>
